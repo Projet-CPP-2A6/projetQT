@@ -24,10 +24,23 @@ private slots:
 
 
 
+    void on_tableView_clicked(const QModelIndex &index);
+
+    void on_pbdeleteall_clicked();
+
+    void on_pbdelete_clicked();
+
+    void on_pbaddevent_clicked();
+
+    void on_pbliste_clicked();
+
+    void on_pbupdate_clicked();
+
 private:
     Ui::MainWindow *ui;
     class event e;
-
+    class event etmp;
+QStandardItemModel *model;
 
 };
 #endif // MAINWINDOW_H

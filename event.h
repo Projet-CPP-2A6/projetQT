@@ -70,8 +70,9 @@ public:
 
     bool ajouter();
     QSqlQueryModel * afficher();
-    bool modifier ();
-    bool supprimer(int);
+    bool modifier (int id_event);
+    bool supprimer(int id_event);
+    bool supprimerTous();
 
 
 };

@@ -259,7 +259,7 @@ background-color: #C29E7E;
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <widget class="QLabel" name="label_gestioneventt">
@@ -626,6 +626,34 @@ background-color: #C29E7E;
          <height>381</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QTableView {
+    background-color: #FFFFFF; /* Fond en blanc */
+}
+
+QTableView::item {
+    color: #C29E7E; /* Couleur du texte */
+    font-weight: bold; /* Texte en gras */
+    font-family: 'Helvetica Neue', sans-serif; /* Style de police joli - Remplacez 'Helvetica Neue' par la police de votre choix */
+    font-size: 12px; /* Taille de police */
+}
+
+QTableView::item:selected {
+    background-color: #A5735C; /* Couleur de fond lorsqu'un élément est sélectionné */
+    color: #FFFFFF; /* Couleur du texte lorsqu'un élément est sélectionné */
+}
+
+QHeaderView::section {
+    background-color: #FFFFFF; /* Couleur de fond de l'en-tête de colonne */
+    color: #C29E7E; /* Couleur du texte de l'en-tête de colonne */
+    padding: 4px;
+    border: 1px solid #8D6E55; /* Bordure de l'en-tête de colonne */
+    font-weight: bold; /* Texte en gras dans l'en-tête de colonne */
+    font-family: 'Helvetica Neue', sans-serif; /* Style de police joli - Remplacez 'Helvetica Neue' par la police de votre choix */
+    font-size: 12px; /* Taille de police */
+}
+</string>
+       </property>
       </widget>
      </widget>
      <widget class="QWidget" name="page_3">
@@ -835,6 +863,216 @@ background-color: #C29E7E;
          <width>151</width>
          <height>31</height>
         </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <widget class="QLineEdit" name="lename_2">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>200</y>
+         <width>321</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="ledate_2">
+       <property name="geometry">
+        <rect>
+         <x>530</x>
+         <y>210</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_name_2">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>170</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_date_2">
+       <property name="geometry">
+        <rect>
+         <x>530</x>
+         <y>170</y>
+         <width>171</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Date de event</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pbliste_2">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>100</y>
+         <width>131</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#101010;
+color:#DDC5B0;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+       </property>
+       <property name="text">
+        <string>Liste des events</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lelocation_2">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>280</y>
+         <width>321</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_gestionevent_2">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>40</y>
+         <width>291</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Gestion Event  UPDATE</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="ledesc_2">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>360</y>
+         <width>321</width>
+         <height>201</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_location_2">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>250</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Location</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pbconfirm_2">
+       <property name="geometry">
+        <rect>
+         <x>790</x>
+         <y>520</y>
+         <width>111</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:#F1E3D7;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+       </property>
+       <property name="text">
+        <string>confirm</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_desc_2">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>330</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Description</string>
        </property>
       </widget>
      </widget>
