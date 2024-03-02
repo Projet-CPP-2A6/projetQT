@@ -3,16 +3,27 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QDebug>
+#include <QPrinter>
+#include <QPainter>
+#include <QFileDialog>
+#include <QInputDialog>
+#include <QSortFilterProxyModel>
+#include <QSqlRecord>
 #include "event.h"
+#include <QRegExpValidator>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
 
     ui->setupUi(this);
-    ui->stackedWidget->setCurrentIndex(1);
-   class event e;
 
+    ui->stackedWidget->setCurrentIndex(1);
+    ui->tableView->setModel(etmp.afficher());
+   class event e;
+   QRegExpValidator *dateValidator = new QRegExpValidator(QRegExp("[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}"), this);
+       ui->ledate->setValidator(dateValidator);
 
 }
 
@@ -146,5 +157,111 @@ void MainWindow::on_pbliste_clicked()
 
 void MainWindow::on_pbupdate_clicked()
 {
+    QModelIndexList selectedIndexes = ui->tableView->selectionModel()->selectedIndexes();
+    if (selectedIndexes.isEmpty()) {
+        QMessageBox::warning(nullptr, QObject::tr("Warning"),
+                             QObject::tr("Please select an item to update."),
+                             QMessageBox::Ok);
+        return;
+    }
+    ui->pbconfirm->setVisible(false);
+    int selectedRow = selectedIndexes.first().row();
+    QString nom_event = ui->tableView->model()->index(selectedRow, 1).data().toString();
+    QString descript_event = ui->tableView->model()->index(selectedRow, 2).data().toString();
+    QString location = ui->tableView->model()->index(selectedRow, 3).data().toString();
+    QString date_event = ui->tableView->model()->index(selectedRow, 4).data().toString();
 
+    ui->lename->setText(nom_event);
+    ui->ledesc->setText(descript_event);
+    ui->lelocation->setText(location);
+    ui->ledate->setText(date_event);
+    ui->stackedWidget->setCurrentIndex(1);
+}
+void MainWindow::on_pbexportpdf_clicked()
+{
+    QString filePath = QFileDialog::getSaveFileName(this, "Save PDF", "", "PDF Files (*.pdf)");
+
+      if (!filePath.isEmpty()) {
+          QPrinter printer(QPrinter::PrinterResolution);
+          printer.setOutputFormat(QPrinter::PdfFormat);
+          printer.setOutputFileName(filePath);
+
+          // Set the resolution for the printer, not the QPainter
+          printer.setResolution(1200);
+
+          QPainter painter(&printer);
+
+          // Remove the following line as setResolution is now applied to QPrinter
+          // painter.setResolution(1200);
+
+          ui->tableView->render(&painter);
+
+          QMessageBox::information(this, "Export PDF", "PDF file exported successfully.");
+      }
+}
+
+
+void MainWindow::on_pbsearch_clicked()
+{
+    // Get the search string from the line edit
+       QString searchStr = ui->lesearch->text().trimmed();
+
+       // Check if the search string is not empty
+       if (!searchStr.isEmpty()) {
+           // Create a filter for the SQL query
+           QString filter = QString("nom_event LIKE '%%1%' OR descript_event LIKE '%%1%' OR location LIKE '%%1%' OR date_event LIKE '%%1%'")
+                                .arg(searchStr);
+
+           // Apply the filter to the SQL query
+           QSqlQueryModel *filteredModel = new QSqlQueryModel();
+           filteredModel->setQuery("SELECT id_event, nom_event, descript_event, location, date_event FROM event WHERE " + filter);
+
+           // Set the filtered model to the table view
+           ui->tableView->setModel(filteredModel);
+
+           // Update the view
+           ui->tableView->update();
+       } else {
+           // If the search string is empty, display all data
+           ui->tableView->setModel(etmp.afficher());
+       }
+}
+
+void MainWindow::on_pbtri_clicked()
+{
+ ui->tableView->setModel(e.triID());
+}
+
+void MainWindow::on_pbstat_clicked()
+{
+
+}
+
+void MainWindow::on_pbconfirm_3_clicked()
+{
+    {
+        QString nom_event = ui->lename->text();
+        QString descript_event = ui->ledesc->toPlainText();
+        QString location = ui->lelocation->text();
+        QString date_event=ui->ledate->text();
+
+       class event e(nom_event,descript_event,location,date_event);
+        bool test = e.modifier(id_event);
+        if (test) {
+            QMessageBox::information(nullptr, QObject::tr("Update"),
+                                     QObject::tr("Update successful.\nClick OK to return."),
+                                     QMessageBox::Ok);
+
+            ui->lename->clear();
+            ui->ledesc->clear();
+            ui->lelocation->clear();
+            ui->ledate->clear();
+            ui->stackedWidget->setCurrentIndex(0);
+            ui->tableView->setModel(etmp.afficher());
+        } else {
+            QMessageBox::critical(nullptr, QObject::tr("Update"),
+                                  QObject::tr("Update failed.\nClick OK to return."),
+                                  QMessageBox::Ok);
+        }
+    }
 }

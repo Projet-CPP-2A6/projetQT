@@ -47,24 +47,34 @@ bool event::supprimer(int id_event)
     query.bindValue(":id_event", id_event);
     return query.exec();
 }
-bool event::modifier(int id_event)
+bool event::modifier(int id_event){
+
+    QSqlQuery query;
+        query.prepare("UPDATE event SET nom_event=:nom_event, descript_event=:descript_event, location=:location, date_event=:date_event WHERE id_event=:id_event");
+        query.bindValue(":id_event", id_event);
+        query.bindValue(":nom_event", nom_event);
+        query.bindValue(":descript_event", descript_event);
+        query.bindValue(":location", location);
+        query.bindValue(":date_event", date_event);
+        return query.exec();
+
+}
+QSqlQueryModel * event::triID()
+{
+    QSqlQueryModel * model= new QSqlQueryModel();
+    model->setQuery("SELECT * FROM event ORDER BY id_event");
+    return model;
+
+}
+int event::stat(QString location)
 {
     QSqlQuery query;
-        query.prepare("SELECT * FROM event WHERE id_event = :id_event");
-        query.bindValue(":id_event", id_event);
+    query.prepare("select count(*) from event where location=:location ");
+    query.bindValue(":location",location);
+    query.exec();
+    query.next();
 
-        if (query.exec() && query.next()) {
-            // Record found, update the fields
-            query.prepare("UPDATE event SET nom_event=:nom, descript_event=:descript, "
-                          "location=:location, date_event=:date WHERE id_event=:id");
-            query.bindValue(":nom", nom_event);
-            query.bindValue(":descript", descript_event);
-            query.bindValue(":location", location);
-            query.bindValue(":date", date_event);
-            query.bindValue(":id", id_event);
+    return query.value(0).toInt();
 
-            return query.exec();
-        }
-
-        return false;
 }
+
