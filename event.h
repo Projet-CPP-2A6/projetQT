@@ -24,14 +24,17 @@ public:
         this->date_event = date_event;
 
     }
+
     event(QString nom_event,QString descript_event,QString location,QString date_event)
     {
+
         this->nom_event = nom_event;
         this->descript_event = descript_event;
         this->location = location;
         this->date_event = date_event;
 
     }
+
     event (int id_event)
     {
         this->id_event=id_event;
@@ -70,7 +73,7 @@ public:
 
     bool ajouter();
     QSqlQueryModel * afficher();
-    bool modifier (int);
+    bool modifier ();
     bool supprimer(int id_event);
     bool supprimerTous();
     QSqlQueryModel* triID();

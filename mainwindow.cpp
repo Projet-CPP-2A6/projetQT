@@ -10,8 +10,12 @@
 #include <QSortFilterProxyModel>
 #include <QSqlRecord>
 #include "event.h"
+#include "eventmodel.h"
 #include <QRegExpValidator>
-
+#include <qsqldatabase.h>
+#include <QtCharts>
+#include <QChartView>
+#include <QBarSet>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -19,9 +23,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    ui->stackedWidget->setCurrentIndex(1);
-    ui->tableView->setModel(etmp.afficher());
+
+        ui->stackedWidget->setCurrentIndex(0);
    class event e;
+
    QRegExpValidator *dateValidator = new QRegExpValidator(QRegExp("[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}"), this);
        ui->ledate->setValidator(dateValidator);
 
@@ -67,10 +72,12 @@ void MainWindow::on_pbconfirm_clicked()
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
+
     int i;
     i=index.row();
     QModelIndex in=index.sibling(i,0);
     QString val=ui->tableView->model()->data(in).toString();
+
         QSqlQuery qry;
         qry.prepare("select id_event,nom_event, descript_event, location, date_event from event where event='"+val+"' " );
         if(qry.exec())
@@ -148,6 +155,7 @@ void MainWindow::on_pbdelete_clicked()
 void MainWindow::on_pbaddevent_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
+    ui->pbconfirm_3->setVisible(false);
 }
 
 void MainWindow::on_pbliste_clicked()
@@ -165,6 +173,7 @@ void MainWindow::on_pbupdate_clicked()
         return;
     }
     ui->pbconfirm->setVisible(false);
+    ui->pbconfirm_3->setVisible(true);
     int selectedRow = selectedIndexes.first().row();
     QString nom_event = ui->tableView->model()->index(selectedRow, 1).data().toString();
     QString descript_event = ui->tableView->model()->index(selectedRow, 2).data().toString();
@@ -234,34 +243,77 @@ void MainWindow::on_pbtri_clicked()
 
 void MainWindow::on_pbstat_clicked()
 {
+    ui->stackedWidget->setCurrentIndex(1);  // Afficher la page 2
 
+ class   event e;
+        QBarSet *set0 = new QBarSet("");
+
+        *set0  << e.stat("Admin")<< e.stat("Responsable RH");
+
+
+        QColor color(0x6568F3);
+        set0->setColor(color);
+
+        QBarSeries *series = new QBarSeries();
+        series->append(set0);
+
+
+
+
+        QChart *chart = new QChart();
+        chart->addSeries(series);
+        chart->setTitle("");
+        chart->setAnimationOptions(QChart::SeriesAnimations);
+        chart->setBackgroundVisible(false);
+
+        QColor bgColor(0xF4DCD3);
+                       chart->setBackgroundBrush(QBrush(QColor(bgColor)));
+
+                       chart->setBackgroundVisible(true);
+
+        QStringList categories;
+        categories  << "Admin"<< "RH";
+        QBarCategoryAxis *axis = new QBarCategoryAxis();
+        axis->append(categories);
+        chart->createDefaultAxes();
+        chart->setAxisX(axis, series);
+
+        QChartView *chartView = new QChartView(chart);
+
+        chartView->setMinimumWidth(500);
+        chartView->setMinimumHeight(300);
+        chartView->setParent(ui->statContainer);
+        chart->legend()->setAlignment(Qt::AlignBottom);
+        chartView->show();
 }
 
 void MainWindow::on_pbconfirm_3_clicked()
 {
-    {
-        QString nom_event = ui->lename->text();
-        QString descript_event = ui->ledesc->toPlainText();
-        QString location = ui->lelocation->text();
-        QString date_event=ui->ledate->text();
 
-       class event e(nom_event,descript_event,location,date_event);
-        bool test = e.modifier(id_event);
-        if (test) {
-            QMessageBox::information(nullptr, QObject::tr("Update"),
-                                     QObject::tr("Update successful.\nClick OK to return."),
-                                     QMessageBox::Ok);
+}
 
-            ui->lename->clear();
-            ui->ledesc->clear();
-            ui->lelocation->clear();
-            ui->ledate->clear();
-            ui->stackedWidget->setCurrentIndex(0);
-            ui->tableView->setModel(etmp.afficher());
-        } else {
-            QMessageBox::critical(nullptr, QObject::tr("Update"),
-                                  QObject::tr("Update failed.\nClick OK to return."),
-                                  QMessageBox::Ok);
-        }
-    }
+void MainWindow::on_pbrefresh_clicked()
+{
+    // Get the search string from the line edit
+       QString searchStr = ui->lesearch->text().trimmed();
+
+       // Check if the search string is not empty
+       if (!searchStr.isEmpty()) {
+           // Create a filter for the SQL query
+           QString filter = QString("nom_event LIKE '%%1%' OR descript_event LIKE '%%1%' OR location LIKE '%%1%' OR date_event LIKE '%%1%'")
+                                .arg(searchStr);
+
+           // Apply the filter to the SQL query
+           QSqlQueryModel *filteredModel = new QSqlQueryModel();
+           filteredModel->setQuery("SELECT id_event, nom_event, descript_event, location, date_event FROM event WHERE " + filter);
+
+           // Set the filtered model to the table view
+           ui->tableView->setModel(filteredModel);
+
+           // Update the view
+           ui->tableView->update();
+       } else {
+           // If the search string is empty, display all data
+           ui->tableView->setModel(etmp.afficher());
+       }
 }

@@ -4,10 +4,12 @@
 #include <QPixmap>
 
 class eventmodel : public QSqlQueryModel
-{
-public:
-public:
-    void refresh();
-    void refresh1();
-};
+        {
+        public:
+        public:
+            void refresh();
+            void refresh1();
+        };
+
+
 #endif // EVENTMODEL_H
