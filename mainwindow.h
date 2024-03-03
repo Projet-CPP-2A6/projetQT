@@ -12,13 +12,13 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class ArtNexus : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ArtNexus(QWidget *parent = nullptr);
+    ~ArtNexus();
 
 private slots:
 
@@ -38,28 +38,24 @@ private slots:
 
     void on_pbupdate_clicked();
 
-    void on_pbconfirm_2_clicked();
+
 
     void on_pbexportpdf_clicked();
 
-    void on_lesearch_cursorPositionChanged(int arg1, int arg2);
 
-    void on_pbsearch_clicked();
+      void on_pbsearch_clicked();
 
     void on_pbtri_clicked();
-
-    void on_pbstat_clicked();
-
-    void on_pbconfirm_3_clicked();
-
-    void on_pbrefresh_clicked();
+void on_pbrefresh_clicked();
 
     void on_pbconfirm_5_clicked();
+
+
 
 private:
     Ui::MainWindow *ui;
     int selected;
-    int id_event;
+
     class event e;
     class event etmp;
 QStandardItemModel *model;

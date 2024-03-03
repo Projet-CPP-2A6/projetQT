@@ -9,7 +9,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    QApplication::setWindowIcon(QIcon("C:/Users/salem/Downloads/logoartnexus.png"));
+    ArtNexus w;
     w.show();
     Connection c;
     bool test=c.createConnection();

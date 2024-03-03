@@ -16,7 +16,7 @@
 #include <QtCharts>
 #include <QChartView>
 #include <QBarSet>
-MainWindow::MainWindow(QWidget *parent)
+ArtNexus::ArtNexus(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -29,15 +29,17 @@ MainWindow::MainWindow(QWidget *parent)
    QRegExpValidator *dateValidator = new QRegExpValidator(QRegExp("[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}"), this);
        ui->ledate->setValidator(dateValidator);
         ui->ledate_3->setValidator(dateValidator);
+         QMetaObject::invokeMethod(this, "on_pbrefresh_clicked", Qt::QueuedConnection);
+ui->pbrefresh->setVisible(false);
 
 }
 
-MainWindow::~MainWindow()
+ArtNexus::~ArtNexus()
 {
     delete ui;
 }
 
-void MainWindow::on_pbconfirm_clicked()
+void ArtNexus::on_pbconfirm_clicked()
 {
     QString nom_event=ui->lename->text();
     QString descript_event=ui->ledesc->toPlainText();
@@ -70,7 +72,7 @@ void MainWindow::on_pbconfirm_clicked()
 
 
 
-void MainWindow::on_tableView_clicked(const QModelIndex &index)
+void ArtNexus::on_tableView_clicked(const QModelIndex &index)
 {
 
     int i;
@@ -84,6 +86,7 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
         {
             while(qry.next())
             {
+
                 ui->lename->setText(qry.value(1).toString());
                 ui->ledesc->setText(qry.value(2).toString());
                 ui->lelocation->setText(qry.value(3).toString());
@@ -93,7 +96,7 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
 }
 
 
-void MainWindow::on_pbdeleteall_clicked()
+void ArtNexus::on_pbdeleteall_clicked()
 {
     QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, "Confirmation", "Voulez-vous vraiment supprimer tous les éléments ?",
@@ -120,7 +123,7 @@ void MainWindow::on_pbdeleteall_clicked()
         }
 }
 
-void MainWindow::on_pbdelete_clicked()
+void ArtNexus::on_pbdelete_clicked()
 {
     QModelIndexList selectedIndexes = ui->tableView->selectionModel()->selectedIndexes();
 
@@ -152,18 +155,18 @@ void MainWindow::on_pbdelete_clicked()
         }
 }
 
-void MainWindow::on_pbaddevent_clicked()
+void ArtNexus::on_pbaddevent_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
     ui->pbconfirm->setVisible(true);
 }
 
-void MainWindow::on_pbliste_clicked()
+void ArtNexus::on_pbliste_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-void MainWindow::on_pbupdate_clicked()
+void ArtNexus::on_pbupdate_clicked()
 {
     QModelIndexList selectedIndexes = ui->tableView->selectionModel()->selectedIndexes();
     if (selectedIndexes.isEmpty()) {
@@ -179,14 +182,18 @@ void MainWindow::on_pbupdate_clicked()
     QString descript_event = ui->tableView->model()->index(selectedRow, 2).data().toString();
     QString location = ui->tableView->model()->index(selectedRow, 3).data().toString();
     QString date_event = ui->tableView->model()->index(selectedRow, 4).data().toString();
+    QString id_event = ui->tableView->model()->index(selectedRow, 0).data().toString();
 
     ui->lename_3->setText(nom_event);
     ui->ledesc_3->setText(descript_event);
     ui->lelocation_3->setText(location);
     ui->ledate_3->setText(date_event);
+    ui->leid->setText(id_event);
     ui->stackedWidget->setCurrentIndex(2);
+     ui->label_id2->setVisible(false);
+      ui->leid->setVisible(false);
 }
-void MainWindow::on_pbexportpdf_clicked()
+void ArtNexus::on_pbexportpdf_clicked()
 {
     QString filePath = QFileDialog::getSaveFileName(this, "Save PDF", "", "PDF Files (*.pdf)");
 
@@ -210,7 +217,7 @@ void MainWindow::on_pbexportpdf_clicked()
 }
 
 
-void MainWindow::on_pbsearch_clicked()
+void ArtNexus::on_pbsearch_clicked()
 {
     // Get the search string from the line edit
        QString searchStr = ui->lesearch->text().trimmed();
@@ -236,12 +243,12 @@ void MainWindow::on_pbsearch_clicked()
        }
 }
 
-void MainWindow::on_pbtri_clicked()
+void ArtNexus::on_pbtri_clicked()
 {
- ui->tableView->setModel(e.triID());
+ ui->tableView->setModel(e.triNom());
 }
 
-void MainWindow::on_pbrefresh_clicked()
+void ArtNexus::on_pbrefresh_clicked()
 {
     // Get the search string from the line edit
        QString searchStr = ui->lesearch->text().trimmed();
@@ -265,9 +272,10 @@ void MainWindow::on_pbrefresh_clicked()
            // If the search string is empty, display all data
            ui->tableView->setModel(etmp.afficher());
        }
+       ui->pbrefresh->setVisible(false);
 }
 
-void MainWindow::on_pbconfirm_5_clicked()
+void ArtNexus::on_pbconfirm_5_clicked()
 {
     int id_event = ui->leid->text().toInt();
        QString nom_event = ui->lename_3->text();

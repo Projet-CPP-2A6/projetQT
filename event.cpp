@@ -62,11 +62,11 @@ bool event::modifier(){
 
 };
 
-QSqlQueryModel * event::triID()
+QSqlQueryModel * event::triNom()
 {
-    QSqlQueryModel * model= new QSqlQueryModel();
-    model->setQuery("SELECT * FROM event ORDER BY id_event");
-    return model;
+    QSqlQueryModel * model = new QSqlQueryModel();
+       model->setQuery("SELECT * FROM event ORDER BY nom_event");
+       return model;
 
 }
 int event::stat(QString location)
@@ -80,4 +80,3 @@ int event::stat(QString location)
     return query.value(0).toInt();
 
 }
-
