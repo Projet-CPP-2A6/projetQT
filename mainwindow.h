@@ -54,6 +54,8 @@ private slots:
 
     void on_pbrefresh_clicked();
 
+    void on_pbconfirm_5_clicked();
+
 private:
     Ui::MainWindow *ui;
     int selected;

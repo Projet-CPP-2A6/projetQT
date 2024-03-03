@@ -23,12 +23,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-
         ui->stackedWidget->setCurrentIndex(0);
    class event e;
 
    QRegExpValidator *dateValidator = new QRegExpValidator(QRegExp("[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}"), this);
        ui->ledate->setValidator(dateValidator);
+        ui->ledate_3->setValidator(dateValidator);
 
 }
 
@@ -155,7 +155,7 @@ void MainWindow::on_pbdelete_clicked()
 void MainWindow::on_pbaddevent_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
-    ui->pbconfirm_3->setVisible(false);
+    ui->pbconfirm->setVisible(true);
 }
 
 void MainWindow::on_pbliste_clicked()
@@ -173,18 +173,18 @@ void MainWindow::on_pbupdate_clicked()
         return;
     }
     ui->pbconfirm->setVisible(false);
-    ui->pbconfirm_3->setVisible(true);
+  //  ui->pbconfirm_3->setVisible(true);
     int selectedRow = selectedIndexes.first().row();
     QString nom_event = ui->tableView->model()->index(selectedRow, 1).data().toString();
     QString descript_event = ui->tableView->model()->index(selectedRow, 2).data().toString();
     QString location = ui->tableView->model()->index(selectedRow, 3).data().toString();
     QString date_event = ui->tableView->model()->index(selectedRow, 4).data().toString();
 
-    ui->lename->setText(nom_event);
-    ui->ledesc->setText(descript_event);
-    ui->lelocation->setText(location);
-    ui->ledate->setText(date_event);
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->lename_3->setText(nom_event);
+    ui->ledesc_3->setText(descript_event);
+    ui->lelocation_3->setText(location);
+    ui->ledate_3->setText(date_event);
+    ui->stackedWidget->setCurrentIndex(2);
 }
 void MainWindow::on_pbexportpdf_clicked()
 {
@@ -241,57 +241,6 @@ void MainWindow::on_pbtri_clicked()
  ui->tableView->setModel(e.triID());
 }
 
-void MainWindow::on_pbstat_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(1);  // Afficher la page 2
-
- class   event e;
-        QBarSet *set0 = new QBarSet("");
-
-        *set0  << e.stat("Admin")<< e.stat("Responsable RH");
-
-
-        QColor color(0x6568F3);
-        set0->setColor(color);
-
-        QBarSeries *series = new QBarSeries();
-        series->append(set0);
-
-
-
-
-        QChart *chart = new QChart();
-        chart->addSeries(series);
-        chart->setTitle("");
-        chart->setAnimationOptions(QChart::SeriesAnimations);
-        chart->setBackgroundVisible(false);
-
-        QColor bgColor(0xF4DCD3);
-                       chart->setBackgroundBrush(QBrush(QColor(bgColor)));
-
-                       chart->setBackgroundVisible(true);
-
-        QStringList categories;
-        categories  << "Admin"<< "RH";
-        QBarCategoryAxis *axis = new QBarCategoryAxis();
-        axis->append(categories);
-        chart->createDefaultAxes();
-        chart->setAxisX(axis, series);
-
-        QChartView *chartView = new QChartView(chart);
-
-        chartView->setMinimumWidth(500);
-        chartView->setMinimumHeight(300);
-        chartView->setParent(ui->statContainer);
-        chart->legend()->setAlignment(Qt::AlignBottom);
-        chartView->show();
-}
-
-void MainWindow::on_pbconfirm_3_clicked()
-{
-
-}
-
 void MainWindow::on_pbrefresh_clicked()
 {
     // Get the search string from the line edit
@@ -315,5 +264,27 @@ void MainWindow::on_pbrefresh_clicked()
        } else {
            // If the search string is empty, display all data
            ui->tableView->setModel(etmp.afficher());
+       }
+}
+
+void MainWindow::on_pbconfirm_5_clicked()
+{
+    int id_event = ui->leid->text().toInt();
+       QString nom_event = ui->lename_3->text();
+       QString descript_event = ui->ledesc_3->toPlainText();
+       QString location = ui->lelocation_3->text();
+       QString date_event = ui->ledate_3->text();
+     class  event e (id_event,nom_event, descript_event, location,date_event);
+       bool test = e.modifier();
+       if(test) {
+           ui->tableView->setModel(etmp.afficher());
+           ui->stackedWidget->setCurrentIndex(0);
+           QMessageBox::information(nullptr,QObject::tr("OK"),
+                                  QObject::tr("UPDATE SUCCES\n"),QMessageBox::Cancel);
+
+       }
+       else {
+           QMessageBox::critical(nullptr,QObject::tr("NOT OK"),
+                                  QObject::tr(" UPDATE FAILED.\n"),QMessageBox::Cancel);
        }
 }

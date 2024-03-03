@@ -259,7 +259,7 @@ background-color: #C29E7E;
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page">
       <widget class="QLabel" name="label_gestioneventt">
@@ -914,11 +914,33 @@ background-color: #C29E7E;
         </rect>
        </property>
       </widget>
-      <widget class="QPushButton" name="pbconfirm_3">
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <widget class="QLabel" name="label_gestionevent_2">
        <property name="geometry">
         <rect>
-         <x>650</x>
-         <y>530</y>
+         <x>90</x>
+         <y>40</y>
+         <width>291</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>UPDATE</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pbconfirm_5">
+       <property name="geometry">
+        <rect>
+         <x>710</x>
+         <y>480</y>
          <width>111</width>
          <height>41</height>
         </rect>
@@ -949,35 +971,153 @@ background-color: #C29E7E;
         <string>confirm UPdate</string>
        </property>
       </widget>
-     </widget>
-     <widget class="QWidget" name="page_2">
-      <widget class="QLabel" name="label_gestionevent_2">
+      <widget class="QLineEdit" name="lename_3">
        <property name="geometry">
         <rect>
-         <x>90</x>
-         <y>40</y>
-         <width>291</width>
-         <height>41</height>
+         <x>80</x>
+         <y>160</y>
+         <width>321</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lelocation_3">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>240</y>
+         <width>321</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_location_3">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>210</y>
+         <width>71</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <pointsize>13</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
        <property name="text">
-        <string>STATS</string>
+        <string>Location</string>
        </property>
       </widget>
-      <widget class="QWidget" name="statContainer" native="true">
+      <widget class="QTextEdit" name="ledesc_3">
        <property name="geometry">
         <rect>
-         <x>60</x>
-         <y>90</y>
-         <width>791</width>
-         <height>461</height>
+         <x>80</x>
+         <y>320</y>
+         <width>321</width>
+         <height>201</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_desc_3">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>290</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Description</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_date_3">
+       <property name="geometry">
+        <rect>
+         <x>570</x>
+         <y>130</y>
+         <width>171</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Date de event</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_name_3">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>130</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="ledate_3">
+       <property name="geometry">
+        <rect>
+         <x>570</x>
+         <y>170</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_date_4">
+       <property name="geometry">
+        <rect>
+         <x>570</x>
+         <y>230</y>
+         <width>171</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>ID</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="leid">
+       <property name="geometry">
+        <rect>
+         <x>570</x>
+         <y>280</y>
+         <width>151</width>
+         <height>31</height>
         </rect>
        </property>
       </widget>
