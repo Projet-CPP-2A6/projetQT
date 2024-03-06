@@ -203,7 +203,7 @@ void ArtNexus::on_pbexportpdf_clicked()
           printer.setOutputFileName(filePath);
 
           // Set the resolution for the printer, not the QPainter
-          printer.setResolution(1200);
+          printer.setResolution(100);
 
           QPainter painter(&printer);
 
@@ -295,4 +295,9 @@ void ArtNexus::on_pbconfirm_5_clicked()
            QMessageBox::critical(nullptr,QObject::tr("NOT OK"),
                                   QObject::tr(" UPDATE FAILED.\n"),QMessageBox::Cancel);
        }
+}
+
+void ArtNexus::on_pbstat_clicked()
+{
+
 }

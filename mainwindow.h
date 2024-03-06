@@ -52,6 +52,8 @@ void on_pbrefresh_clicked();
 
 
 
+    void on_pbstat_clicked();
+
 private:
     Ui::MainWindow *ui;
     int selected;
