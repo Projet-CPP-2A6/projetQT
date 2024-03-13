@@ -272,7 +272,7 @@ background-color: #C29E7E;
         <string notr="true">background-color: rgb(255, 255, 255);</string>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="page">
         <widget class="QLabel" name="label_5">
@@ -406,34 +406,6 @@ background-color: #C29E7E;
          <property name="styleSheet">
           <string notr="true">background-color: rgb(221, 205, 187);</string>
          </property>
-         <widget class="QPushButton" name="pushButton_10">
-          <property name="geometry">
-           <rect>
-            <x>50</x>
-            <y>240</y>
-            <width>101</width>
-            <height>31</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton
-{
-border-radius:10px;
-background-color:#C29E7E;
-color:white;
-}
-QPushButton:pressed{
-padding-left:5px;
-padding-top:5px;
-background-color: #C29E7E;
-
-
-}</string>
-          </property>
-          <property name="text">
-           <string>Tri </string>
-          </property>
-         </widget>
          <widget class="QPushButton" name="pushButton_9">
           <property name="geometry">
            <rect>
@@ -490,34 +462,6 @@ background-color: #C29E7E;
            <string>Maps</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="pushButton_13">
-          <property name="geometry">
-           <rect>
-            <x>50</x>
-            <y>360</y>
-            <width>101</width>
-            <height>31</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton
-{
-border-radius:10px;
-background-color:#C29E7E;
-color:white;
-}
-QPushButton:pressed{
-padding-left:5px;
-padding-top:5px;
-background-color: #C29E7E;
-
-
-}</string>
-          </property>
-          <property name="text">
-           <string>Notification</string>
-          </property>
-         </widget>
          <widget class="QPushButton" name="pushButton_11">
           <property name="geometry">
            <rect>
@@ -546,12 +490,50 @@ background-color: #C29E7E;
            <string>Statistique</string>
           </property>
          </widget>
+         <widget class="QComboBox" name="comboBox_4">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>240</y>
+            <width>101</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">
+border-radius:10px;
+background-color:#C29E7E;
+color:white;
+
+</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Tri par defaut</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Tri Par Price</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Tri Par Reference</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Tri Par Nom</string>
+           </property>
+          </item>
+         </widget>
         </widget>
         <widget class="QTableView" name="tableView">
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>170</y>
+           <y>190</y>
            <width>701</width>
            <height>411</height>
           </rect>
@@ -582,6 +564,40 @@ QTableView::item:selected {
          </property>
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_6">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>149</y>
+           <width>601</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {
+border-radius:4px;
+    background-color:  rgb(232, 215, 198); /* Couleur de fond du champ de texte */
+    border: 1px solid #ccc; /* Bordure du champ de texte */
+    border-radius: 4px; /* Coins arrondis */
+    padding: 5px; /* Espace à l'intérieur du champ de texte */
+}
+
+QLineEdit:hover {
+border-radius:4px;
+    border-color: #666; /* Changement de couleur de la bordure au survol */
+}
+
+QLineEdit:focus {
+border-radius:4px;
+    border-color: #2ecc71; /* Couleur de la bordure lorsqu'il est focus */
+    background-color: #f0fff0; /* Couleur de fond lorsqu'il est focus */
+}
+</string>
+         </property>
+         <property name="placeholderText">
+          <string>Recherche</string>
          </property>
         </widget>
        </widget>
@@ -1485,6 +1501,56 @@ background-color: #C29E7E;
          </property>
          <property name="text">
           <string>confirmUpdate</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="page_17">
+        <widget class="QLabel" name="label_stat_oeuvre">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>74</y>
+           <width>741</width>
+           <height>451</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="returnOvrBtn_2">
+         <property name="geometry">
+          <rect>
+           <x>840</x>
+           <y>10</y>
+           <width>111</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:#F1E3D7;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+         </property>
+         <property name="text">
+          <string>Retour</string>
          </property>
         </widget>
        </widget>

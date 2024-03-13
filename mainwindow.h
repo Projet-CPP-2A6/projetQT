@@ -42,15 +42,21 @@ private slots:
 
     void on_btn_supprimer_clicked();
 
-
-
-
-
     void on_returnOvrBtn_clicked();
 
     void on_updateOvrBtn_clicked();
 
-    private:
+    void on_comboBox_4_currentIndexChanged(const QString &arg1);
+
+    void on_lineEdit_6_textChanged(const QString &arg1);
+
+    void on_pushButton_9_clicked();
+
+    void on_pushButton_11_clicked();
+
+    void on_returnOvrBtn_2_clicked();
+
+private:
     Ui::MainWindow *ui;
     Oeuvre etmp;
     QStandardItemModel *model;

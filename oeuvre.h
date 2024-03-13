@@ -29,11 +29,14 @@ public:
 
     Oeuvre();
     Oeuvre(QString ,QString ,int,QString,QDate,QString,QString,QString);
+    int nombreDeVentes();
 public slots:
     bool ajouter();
     QSqlQueryModel *afficher();
     bool supprimer(QString );
     bool modifier( QString );
+    QSqlQueryModel * rechercherOEUVRES(QString recherche);
+    QSqlQueryModel * triOEUVRES(QString tri);
 private:
     QString REFERENCE,NOM,DESCRIPTION,TYPE,POSITION,ETAT;
     QDate DATEC;

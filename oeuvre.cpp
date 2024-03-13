@@ -1,5 +1,6 @@
 #include "oeuvre.h"
 #include<QString>
+#include<QDebug>
 Oeuvre::Oeuvre()
 {
     REFERENCE="";
@@ -102,3 +103,36 @@ bool Oeuvre::ajouter()
               return query.exec();
 
   }
+  QSqlQueryModel *Oeuvre::rechercherOEUVRES(QString recherche)
+  {
+      QSqlQueryModel * model = new QSqlQueryModel();
+      model->setQuery("SELECT * from OEUVRES WHERE (UPPER(REFERENCE) LIKE UPPER('%"+recherche+"%') OR UPPER(NOM) LIKE UPPER('%"+recherche+"%') OR PRICE LIKE UPPER('%"+recherche+"%') OR DESCRIPTION LIKE UPPER('%"+recherche+"%') OR DATEC LIKE UPPER('%"+recherche+"%') OR TYPE LIKE UPPER('%"+recherche+"%') OR POSITION LIKE UPPER('%"+recherche+"%') OR ETAT LIKE UPPER('%"+recherche+"%'))");
+      model->setHeaderData(0,Qt::Horizontal,QObject::tr("REFERENCE"));
+      model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
+      model->setHeaderData(3,Qt::Horizontal,QObject::tr("DESCRIPTION"));
+      model->setHeaderData(2,Qt::Horizontal,QObject::tr("PRICE"));
+      model->setHeaderData(4,Qt::Horizontal,QObject::tr("DATEC"));
+      model->setHeaderData(5,Qt::Horizontal,QObject::tr("TYPE"));
+      model->setHeaderData(6,Qt::Horizontal,QObject::tr("POSITION"));
+      model->setHeaderData(7,Qt::Horizontal,QObject::tr("ETAT"));
+      return model;
+
+  }
+QSqlQueryModel * Oeuvre::triOEUVRES(QString tri)
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+    if(tri == "Tri par defaut"){
+        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT from OEUVRES");}
+    else if(tri == "Tri Par Price"){
+        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT from OEUVRES ORDER BY PRICE asc");
+        }else if (tri == "Tri Par Reference") {
+        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT from OEUVRES ORDER BY REFERENCE asc ");
+    } else if (tri == "Tri Par Nom") {
+        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT from OEUVRES ORDER BY NOM asc");
+    }
+    model->setHeaderData(2,Qt::Horizontal,QObject::tr("PRICE"));
+    model->setHeaderData(0,Qt::Horizontal,QObject::tr("REFERENCE"));
+    model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
+    return model;
+
+}
