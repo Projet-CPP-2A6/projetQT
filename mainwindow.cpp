@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "statsdialog.h"
+
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QDebug>
@@ -299,5 +301,21 @@ void ArtNexus::on_pbconfirm_5_clicked()
 
 void ArtNexus::on_pbstat_clicked()
 {
+    QSqlQuery query;
+        query.prepare("SELECT location, COUNT(*) FROM event GROUP BY location");
+        if (query.exec())
+        {
+            QMap<QString, QList<int>> data;
 
+            while (query.next())
+            {
+                QString location = query.value(0).toString();
+                int count = query.value(1).toInt();
+                data[location].append(count);
+            }
+
+            Dialog *Dialog = new class Dialog(this);
+            Dialog->setChartData(data);
+            Dialog->exec();
+        }
 }

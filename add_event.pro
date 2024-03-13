@@ -20,14 +20,17 @@ SOURCES += \
     connection.cpp \
     event.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    statsdialog.cpp
 
 HEADERS += \
     connection.h \
     event.h \
-    mainwindow.h
+    mainwindow.h \
+    statsdialog.h
 
 FORMS += \
+    dialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.
