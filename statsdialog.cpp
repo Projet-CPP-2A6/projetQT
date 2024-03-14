@@ -26,7 +26,7 @@ void Dialog::setChartData(const QMap<QString, QList<int>> &data)
 
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->setTitle("Number of Each Event per Location");
+    chart->setTitle("STATS DES EVENTS PAR LOCATION");
 
     QStringList categories;
     for (auto it = data.begin(); it != data.end(); ++it)
