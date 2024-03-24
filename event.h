@@ -23,6 +23,7 @@ public:
         this->location = location;
         this->date_event = date_event;
 
+
     }
 
     event(QString nom_event,QString descript_event,QString location,QString date_event)
@@ -51,6 +52,7 @@ public:
     void setDate(QString date_event){
         this->date_event = date_event;
     }
+
 
     void setId_event(int id_event){
         this->id_event = id_event;

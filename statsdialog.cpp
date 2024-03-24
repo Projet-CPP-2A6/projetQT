@@ -14,8 +14,7 @@ Dialog::~Dialog()
 }
 
 void Dialog::setChartData(const QMap<QString, QList<int>> &data)
-{
-    QBarSeries *series = new QBarSeries();
+{   QBarSeries *series = new QBarSeries();
 
     for (auto it = data.begin(); it != data.end(); ++it)
     {
@@ -50,3 +49,5 @@ void Dialog::setChartData(const QMap<QString, QList<int>> &data)
     layout->addWidget(chartView);
     ui->label->setLayout(layout);
 }
+
+

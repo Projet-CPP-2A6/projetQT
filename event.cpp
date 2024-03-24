@@ -16,6 +16,7 @@ QString res = QString::number(id_event);
        query.bindValue(":descript_event", descript_event);
        query.bindValue(":location", location);
        query.bindValue(":date_event", date_event);
+
           return query.exec() ;
 }
 
@@ -29,6 +30,7 @@ model->setHeaderData(1,Qt::Horizontal,QObject::tr("nom_event"));
 model->setHeaderData(2,Qt::Horizontal,QObject::tr("descript_event"));
 model->setHeaderData(3,Qt::Horizontal,QObject::tr("location"));
 model->setHeaderData(4,Qt::Horizontal,QObject::tr("date_event"));
+
 return model;
 
 }
@@ -57,6 +59,7 @@ bool event::modifier(){
      query.bindValue(":descript_event",descript_event);
      query.bindValue(":location",location);
      query.bindValue(":date_event",date_event);
+
      return query.exec();
 
 
