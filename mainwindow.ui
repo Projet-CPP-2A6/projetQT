@@ -734,9 +734,9 @@ background-color: #C29E7E;
      <widget class="QPushButton" name="tri_r">
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>10</x>
         <y>110</y>
-        <width>141</width>
+        <width>81</width>
         <height>31</height>
        </rect>
       </property>
@@ -756,7 +756,7 @@ background-color: #C29E7E;
 }</string>
       </property>
       <property name="text">
-       <string>Tri</string>
+       <string>Tri nom</string>
       </property>
      </widget>
      <widget class="QPushButton" name="historique_r">
@@ -848,6 +848,62 @@ background-color: #C29E7E;
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="tri_r_id">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>110</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:white;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Tri id</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="tri_r_id_2">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>110</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:white;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Tri nat</string>
       </property>
      </widget>
     </widget>
@@ -1061,7 +1117,7 @@ background-color: #C29E7E;
      <x>0</x>
      <y>0</y>
      <width>1342</width>
-     <height>26</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>

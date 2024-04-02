@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->tri_r, &QPushButton::clicked, this, &MainWindow::on_tri_r_clicked);
-
+connect(ui->historique_r, &QPushButton::clicked, this, &MainWindow::on_historique_r_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -446,4 +446,23 @@ void MainWindow::on_stat_r_clicked()
         qDebug() << "Erreur lors de la récupération des statistiques : " << query.lastError().text();
     }
 
+}
+
+void MainWindow::on_tri_r_id_clicked()
+{
+    ui->tableArtiste->setModel(art.triId());
+}
+
+
+void MainWindow::on_tri_r_id_2_clicked()
+{
+    ui->tableArtiste->setModel(art.triNat());
+}
+
+void MainWindow::on_historique_r_clicked()
+{
+    QString filePath = "backup_artiste.txt";
+
+        // Ouvrir le fichier en utilisant le programme par défaut associé aux fichiers texte
+        QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
 }

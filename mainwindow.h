@@ -46,6 +46,12 @@ private slots:
 
     void on_stat_r_clicked();
 
+    void on_tri_r_id_clicked();
+
+    void on_tri_r_id_2_clicked();
+
+    void on_historique_r_clicked();
+
 private:
     Ui::MainWindow *ui;
     artiste art;

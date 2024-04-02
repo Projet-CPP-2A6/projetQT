@@ -60,6 +60,8 @@ public:
     bool artisteExists(int id);
     bool UPDATE();
     QSqlQueryModel* triNom();
+    QSqlQueryModel* triNat();
+    QSqlQueryModel* triId();
     QSqlQueryModel*  findbyid(int NUMERO);
 
 };
