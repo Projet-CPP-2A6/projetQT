@@ -1,6 +1,7 @@
 #include "statsdialog.h"
 #include "ui_dialog.h"
-
+#include <QPieSeries>
+#include <QPieSlice>
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
@@ -14,33 +15,26 @@ Dialog::~Dialog()
 }
 
 void Dialog::setChartData(const QMap<QString, QList<int>> &data)
-{   QBarSeries *series = new QBarSeries();
+{   QPieSeries *series = new QPieSeries();
+
+    int totalEvents = 0;
+    for (auto it = data.begin(); it != data.end(); ++it)
+    {
+        totalEvents += it.value().first();
+    }
 
     for (auto it = data.begin(); it != data.end(); ++it)
     {
-        QBarSet *set = new QBarSet(it.key());
-        *set << it.value().first();
-        series->append(set);
+        double percentage = (static_cast<double>(it.value().first()) / totalEvents) * 100.0;
+        QString label = QString("%1 (%2%)").arg(it.key()).arg(QString::number(percentage, 'f', 1));
+        series->append(label, it.value().first());
     }
 
     QChart *chart = new QChart();
     chart->addSeries(series);
     chart->setTitle("STATS DES EVENTS PAR LOCATION");
 
-    QStringList categories;
-    for (auto it = data.begin(); it != data.end(); ++it)
-    {
-        categories << it.key();
-    }
-
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
-
-    QValueAxis *axisY = new QValueAxis();
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
+    series->setLabelsVisible();
 
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);

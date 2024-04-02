@@ -34,10 +34,16 @@ private slots:
     void on_back_r_clicked();
 
     void on_delete_r_clicked();
-
+void on_stat_r_clicked();
+void afficherGraphiqueCirculaire_2(QMap<QString, int> statistiques);
     void on_update_r_clicked();
 
     void on_tri_r_clicked();
+    void on_tri_r_id_clicked();
+
+    void on_tri_r_id_2_clicked();
+
+    void on_historique_r_clicked();
 
     void on_search_bouton_clicked();
 
@@ -46,7 +52,7 @@ private slots:
     void on_pdf_r_clicked();
     void on_pbconfirm_clicked();
 
-
+void on_qrcode_clicked();
 
     void on_tableView_clicked(const QModelIndex &index);
 
@@ -220,6 +226,10 @@ void on_pbrefresh_clicked();
     void on_pbbot_clicked();
 
     void on_pb_back_2_clicked();
+
+    void on_pbtri_loc_clicked();
+
+    void on_pbtri_id_clicked();
 
 private:
     Ui::MainWindow *ui;

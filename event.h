@@ -79,6 +79,8 @@ public:
     bool supprimer(int id_event);
     bool supprimerTous();
     QSqlQueryModel* triNom();
+    QSqlQueryModel* triLocation();
+    QSqlQueryModel* triId();
     int stat(QString occ);
 
 

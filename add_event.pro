@@ -25,6 +25,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     oeuvre.cpp \
+    qrcode.cpp \
     smtp.cpp \
     statsdialog.cpp
 
@@ -36,6 +37,7 @@ HEADERS += \
     event.h \
     mainwindow.h \
     oeuvre.h \
+    qrcode.h \
     smtp.h \
     statsdialog.h
 
