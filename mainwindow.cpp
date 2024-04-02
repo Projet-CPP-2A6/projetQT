@@ -14,6 +14,33 @@
 #include <QFileDialog>
 #include <QPrinter>
 #include <QPainter>
+#include "artiste.h"
+#include "qrcode.h"
+#include <QNetworkRequest>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QMessageBox>
+#include <QDebug>
+#include <QSqlQueryModel>
+#include <QSqlQuery>
+#define file_tx "^[A-Za-z ]+$"
+#define file_ex "^[0-9]+$"
+#include <QtLocation>
+#include <QSqlRecord>
+#include <QResource>
+#include <QFileDialog>
+#include <QPdfWriter>
+#include <QPainter>
+#include <QTextDocument>
+#include <iostream>
+#include <QPainter>
+#include <QLineEdit>
+#include <QLabel>
+#include <QPixmap>
+#include <QPushButton>
+#include <QVBoxLayout>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -165,34 +192,60 @@ void MainWindow::on_update_r_clicked()
 
 void MainWindow::on_delete_r_clicked()
 {
-
-    int id = ui->artistesup->text().toInt();
-
+    // Récupère l'ID de l'artiste à supprimer à partir de l'interface
+    int id_artiste = ui->artistesup->text().toInt();
 
     QMessageBox msgBox;
-    if (art.artisteExists(id))
+    if (art.artisteExists(id_artiste))
     {
+        // L'artiste existe, procède à la suppression
 
-        bool test = art.DELETEE(id);
+        // Récupère les données de l'artiste avant la suppression en utilisant la méthode findbyid()
+        QSqlQueryModel *model = art.findbyid(id_artiste);
 
+        // Attribue les données récupérées à l'objet artiste
+        art.setNom(model->record(0).value("nom").toString());
+        art.setPrenom(model->record(0).value("prenom").toString());
+        art.setNationalite(model->record(0).value("nationalite").toString());
+        art.setContact(model->record(0).value("contact").toInt());
+        art.setSexe(model->record(0).value("sexe").toString());
 
-        if (test)
+        // Sauvegarde les données de l'artiste dans un fichier
+        QFile file("backup_artiste.txt");
+        if (file.open(QIODevice::Append | QIODevice::Text))
+        {
+            QTextStream out(&file);
+            out << "ID: " << id_artiste << "\n";
+            out << "Nom: " << art.getNom() << "\n";
+            out << "Prenom: " << art.getPrenom() << "\n";
+            out << "Nationalite: " << art.getNationalite() << "\n";
+            out << "Contact: " << art.getContact() << "\n";
+            out << "Sexe: " << art.getSexe() << "\n";
+            out << "----------------------------------------\n";  // Ligne de séparation
+            file.close();
+        }
+
+        // Tente de supprimer l'artiste en appelant la méthode DELETEE()
+        bool deletionResult = art.DELETEE(id_artiste);
+
+        if (deletionResult)
         {
             msgBox.setText("Suppression réussie.");
+            // Met à jour le modèle de la table affichant les artistes
             ui->tableArtiste->setModel(art.GETALL());
         }
         else
         {
-            msgBox.setText("!! La suppression a échoué !!");
+            msgBox.setText("La suppression a échoué.");
         }
 
-
+        // Affiche la boîte de message
         msgBox.exec();
     }
     else
     {
-
-        QMessageBox::warning(this, "Artiste non trouvée", "L'artiste avec l " + QString::number(id) + " n'existe pas.\nImpossible de supprimer.");
+        // L'artiste n'existe pas, affiche un message d'avertissement
+        QMessageBox::warning(this, "Artiste introuvable", "L'artiste avec l'ID " + QString::number(id_artiste) + " n'existe pas.\nImpossible de supprimer.");
     }
 }
 
@@ -296,5 +349,101 @@ void MainWindow::on_pdf_r_clicked()
 
               QMessageBox::information(this, "Export PDF", "PDF file exported successfully.");
           }
+
+}
+
+void MainWindow::on_qrcode_clicked()
+{
+    QString id_str = ui->id_artiste_2->text();
+    int id_artiste = id_str.toInt();
+
+    QSqlQuery query;
+    query.prepare("SELECT * FROM artiste WHERE id = :id");
+    query.bindValue(":id", id_artiste);
+
+    if (query.exec() && query.next()) {
+        QString text = "Détails de l'artiste :\n"
+                "ID : " + query.value(0).toString() + "\n"
+                "NOM : " + query.value(1).toString() + "\n"
+                "PRÉNOM : " + query.value(2).toString() + "\n"
+                "NATIONALITÉ : " + query.value(3).toString() + "\n"
+                "CONTACT : " + query.value(4).toString() + "\n"
+                "SEXE : " + query.value(5).toString() + "\n"; // Ajout de sauts de ligne à la fin
+
+        using namespace qrcodegen;
+        QrCode qr = QrCode::encodeText(text.toUtf8().data(), QrCode::Ecc::MEDIUM);
+        qint32 sz = qr.getSize();
+        QImage im(sz, sz, QImage::Format_RGB32);
+        QRgb black = qRgb(0, 0, 0);
+        QRgb white = qRgb(255, 255, 255);
+
+        for (int y = 0; y < sz; y++)
+            for (int x = 0; x < sz; x++)
+                im.setPixel(x, y, qr.getModule(x, y) ? black : white);
+        ui->qr_code->setPixmap(QPixmap::fromImage(im.scaled(256, 256, Qt::KeepAspectRatio, Qt::FastTransformation), Qt::MonoOnly));;
+    } else {
+        QMessageBox::information(this, "Erreur", "L'ID de l'artiste n'existe pas dans la base de données.");
+    }
+}
+void MainWindow::afficherGraphiqueCirculaire_2(QMap<QString, int> statistiques)
+{
+    QPieSeries *series = new QPieSeries();
+
+    for (auto it = statistiques.begin(); it != statistiques.end(); ++it) {
+        QPieSlice *slice = series->append(it.key(), it.value());
+        slice->setLabelVisible();
+        slice->setLabel(QString("%1: %2 artiste (%3%)").arg(it.key()).arg(it.value()).arg(QString::number(100.0 * slice->percentage(), 'f', 1)));
+    }
+
+    // Ajouter une annotation pour la partie "femmes" avec une couleur spécifique
+    QPieSlice *femmesSlice = series->slices().at(0);  // Remplacez 0 par l'index de la partie "femmes"
+    femmesSlice->setExploded();
+    femmesSlice->setLabelVisible();
+    femmesSlice->setLabel(QString("Femmes (%1%)").arg(QString::number(100.0 * femmesSlice->percentage(), 'f', 1)));
+    femmesSlice->setBrush(QColor("#f37b78"));  // Couleur spécifique pour "femmes"
+
+    // Ajouter une annotation pour la partie "homme" avec une couleur spécifique
+    QPieSlice *hommeSlice = series->slices().at(1);  // Remplacez 1 par l'index de la partie "homme"
+    hommeSlice->setExploded();
+    hommeSlice->setLabelVisible();
+    hommeSlice->setLabel(QString("Hommes (%1%)").arg(QString::number(100.0 * hommeSlice->percentage(), 'f', 1)));
+    hommeSlice->setBrush(QColor("#663333"));  // Couleur spécifique pour "homme"
+
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->setTitle("Statistiques ");
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    // Ajuster la taille de la fenêtre du graphique circulaire
+    chartView->resize(900, 800);  // Ajustez les dimensions selon vos besoins
+
+    // Afficher la fenêtre du graphique circulaire
+    chartView->show();
+
+}
+
+void MainWindow::on_stat_r_clicked()
+{
+
+    QSqlQuery query;
+    if (query.exec("SELECT sexe, COUNT(*) FROM artiste GROUP BY sexe"))
+    {
+        QMap<QString, int> statistiques;
+        while (query.next())
+        {
+            QString sexe = query.value(0).toString();
+            int count = query.value(1).toInt();
+            statistiques.insert(sexe, count);
+        }
+
+
+        afficherGraphiqueCirculaire_2(statistiques);
+    }
+    else
+    {
+        qDebug() << "Erreur lors de la récupération des statistiques : " << query.lastError().text();
+    }
 
 }

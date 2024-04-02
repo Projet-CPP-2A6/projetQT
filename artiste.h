@@ -6,6 +6,24 @@
 #include <QDebug>
 #include <QObject>
 #include <QSqlError>
+#include <QtCharts/QChartView>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QPieSlice>
+#include <QGridLayout>
+#include <QtCharts>
+#include <QChartView>
+#include <QBarSet>
+#include <QBarSeries>
+#include <QPieSlice>
+#include <QPdfWriter>
+#include <QPainter>
+#include <QTextDocument>
+#include <QPrinter>
+#include <QImage>
+#include <QPixmap>
+#include <QLabel>
+#include <QLineEdit>
+#include <QVBoxLayout>
 
 class artiste
 {
@@ -42,7 +60,7 @@ public:
     bool artisteExists(int id);
     bool UPDATE();
     QSqlQueryModel* triNom();
-
+    QSqlQueryModel*  findbyid(int NUMERO);
 
 };
 

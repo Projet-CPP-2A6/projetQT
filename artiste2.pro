@@ -3,6 +3,8 @@ QT       +=sql
 QT += location
 QT       += core gui charts
 QT += printsupport
+QT       +=charts
+QT       +=network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -22,12 +24,14 @@ SOURCES += \
     artiste.cpp \
     connection.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    qrcode.cpp
 
 HEADERS += \
     artiste.h \
     connection.h \
-    mainwindow.h
+    mainwindow.h \
+    qrcode.h
 
 FORMS += \
     mainwindow.ui

@@ -1,7 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
+#include <QTextEdit>
+#include <QLineEdit>
 #include "artiste.h"
+#include"qrcode.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -36,8 +39,17 @@ private slots:
 
     void on_pdf_r_clicked();
 
+    void on_qrcode_clicked();
+
+    void afficherGraphiqueCirculaire_2(QMap<QString, int> statistiques);
+
+
+    void on_stat_r_clicked();
+
 private:
     Ui::MainWindow *ui;
     artiste art;
+    QTextEdit *chat;
+    QLineEdit *user_input;
 };
 #endif // MAINWINDOW_H
