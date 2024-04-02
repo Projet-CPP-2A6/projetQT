@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-<<<<<<< HEAD
 #include "statsdialog.h"
 #include "smtp.h"
 #include <QStringList>
@@ -33,12 +32,6 @@
 #include "oeuvre.h"
 #include <QDebug>
 #include<QMainWindow>
-=======
-#include "oeuvre.h"
-#include <QDebug>
-#include<QMainWindow>
-#include<QMessageBox>
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 #include<QIntValidator>
 #include <QDir>
 #include<QPainter>
@@ -60,7 +53,6 @@
 #include <QtCharts/QLegend>
 #include <QtCharts/QHorizontalStackedBarSeries>
 #include <QtCharts/QLineSeries>
-<<<<<<< HEAD
 
 ArtNexus::ArtNexus(QWidget *parent)
     : QMainWindow(parent)
@@ -70,7 +62,7 @@ ArtNexus::ArtNexus(QWidget *parent)
     ui->setupUi(this);
     connect(ui->tri_r, &QPushButton::clicked, this, &ArtNexus::on_tri_r_clicked);
  ui->tableView_oeuvre->setModel(otmp.afficher());
- ui->stackedWidget_ALL->setCurrentIndex(3);
+ ui->stackedWidget_ALL->setCurrentIndex(1);
    class event e;
    QRegExpValidator *dateValidator = new QRegExpValidator(QRegExp("[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}"), this);
        ui->ledate->setValidator(dateValidator);
@@ -1001,31 +993,22 @@ void ArtNexus::on_pushButton_9_clicked()
 void ArtNexus::on_pushButton_18_clicked()
 {
     ui->stackedWidget_4->setCurrentIndex(1);
+    QSqlQuery query;
+     ui->comboBox_idevent->clear();
+      ui->comboBox_idartiste->clear();
+    query.prepare("select id_event from event");
+    query.exec();
+    while (query.next()) {
+        ui->comboBox_idevent->addItem(query.value(0).toString());
+    }
+    query.prepare("select id from artiste");
+    query.exec();
+    while (query.next()) {
+        ui->comboBox_idartiste->addItem(query.value(0).toString());
+    }
 
 }
 void ArtNexus::on_btn_confirmer_clicked()
-=======
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{ 
-    ui->setupUi(this);
-    ui->lineEdit_price->setValidator(new QIntValidator(0,9999,this));//cs
-         QRegularExpressionValidator *stringValidator = new QRegularExpressionValidator(QRegularExpression("[A-Za-z0-9]+"), this);
-         ui->lineEdit_name->setValidator(stringValidator);
-         ui->tableView->setModel(etmp.afficher());
-         ui->stackedWidget->setCurrentIndex(0);
-    }
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-void MainWindow::on_pushButton_6_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(1);
-
-}
-void MainWindow::on_btn_confirmer_clicked()
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 
 {
 
@@ -1038,11 +1021,10 @@ void MainWindow::on_btn_confirmer_clicked()
    QString TYPE=ui->comboBox->currentText();
    QString POSITION=ui->comboBox_2->currentText();
    QString ETAT=ui->comboBox_3->currentText();
-<<<<<<< HEAD
    QString LOCATION=ui->comboBox_5->currentText();
+   QString id_artiste=ui->comboBox_idartiste->currentText();
+   QString id_event=ui->comboBox_idevent->currentText();
 
-=======
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
    QSqlQuery qry ;
    qry.prepare("select * from oeuvres where REFERENCE='"+ref+"' " );
    qry.exec();
@@ -1050,37 +1032,19 @@ void MainWindow::on_btn_confirmer_clicked()
                                             QObject::tr(" reference already exist .\n"
                                                       "Click Cancel to exit."), QMessageBox::Cancel);}
    else{
-<<<<<<< HEAD
-       if(ref==0 || nom=="" || price ==0 ||desc =="" || POSITION == "" || ETAT=="" || TYPE == "" || LOCATION == ""){QMessageBox::warning(nullptr, QObject::tr("add"),
+       if(ref==0 || nom=="" || price ==0 ||desc =="" || POSITION == "" || ETAT=="" || TYPE == "" || LOCATION == "" || FILEPATH == ""){QMessageBox::warning(nullptr, QObject::tr("add"),
                                                                             QObject::tr(" tous les champs sont obligatoires .\n"
                                                                                       "Click Cancel to exit."), QMessageBox::Cancel);}
                                    else{
-   Oeuvre o(ref,nom,price,desc,DATEC,TYPE,POSITION,ETAT,LOCATION);
-=======
-       if(ref==0 || nom=="" || price ==0 ||desc =="" || POSITION == "" || ETAT=="" || TYPE == ""){QMessageBox::warning(nullptr, QObject::tr("add"),
-                                                                            QObject::tr(" tous les champs sont obligatoires .\n"
-                                                                                      "Click Cancel to exit."), QMessageBox::Cancel);}
-                                   else{
-   Oeuvre o(ref,nom,price,desc,DATEC,TYPE,POSITION,ETAT);
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
+   Oeuvre o(ref,nom,price,desc,DATEC,TYPE,POSITION,ETAT,LOCATION,FILEPATH,id_artiste,id_event);
    bool test=o.ajouter();
    if (test)
    {
 
-<<<<<<< HEAD
        ui->tableView_oeuvre->setModel(otmp.afficher());
 
         ui->stackedWidget_4->setCurrentIndex(0);
         notif.notifAjouterOeuvre();
-=======
-       ui->tableView->setModel(etmp.afficher());
-
-        ui->stackedWidget->setCurrentIndex(0);
-       QMessageBox::information(nullptr, QObject::tr("add"),
-                  QObject::tr(" successful.\n"
-                            "Click Cancel to exit."), QMessageBox::Cancel);
-
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
        ui->lineEdit_reference->clear();
        ui->lineEdit_name->clear();
        ui->lineEdit_price->clear();
@@ -1089,10 +1053,10 @@ void MainWindow::on_btn_confirmer_clicked()
        ui->comboBox->currentText();
        ui->comboBox_2->currentText();
        ui->comboBox_3->currentText();
-<<<<<<< HEAD
        ui->comboBox_5->currentText();
-=======
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
+       ui->comboBox_idartiste->currentText();
+       ui->comboBox_idevent->currentText();
+       FILEPATH="";
 
    }
    else{
@@ -1103,24 +1067,14 @@ void MainWindow::on_btn_confirmer_clicked()
    }
 }}
 }
-<<<<<<< HEAD
 void ArtNexus::on_tableView_oeuvre_clicked(const QModelIndex &index)
-=======
-void MainWindow::on_tableView_clicked(const QModelIndex &index)
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 {
     int i;
     i=index.row();
     QModelIndex in=index.sibling(i,0);
-<<<<<<< HEAD
     QString val=ui->tableView_oeuvre->model()->data(in).toString();
         QSqlQuery qry;
-        qry.prepare("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,LOCATION from OEUVRES where REFERENCE='"+val+"' " );
-=======
-    QString val=ui->tableView->model()->data(in).toString();
-        QSqlQuery qry;
-        qry.prepare("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT from OEUVRES where REFERENCE='"+val+"' " );
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
+        qry.prepare("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,LOCATION,FILEPATH,id_artiste,id_event from OEUVRES where REFERENCE='"+val+"' " );
         if(qry.exec())
         {
             while(qry.next())
@@ -1133,16 +1087,15 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
                 ui->comboBox_update->setCurrentText(qry.value(6).toString());
                 ui->comboBox_update_2->setCurrentText(qry.value(5).toString());
                 ui->comboBox_update_3->setCurrentText(qry.value(7).toString());
-<<<<<<< HEAD
-                ui->comboBox_update_5->setCurrentText(qry.value(7).toString());
+                ui->comboBox_update_5->setCurrentText(qry.value(8).toString());
+                FILEPATH=qry.value(9).toString();
+                ui->comboBox_idartiste_2->setCurrentText(qry.value(10).toString());
+                ui->comboBox_idevent_2->setCurrentText(qry.value(11).toString());
 
-=======
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 
             }
 }
 }
-<<<<<<< HEAD
 void ArtNexus::on_pushButton_10_clicked()
 {
     ui->stackedWidget_ALL->setCurrentIndex(4);
@@ -1167,51 +1120,21 @@ void ArtNexus::on_pushButton_15_clicked()
 void ArtNexus::on_pushButton_11_clicked()
 {
     ui->stackedWidget_ALL->setCurrentIndex(3);
+    ui->stackedWidget_4->setCurrentIndex(0);
+    Oeuvre o;
+    ui->tableView_oeuvre->setModel(o.afficher());
 }
 
 void ArtNexus::on_btn_modifier_clicked()
 
 {
     QModelIndexList selectedIndexes = ui->tableView_oeuvre->selectionModel()->selectedIndexes();
-=======
-void MainWindow::on_pushButton_clicked()
-{
-    ui->stackedWidget_integ->setCurrentIndex(1);
-
-}
-
-void MainWindow::on_pushButton_4_clicked()
-{
-    ui->stackedWidget_integ->setCurrentIndex(2);
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    ui->stackedWidget_integ->setCurrentIndex(3);
-}
-
-void MainWindow::on_pushButton_5_clicked()
-{
-    ui->stackedWidget_integ->setCurrentIndex(4);
-}
-
-void MainWindow::on_pushButton_3_clicked()
-{
-    ui->stackedWidget_integ->setCurrentIndex(0);
-}
-
-void MainWindow::on_btn_modifier_clicked()
-
-{
-    QModelIndexList selectedIndexes = ui->tableView->selectionModel()->selectedIndexes();
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
     if (selectedIndexes.isEmpty()) {
         QMessageBox::warning(nullptr, QObject::tr("Warning"),
                              QObject::tr("Please select an item to update."),
                              QMessageBox::Ok);
         return;
     }
-<<<<<<< HEAD
     ui->stackedWidget_4->setCurrentIndex(2);
 }
 void ArtNexus::on_btn_supprimer_clicked()
@@ -1230,25 +1153,6 @@ void ArtNexus::on_btn_supprimer_clicked()
 
                 ui->tableView_oeuvre->setModel(otmp.afficher());
                 notif.notifSupprimerOeuvre();
-=======
-    ui->stackedWidget->setCurrentIndex(2);
-}
-void MainWindow::on_btn_supprimer_clicked()
-{
-    {
-        int i;
-            QModelIndex index=ui->tableView->currentIndex();
-        i=index.row();
-        QModelIndex in=index.sibling(i,0);
-
-        QString val=ui->tableView->model()->data(in).toString();
-
-            bool test=etmp.supprimer(val);
-            if (test)
-            {
-
-                ui->tableView->setModel(etmp.afficher());
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
                 ui->lineEdit_reference->clear();
                 ui->lineEdit_name->clear();
                 ui->lineEdit_price->clear();
@@ -1257,18 +1161,14 @@ void MainWindow::on_btn_supprimer_clicked()
                 ui->comboBox->currentText();
                 ui->comboBox_2->currentText();
                 ui->comboBox_3->currentText();
-<<<<<<< HEAD
                 ui->comboBox_5->currentText();
 
-=======
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 
 
         }
     }
 }
 
-<<<<<<< HEAD
 void ArtNexus::on_btn_confirmer_2_clicked()
     {
         ui->stackedWidget_4->setCurrentIndex(0);
@@ -1279,18 +1179,6 @@ void ArtNexus::on_returnOvrBtn_clicked()
 }
 
 void ArtNexus::on_updateOvrBtn_clicked()
-=======
-void MainWindow::on_btn_confirmer_2_clicked()
-    {
-        ui->stackedWidget->setCurrentIndex(0);
-    }
-void MainWindow::on_returnOvrBtn_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(0);
-}
-
-void MainWindow::on_updateOvrBtn_clicked()
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 {
 
     QString ref = ui->lineEdit_reference_update->text();
@@ -1301,32 +1189,18 @@ void MainWindow::on_updateOvrBtn_clicked()
     QString TYPE=ui->comboBox_update->currentText();
     QString POSITION=ui->comboBox_update_2->currentText();
     QString ETAT=ui->comboBox_update_3->currentText();
-<<<<<<< HEAD
     QString LOCATION=ui->comboBox_update_5->currentText();
-
+    QString id_artiste=ui->comboBox_idartiste->currentText();
+    QString id_event=ui->comboBox_idevent->currentText();
 
     if( nom=="" || price ==0 ||desc =="" || POSITION == "" || ETAT=="" || TYPE == "" || LOCATION == ""){QMessageBox::warning(nullptr, QObject::tr("add"),
                                                                          QObject::tr(" tous les champs sont obligatoires .\n"
                                                                                    "Click Cancel to exit."), QMessageBox::Cancel);}
                                 else{
-    Oeuvre o(ref, nom, price, desc,DATEC,TYPE,POSITION,ETAT,LOCATION);
+    Oeuvre o(ref, nom, price, desc,DATEC,TYPE,POSITION,ETAT,LOCATION,"",id_artiste,id_event);
     bool test = o.modifier(ref);
     if (test) {
         notif.notifModifierOeuvre();
-=======
-
-    if( nom=="" || price ==0 ||desc =="" || POSITION == "" || ETAT=="" || TYPE == ""){QMessageBox::warning(nullptr, QObject::tr("add"),
-                                                                         QObject::tr(" tous les champs sont obligatoires .\n"
-                                                                                   "Click Cancel to exit."), QMessageBox::Cancel);}
-                                else{
-    Oeuvre o(ref, nom, price, desc,DATEC,TYPE,POSITION,ETAT);
-    bool test = o.modifier(ref);
-    if (test) {
-        QMessageBox::information(nullptr, QObject::tr("Update"),
-                                 QObject::tr("Update successful.\nClick OK to return."),
-                                 QMessageBox::Ok);
-
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
         ui->lineEdit_reference_update->clear();
         ui->lineEdit_name_update->clear();
         ui->lineEdit_price_update->clear();
@@ -1335,15 +1209,12 @@ void MainWindow::on_updateOvrBtn_clicked()
         ui->comboBox_update->currentText();
         ui->comboBox_update_2->currentText();
         ui->comboBox_update_3->currentText();
-<<<<<<< HEAD
         ui->comboBox_update_5->currentText();
+        ui->comboBox_idartiste_2->currentText();
+        ui->comboBox_idevent_2->currentText();
 
         ui->stackedWidget_4->setCurrentIndex(0);
         ui->tableView_oeuvre->setModel(otmp.afficher());
-=======
-        ui->stackedWidget->setCurrentIndex(0);
-        ui->tableView->setModel(etmp.afficher());
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
     } else {
         QMessageBox::critical(nullptr, QObject::tr("Update"),
                               QObject::tr("Update failed.\nClick OK to return."),
@@ -1351,7 +1222,6 @@ void MainWindow::on_updateOvrBtn_clicked()
     }}
 }
 
-<<<<<<< HEAD
 void ArtNexus::on_comboBox_4_currentIndexChanged(const QString &arg1)
 {
     if(arg1 != "")
@@ -1361,22 +1231,10 @@ void ArtNexus::on_comboBox_4_currentIndexChanged(const QString &arg1)
     else
     {
         ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));
-=======
-void MainWindow::on_comboBox_4_currentIndexChanged(const QString &arg1)
-{
-    if(arg1 != "")
-    {
-       ui->tableView->setModel(etmp.triOEUVRES(arg1));
-    }
-    else
-    {
-        ui->tableView->setModel(etmp.rechercherOEUVRES(arg1));
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
     }
 
 }
 
-<<<<<<< HEAD
 void ArtNexus::on_lineEdit_6_textChanged(const QString &arg1)
 {
     if(arg1!="")
@@ -1392,38 +1250,14 @@ void ArtNexus::on_lineEdit_6_textChanged(const QString &arg1)
     {ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));}
     else
     {ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));}
-=======
-void MainWindow::on_lineEdit_6_textChanged(const QString &arg1)
-{
-    if(arg1!="")
-    {
-    ui->tableView->setModel(etmp.rechercherOEUVRES(arg1));}
-    else if(arg1 == "REFERENCE")
-    { ui->tableView->setModel(etmp.rechercherOEUVRES(arg1));}
-    else if (arg1 == "NOM"){
-    ui->tableView->setModel(etmp.rechercherOEUVRES(arg1));}
-    else if (arg1 == "PRICE")
-    {ui->tableView->setModel(etmp.rechercherOEUVRES(arg1));}
-    else if (arg1 == "DESCRIPTION")
-    {ui->tableView->setModel(etmp.rechercherOEUVRES(arg1));}
-    else
-    {ui->tableView->setModel(etmp.rechercherOEUVRES(arg1));}
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 
 
 }
 
-<<<<<<< HEAD
 void ArtNexus::on_pushButton_19_clicked()
 {
     QString filePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
     filePath = QDir(filePath).filePath("C:/Users/medal/OneDrive/Bureau/projetQT/listeOeuvres.pdf"); // Chemin du fichier
-=======
-void MainWindow::on_pushButton_9_clicked()
-{
-    QString filePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
-    filePath = QDir(filePath).filePath("C:/Users/medal/OneDrive/Bureau/projet qt/add_oeuvre/listeOeuvres.pdf"); // Chemin du fichier
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
     QPdfWriter pdf(filePath); // Création du fichier PDF
 
     QPainter painter(&pdf); // Création d'un peintre pour le PDF
@@ -1451,7 +1285,6 @@ void MainWindow::on_pushButton_9_clicked()
     painter.drawText(100, 3550, "REFERENCE");
     painter.drawText(1300, 3550, "NOM");
     painter.drawText(2000, 3550,"PRICE" );
-<<<<<<< HEAD
     painter.drawText(2700, 3550,"DESCRIPTION" );
     painter.drawText(4400, 3550, "DATEC");
     painter.drawText(5800, 3550, "TYPE");
@@ -1459,13 +1292,6 @@ void MainWindow::on_pushButton_9_clicked()
     painter.drawText(7800, 3550, "ETAT");
     painter.drawText(8500, 3550, "LOCATION");
 
-=======
-    painter.drawText(3000, 3550,"DESCRIPTION" );
-    painter.drawText(4400, 3550, "DATEC");
-    painter.drawText(6000, 3550, "TYPE");
-    painter.drawText(7200, 3550, "POSITION");
-    painter.drawText(8500, 3550, "ETAT");
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 
     painter.setFont(QFont("Time New Roman", 10));
 
@@ -1486,17 +1312,11 @@ void MainWindow::on_pushButton_9_clicked()
         painter.drawText(2000, i, query.value(2).toString()); // DESCRIPTION
         painter.drawText(3000, i, query.value(3).toString()); // PRICE
         painter.drawText(4000, i, query.value(4).toString()); // DATEC
-<<<<<<< HEAD
         painter.drawText(5800, i, query.value(5).toString()); // TYPE
         painter.drawText(6700, i, query.value(6).toString()); // POSITION
         painter.drawText(7800, i, query.value(7).toString()); // ETAT
         painter.drawText(8500, i, query.value(8).toString()); // LOCATION
 
-=======
-        painter.drawText(6000, i, query.value(5).toString()); // TYPE
-        painter.drawText(7500, i, query.value(6).toString()); // POSITION
-        painter.drawText(8500, i, query.value(7).toString()); // ETAT
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 
         i = i + 300; // Augmenter la position verticale pour la prochaine ligne
     }
@@ -1507,15 +1327,9 @@ void MainWindow::on_pushButton_9_clicked()
 
 }
 
-<<<<<<< HEAD
 void ArtNexus::on_pushButton_26_clicked()
 {
     ui->stackedWidget_4->setCurrentIndex(3);
-=======
-void MainWindow::on_pushButton_11_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(3);
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
     QSqlQueryModel * model= new QSqlQueryModel();
                      model->setQuery("select * from OEUVRES where PRICE < 500 ");
                      float PRICE=model->rowCount();
@@ -1570,7 +1384,6 @@ void MainWindow::on_pushButton_11_clicked()
 
 }
 
-<<<<<<< HEAD
 void ArtNexus::on_returnOvrBtn_2_clicked()
 {
      ui->stackedWidget_4->setCurrentIndex(0);
@@ -1586,8 +1399,98 @@ void ArtNexus::on_pushButton_20_clicked()
 
 }
 
+void ArtNexus::on_btn_addvd_clicked()
+{
+    QString videoPath = QFileDialog::getOpenFileName(this, tr("Open Video File"), "", tr("Video Files (*.mp4 *.avi *.mov *.mkv)"));
+       if (!videoPath.isEmpty()) {
+        FILEPATH=videoPath;
+       }
+}
+
+void ArtNexus::on_pushButton_pvd_clicked()
+{
+    if(!ui->tableView_oeuvre->selectionModel()->selectedRows().empty()){
+        ui->stackedWidget_4->setCurrentIndex(4);
+        ui->vdContainer->show();
+        ui->vdContainer->raise();
+        qDebug()<<FILEPATH;
+    player = new QMediaPlayer;
+     connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(on_positionChanged(qint64)));
+     connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(on_durationChanged(qint64)));
+    player->setMedia(QUrl::fromLocalFile(FILEPATH));
+     videoWidget = new QVideoWidget;
+     player->setVideoOutput(videoWidget);
+     videoWidget->setGeometry(450, 70, 600 , 430);
+     videoWidget->setParent(this);
+     videoWidget->show();
+     videoWidget->raise();
+   int k=player->volume();
+   ui->verticalSlider->setValue(k);
 
 
+
+       QObject::connect(ui->PausePlayBtn, &QPushButton::clicked, [=]() {
+           this->playeVd(ui->PausePlayBtn);
+       });
+
+     player->play();
+
+
+    }else
+         QMessageBox::warning(this, "NO Row Selected", "Please Select Emission.");
+}
+
+
+void ArtNexus::playeVd(QPushButton *p){
+    if (player->state() == QMediaPlayer::PlayingState) {
+                player->pause();
+                p->setText("Play");
+            } else {
+                player->play();
+                p->setText("Pause");
+            }
+
+}
+
+
+void ArtNexus::on_verticalSlider_sliderMoved(int position)
+{
+     player->setVolume(position);
+}
+
+
+void ArtNexus::on_horizontalSlider_sliderMoved(int position)
+{
+    player->setPosition(position);
+}
+
+
+void ArtNexus::on_positionChanged(qint64 position)
+{
+    ui->horizontalSlider->setValue(position);
+
+}
+
+void ArtNexus::on_durationChanged(qint64 position)
+{
+    ui->horizontalSlider->setMaximum(position);
+
+}
+
+
+void ArtNexus::on_closeVdBtn_clicked()
+{
+   ui->stackedWidget_4->setCurrentIndex(0);
+    player->stop();
+    videoWidget->hide();
+    ui->vdContainer->hide();
+    delete player;  // Assuming player is created using new
+       delete videoWidget;  // Assuming videoWidget is created using new
+
+       // Optionally, set the pointers to nullptr after deletion to prevent dangling pointers
+       player = nullptr;
+       videoWidget = nullptr;
+}
 
 
 /************************************************************PARTIE EMPLOYE **************************************************************/
@@ -1886,12 +1789,6 @@ void ArtNexus::on_pdf_clicked()
 }
 
 
-
-
-
-
-
-
 void ArtNexus::on_artistes_clicked()
 {
      ui->stackedWidget_ALL->setCurrentIndex(1);
@@ -1914,16 +1811,3 @@ void ArtNexus::on_events_clicked()
 
 
 
-
-
-
-
-
-
-
-=======
-void MainWindow::on_returnOvrBtn_2_clicked()
-{
-     ui->stackedWidget->setCurrentIndex(0);
-}
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1

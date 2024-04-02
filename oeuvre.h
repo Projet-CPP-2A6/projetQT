@@ -8,20 +8,12 @@
 #include<QSqlQueryModel>
 class Oeuvre
 {
-<<<<<<< HEAD
 signals:
     void cityNameChanged(const QString &cityName);
 
-
-
 public:
-
-
-
-
-=======
-public:
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
+    QString FILEPATH;
+    QString id_artiste,id_event;
     void setREFERENCE(QString n);
     void setNOM(QString n);
     void setPRICE(int n);
@@ -30,11 +22,9 @@ public:
     void setTYPE(QString n);
     void setPOSITION(QString n);
     void setETAT(QString n);
-<<<<<<< HEAD
     void setLOCATION(QString n);
 
-=======
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
+
 
     QString get_REFERENCE();
     QString get_NOM();
@@ -44,17 +34,13 @@ public:
     QString get_TYPE();
     QString get_POSITION();
     QString get_ETAT();
-<<<<<<< HEAD
     QString get_LOCATION();
 
 
     Oeuvre();
     Oeuvre(QString ,QString ,int,QString,QDate,QString,QString,QString,QString);
-=======
+    Oeuvre(QString ,QString ,int,QString,QDate,QString,QString,QString,QString,QString,QString,QString);
 
-    Oeuvre();
-    Oeuvre(QString ,QString ,int,QString,QDate,QString,QString,QString);
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
     int nombreDeVentes();
 public slots:
     bool ajouter();
@@ -63,7 +49,6 @@ public slots:
     bool modifier( QString );
     QSqlQueryModel * rechercherOEUVRES(QString recherche);
     QSqlQueryModel * triOEUVRES(QString tri);
-<<<<<<< HEAD
 
 
 
@@ -75,12 +60,6 @@ private:
     int PRICE;
 
 
-=======
-private:
-    QString REFERENCE,NOM,DESCRIPTION,TYPE,POSITION,ETAT;
-    QDate DATEC;
-    int PRICE;
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 };
 
 

@@ -1,6 +1,5 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-<<<<<<< HEAD
 #include "event.h"
 #include <QMainWindow>
 #include <QDate>
@@ -12,41 +11,28 @@
 #include "association.h"
 #include "oeuvre.h"
 #include "employe.h"
-=======
-#include <QMainWindow>
-#include "oeuvre.h"
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QFileDialog>
-<<<<<<< HEAD
 #include "notification.h"
 #include <QQuickWidget>
-#include <QComboBox>
+#include <QMediaPlayer>
+#include <QVideoWidget>
+#include <QtWidgets>
 
-=======
-#include <QTableView>
-#include <QStandardItemModel>
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-<<<<<<< HEAD
 class ArtNexus : public QMainWindow
-=======
-class MainWindow : public QMainWindow
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 {
     Q_OBJECT
 
 public:
-<<<<<<< HEAD
     ArtNexus(QWidget *parent = nullptr);
     ~ArtNexus();
-signals:
-    void mySignal(const QVariant &data);
+
 private slots:
     bool  controlSaisie();
     void on_add_r_clicked();
@@ -148,7 +134,14 @@ private slots:
     void on_pbbot_clicked();
     void on_pb_back_2_clicked();
     void on_pushButton_20_clicked();
-
+    void on_btn_addvd_clicked();
+    void on_pushButton_pvd_clicked();
+    void playeVd(QPushButton *p );
+    void on_verticalSlider_sliderMoved(int position);
+    void on_horizontalSlider_sliderMoved(int position);
+    void on_positionChanged(qint64 position);
+    void on_durationChanged(qint64 position);
+    void on_closeVdBtn_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -164,52 +157,10 @@ private:
     QSortFilterProxyModel *proxyModel;
     artiste art;
     notification notif;
-    QComboBox *comboBox;
-=======
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    QString FILEPATH;
+    QMediaPlayer *player = new QMediaPlayer;
+    QVideoWidget *videoWidget = new QVideoWidget;
 
-private slots:
-    void on_pushButton_6_clicked();
-    void on_tableView_clicked(const QModelIndex &index);
-
-    void on_btn_confirmer_clicked();
-
-    void on_pushButton_clicked();
-
-    void on_pushButton_4_clicked();
-
-    void on_pushButton_2_clicked();
-
-    void on_pushButton_5_clicked();
-
-    void on_pushButton_3_clicked();
-
-    void on_btn_confirmer_2_clicked();
-
-    void on_btn_modifier_clicked();
-
-    void on_btn_supprimer_clicked();
-
-    void on_returnOvrBtn_clicked();
-
-    void on_updateOvrBtn_clicked();
-
-    void on_comboBox_4_currentIndexChanged(const QString &arg1);
-
-    void on_lineEdit_6_textChanged(const QString &arg1);
-
-    void on_pushButton_9_clicked();
-
-    void on_pushButton_11_clicked();
-
-    void on_returnOvrBtn_2_clicked();
-
-private:
-    Ui::MainWindow *ui;
-    Oeuvre etmp;
-    QStandardItemModel *model;
->>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 
 };
 #endif // MAINWINDOW_H
