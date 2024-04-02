@@ -1,6 +1,11 @@
+<<<<<<< HEAD
+QT       += core gui
+
+=======
 QT+= core gui sql \
     quick
 QT += core gui sql multimedia multimediawidgets printsupport widgets charts network serialport axcontainer
+>>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -17,6 +22,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+<<<<<<< HEAD
+    main.cpp \
+    mainwindow.cpp
+
+HEADERS += \
+    mainwindow.h
+=======
     connection.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -26,6 +38,7 @@ HEADERS += \
     connection.h \
     mainwindow.h \
     oeuvre.h
+>>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 
 FORMS += \
     mainwindow.ui
@@ -34,4 +47,7 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+<<<<<<< HEAD
+=======
 
+>>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1

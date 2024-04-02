@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
+<<<<<<< HEAD
+<!-- Written by QtCreator 4.11.0, 2024-03-26T00:34:06. -->
+=======
 <!-- Written by QtCreator 4.11.0, 2024-03-13T00:56:02. -->
+>>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -287,8 +291,14 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+<<<<<<< HEAD
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">add_oeuvre2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/medal/OneDrive/Bureau/projetQT/add_oeuvre.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/medal/OneDrive/Bureau/projetQT/add_oeuvre.pro</value>
+=======
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/medal/OneDrive/Bureau/projet qt/add_oeuvre/add_oeuvre.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/medal/OneDrive/Bureau/projet qt/add_oeuvre/add_oeuvre.pro</value>
+>>>>>>> 6e2715b1c56ccbf6489582e16fa8d9d00d8a4bd1
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>
