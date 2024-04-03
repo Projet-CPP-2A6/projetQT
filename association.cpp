@@ -68,27 +68,10 @@ bool Association::supprimer(int id)
 
     return  query.exec();
 }
-QSqlQueryModel * Association::tri(const QString &columnName)
+QSqlQueryModel * Association::tri1(const QString &columnName)
 {
     QSqlQueryModel * model = new QSqlQueryModel();
     model->setQuery("SELECT * FROM ASSOCIATIONS ORDER BY " + columnName);
     return model;
-}
-
-
-int Association::login(QString email, QString mdp)
-{
-int row_count = 0;
-QSqlQuery query;
-query.prepare("SELECT * FROM CADMIN where NOM=? and MOTDEPASSE=? ");
-query.addBindValue(email);
-    query.addBindValue(mdp);
- query.exec();
- while(query.next())
- {
-     row_count++;
- }
-qDebug() << "Number of Rows: " << row_count;
-return row_count;
 }
 

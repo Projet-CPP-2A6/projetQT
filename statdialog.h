@@ -17,6 +17,7 @@ public:
     ~Dialog();
 
     void setChartData(const QMap<QString, double> &data);
+
     void setPredictiveChartData(); // Declaration of the new method
 
 private:
