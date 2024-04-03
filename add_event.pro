@@ -28,6 +28,7 @@ SOURCES += \
     qrcode.cpp \
     smtp.cpp \
     statsdialog.cpp
+INCLUDEPATH += "C:\Users\DELL\Downloads\eigen-3.4.0\eigen-3.4.0"
 
 HEADERS += \
     artiste.h \
@@ -43,6 +44,8 @@ HEADERS += \
 
 FORMS += \
     dialog.ui \
+    dialog1.ui \
+    dialogemp.ui \
     mainwindow.ui
 
 # Default rules for deployment.

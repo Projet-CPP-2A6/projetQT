@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "statsdialog.h"
+#include "statsdialogemp.h"
 #include "smtp.h"
 #include <QStringList>
 #include <QMessageBox>
@@ -36,6 +37,7 @@ ArtNexus::ArtNexus(QWidget *parent)
 {
 
     ui->setupUi(this);
+    ui->errorLogin->setVisible(false);
     connect(ui->tri_r, &QPushButton::clicked, this, &ArtNexus::on_tri_r_clicked);
     connect(ui->historique_r, &QPushButton::clicked, this, &ArtNexus::on_historique_r_clicked);
  ui->tableView->setModel(Etmp.afficher());
@@ -55,7 +57,7 @@ ui->lineEdit_price->setValidator(new QIntValidator(0,9999,this));//cs
      QRegularExpressionValidator *stringValidator = new QRegularExpressionValidator(QRegularExpression("[A-Za-z0-9]+"), this);
      ui->lineEdit_name->setValidator(stringValidator);
      ui->tableView_oeuvre->setModel(otmp.afficher());
-     ui->stackedWidget_ALL->setCurrentIndex(0);
+     ui->stackedWidget_5->setCurrentIndex(1);
 
 
 }
@@ -466,6 +468,31 @@ void ArtNexus::on_sendchatbtn_clicked()
 void ArtNexus::on_pbbot_clicked()
 {
      ui->stackedWidget->setCurrentIndex(3);
+}
+void ArtNexus::on_lesearch_textChanged(const QString &arg1)
+{
+    // Get the search string from the line edit
+       QString searchStr = ui->lesearch->text().trimmed();
+
+       // Check if the search string is not empty
+       if (!searchStr.isEmpty()) {
+           // Create a filter for the SQL query
+           QString filter = QString("nom_event LIKE '%%1%' OR descript_event LIKE '%%1%' OR location LIKE '%%1%' OR date_event LIKE '%%1%'")
+                                .arg(searchStr);
+
+           // Apply the filter to the SQL query
+           QSqlQueryModel *filteredModel = new QSqlQueryModel();
+           filteredModel->setQuery("SELECT id_event, nom_event, descript_event, location, date_event FROM event WHERE " + filter);
+
+           // Set the filtered model to the table view
+           ui->tableView->setModel(filteredModel);
+
+           // Update the view
+           ui->tableView->update();
+       } else {
+           // If the search string is empty, display all data
+           ui->tableView->setModel(etmp.afficher());
+       }
 }
 
 /************************************************************PARTIE ARTISTE**************************************************************/
@@ -1779,10 +1806,37 @@ void ArtNexus::on_pdf_clicked()
           }
 }
 
+void ArtNexus::seConnecter()
+{
+    QString email = ui->leemaillog->text();
+    QString password = ui->lepassword->text();
+    empConnected.setEmail(email);
+    empConnected.setMdp(password);
+    if(empConnected.seConnecter()){
+        ui->errorLogin->setVisible(false);
+ ui->stackedWidget_ALL->setCurrentIndex(4);
+        empConnected.setEmail(email);
+    } else ui->errorLogin->setVisible(true);
+}
+
+void ArtNexus::on_calendarWidget_selectionChanged()
+{
+    QDate x1=ui->calendarWidget->selectedDate();
+    ui->tableView_emp->setModel(Etmp.afficher_calendar(x1));
+}
+
+void ArtNexus::on_show_all_btn_clicked()
+{
+    ui->tableView_emp->setModel(Etmp.afficher());
+}
+
+void ArtNexus::on_pbsign_clicked()
+{
+    seConnecter();
+}
 
 
-
-
+/************************************************************/
 
 
 
@@ -1812,3 +1866,26 @@ void ArtNexus::on_events_clicked()
 
 
 
+
+
+
+void ArtNexus::on_stats_clicked()
+{
+    QSqlQuery query;
+        query.prepare("SELECT role_e, COUNT(*) FROM employe GROUP BY role_e");
+        if (query.exec())
+        {
+            QMap<QString, QList<int>> data;
+
+            while (query.next())
+            {
+                QString role = query.value(0).toString();
+                int count = query.value(1).toInt();
+                data[role].append(count);
+            }
+
+            Dialog *Dialog = new class Dialog(this);
+            Dialog->setChartData(data);
+            Dialog->exec();
+        }
+}

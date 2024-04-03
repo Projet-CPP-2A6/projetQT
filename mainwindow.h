@@ -22,7 +22,7 @@ class ArtNexus : public QMainWindow
 public:
     ArtNexus(QWidget *parent = nullptr);
     ~ArtNexus();
-
+ void seConnecter();
 private slots:
     bool  controlSaisie();
     void on_add_r_clicked();
@@ -93,6 +93,11 @@ void on_pbrefresh_clicked();
 
     void on_gestion_artistepb_clicked();
 
+    void on_calendarWidget_selectionChanged();
+
+    void on_show_all_btn_clicked();
+
+    void on_pbsign_clicked();
 
 
 
@@ -231,6 +236,10 @@ void on_pbrefresh_clicked();
 
     void on_pbtri_id_clicked();
 
+    void on_lesearch_textChanged(const QString &arg1);
+
+    void on_stats_clicked();
+
 private:
     Ui::MainWindow *ui;
     int selected;
@@ -240,7 +249,7 @@ private:
     class event etmp;
       Association Ctemp;
           Oeuvre otmp;
-           Employe Etmp;
+           Employe Etmp,empConnected;
 QStandardItemModel *model;
 QSortFilterProxyModel *proxyModel;
 artiste art;

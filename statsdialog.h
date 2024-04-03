@@ -17,6 +17,7 @@ public:
     ~Dialog();
 
     void setChartData(const QMap<QString, QList<int>> &data);
+    void setChartDataemp(const QMap<QString, QList<int>> &data);
 
 private:
     Ui::Dialog *ui;
