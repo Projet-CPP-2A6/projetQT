@@ -19,6 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     artiste.cpp \
     association.cpp \
+    chatbox.cpp \
     connection.cpp \
     employe.cpp \
     event.cpp \
@@ -33,6 +34,7 @@ INCLUDEPATH += "C:\Users\DELL\Downloads\eigen-3.4.0\eigen-3.4.0"
 HEADERS += \
     artiste.h \
     association.h \
+    chatbox.h \
     connection.h \
     employe.h \
     event.h \

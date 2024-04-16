@@ -29,6 +29,7 @@
 #include <iostream>
 #include <QRegularExpression>
 #include "association.h"
+#include "chatbox.h"
 ArtNexus::ArtNexus(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -57,6 +58,8 @@ ui->lineEdit_price->setValidator(new QIntValidator(0,9999,this));//cs
      ui->lineEdit_name->setValidator(stringValidator);
      ui->tableView_oeuvre->setModel(otmp.afficher());
      ui->stackedWidget_ALL->setCurrentIndex(0);
+     connect(ui->tableView2, SIGNAL(clicked(const QModelIndex &)), this, SLOT(on_messagePreviewClicked(const QModelIndex &)));
+
 
 }
 
@@ -390,11 +393,11 @@ void ArtNexus::on_pb_back_2_clicked()
 
 void ArtNexus::on_pushButton_3_clicked()
 {
-    ui->stackedWidget_ALL->setCurrentIndex(3);
+    ui->stackedWidget_ALL->setCurrentIndex(4);
 }
 void ArtNexus::on_pushButton_clicked()
 {
-     ui->stackedWidget_ALL->setCurrentIndex(4);
+     ui->stackedWidget_ALL->setCurrentIndex(5);
 }
 
 void ArtNexus::on_sendchatbtn_clicked()
@@ -736,7 +739,7 @@ void ArtNexus::on_pdf_r_clicked()
 // bouton li thezz l page gestion artiste
 void ArtNexus::on_gestion_artistepb_clicked()
 {
-   ui->stackedWidget_ALL->setCurrentIndex(1);
+   ui->stackedWidget_ALL->setCurrentIndex(2);
 }
 
 // bouton li thezz l page gestion event
@@ -937,7 +940,7 @@ void ArtNexus::on_pushButton_12_clicked()
 
 void ArtNexus::on_pushButton_4_clicked()
 {
-    ui->stackedWidget_ALL->setCurrentIndex(2);
+    ui->stackedWidget_ALL->setCurrentIndex(3);
 }
 
 void ArtNexus::on_pushButton_7_clicked()
@@ -962,6 +965,119 @@ void ArtNexus::on_pushButton_9_clicked()
 {
     ui->stackedWidget_ALL->setCurrentIndex(4);
 }
+
+void ArtNexus::on_pushButton_send_clicked()
+{
+    QString receiver = ui->lineEdit_receiver->text();
+    QString messageContent = ui->lineEdit_send->text();
+    QString sender = ui->nomLogin->text();
+    Message m(sender, receiver, messageContent);
+    bool success = m.sendmsg(sender, receiver); // Pass sender and receiver info
+
+    if (success) {
+        ui->lineEdit_send->clear();
+        QMessageBox::information(this, "Success", "Message sent successfully.");
+
+        displayReceivedMessages(receiver);
+
+        QString formattedMessage = QString("<div align='right' style='color: blue;'>[%1] %2: %3</div>")
+                                        .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"), sender, messageContent);
+        ui->chatbox->append(formattedMessage);
+    } else {
+        QMessageBox::critical(this, "Error", "Failed to send message. Please try again.");
+    }
+}
+
+
+void ArtNexus::on_ChatBoxButton_clicked()
+{
+    ui->stackedWidget_3->setCurrentIndex(4);
+    ui->tableView_Association->setModel(Ctemp.afficher());
+}
+void ArtNexus::displayReceivedMessages(QString receiver) {
+    Message messageModel;
+    QSqlQueryModel *receivedMessages = messageModel.retrieveMessages(receiver);
+
+
+    QAbstractItemModel *existingModel = ui->tableView2->model();
+
+
+    if (existingModel) {
+        for (int row = 0; row < receivedMessages->rowCount(); ++row) {
+            QString sender = receivedMessages->record(row).value("sender").toString();
+            QString message = receivedMessages->record(row).value("msg").toString();
+            QString timestamp = receivedMessages->record(row).value("timestamp").toString();
+
+            QModelIndexList matchList = existingModel->match(existingModel->index(0, 1), Qt::DisplayRole, sender);
+            if (!matchList.isEmpty()) {
+                int rowToUpdate = matchList.first().row();
+                existingModel->setData(existingModel->index(rowToUpdate, 2), message);
+
+                existingModel->setData(existingModel->index(rowToUpdate, 3), timestamp);
+            } else {
+                int rowCount = existingModel->rowCount();
+                existingModel->insertRow(rowCount);
+                existingModel->setData(existingModel->index(rowCount, 1), sender);
+                existingModel->setData(existingModel->index(rowCount, 2), message);
+                existingModel->setData(existingModel->index(rowCount, 3), timestamp);
+            }
+        }
+
+        delete receivedMessages;
+    } else {
+        ui->tableView2->setModel(receivedMessages);
+    }
+    ui->tableView2->resizeColumnsToContents();
+}
+
+
+
+
+
+
+
+void ArtNexus::on_messagePreviewClicked(const QModelIndex &index)
+{
+    QString receiver = ui->lineEdit_receiver->text();
+    QString sender = ui->nomLogin->text();
+
+
+
+    QString otherParty = index.data(Qt::DisplayRole).toString();
+
+    Message messageModel;
+    QSqlQueryModel *conversation = messageModel.retrieveFullConversation(sender, otherParty);
+
+    if (conversation) {
+        ui->chatbox->clear();
+        for (int i = 0; i < conversation->rowCount(); ++i)
+        {
+            QString messageSender = conversation->record(i).value("sender").toString();
+            QString message = conversation->record(i).value("msg").toString();
+            QString timestamp = conversation->record(i).value("timestamp").toString();
+
+            QString formattedMessage;
+            if (messageSender == sender) {
+                formattedMessage = QString("<div align='right' style='color: blue;'>[%1] %2: %3</div>").arg(timestamp, messageSender, message);
+            } else {
+                formattedMessage = QString("<div align='left'>[%1] %2: %3</div>").arg(timestamp, messageSender, message);
+            }
+
+            ui->chatbox->append(formattedMessage);
+        }
+
+        delete conversation;
+    } else {
+        QMessageBox::information(this, "No Conversation", "No conversation found between the two parties.");
+    }
+}
+
+void ArtNexus::on_BackSupprimer_2_clicked()
+{
+    ui->stackedWidget_3->setCurrentIndex(0);
+    ui->tableView_Association->setModel(Ctemp.afficher());
+}
+
 
 /************************************************************PARTIE OEUVRE **************************************************************/
 
@@ -1753,3 +1869,28 @@ void ArtNexus::on_lesearch_2_textChanged(const QString &arg1)
                 // If the search string is empty, display all data
                 ui->tableView_Association->setModel(Ctemp.afficher()); }
 }
+
+void ArtNexus::on_pushButton_13_clicked()
+{
+    QString email = ui->nomLogin->text();
+    QString password = ui->mdp_2->text();
+
+    if (email.isEmpty() || password.isEmpty()) {
+        QMessageBox::critical(this, "Error", "Email and password are required.");
+        return;
+    }
+
+    Association association;
+    int result = association.login(email, password);
+
+
+    if (result > 0) {
+        QMessageBox::information(this, "Success", "Login successful.");
+        ui->stackedWidget_ALL->setCurrentIndex(1); // Change index according to your application flow
+        displayReceivedMessages(email);
+    } else {
+
+        QMessageBox::critical(this, "Error", "Invalid email or password.");
+    }
+}
+

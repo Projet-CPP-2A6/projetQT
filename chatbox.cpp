@@ -1,5 +1,6 @@
 
 #include "chatbox.h"
+#include <QDebug>
 #include <QSqlQuery> // Add this line to include the QSqlQuery header
 
 Message::Message() {}
@@ -24,7 +25,6 @@ bool Message::sendmsg(QString sender, QString receiver) {
 QSqlQueryModel *Message::retrieveMessages(QString receiver) {
     QSqlQueryModel *model = new QSqlQueryModel();
     QSqlQuery query;
-    // Retrieve only the latest message for each sender
     query.prepare("SELECT sender, msg, timestamp FROM message WHERE receiver = :receiver AND (sender, timestamp) IN (SELECT sender, MAX(timestamp) FROM message WHERE receiver = :receiver GROUP BY sender)");
     query.bindValue(":receiver", receiver);
     query.exec();
@@ -39,6 +39,7 @@ QSqlQueryModel *Message::retrieveFullConversation(QString sender, QString receiv
     query.prepare("SELECT sender, receiver, msg, timestamp FROM message WHERE (sender = :sender AND receiver = :receiver) OR (sender = :receiver AND receiver = :sender) ORDER BY timestamp ASC");
     query.bindValue(":sender", sender);
     query.bindValue(":receiver", receiver);
+         qDebug() << "Debug message here"<<sender;
     query.exec();
     model->setQuery(query);
     return model;

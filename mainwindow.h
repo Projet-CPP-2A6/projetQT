@@ -7,6 +7,7 @@
 #include <QTableWidget>
 #include <QTableView>
 #include <QSortFilterProxyModel>
+#include <QPushButton>
 #include "artiste.h"
 #include "association.h"
 #include "oeuvre.h"
@@ -22,6 +23,9 @@ class ArtNexus : public QMainWindow
 public:
     ArtNexus(QWidget *parent = nullptr);
     ~ArtNexus();
+
+public slots:
+    void on_messagePreviewClicked(const QModelIndex &index);
 
 private slots:
     bool  controlSaisie();
@@ -223,6 +227,15 @@ void on_pbrefresh_clicked();
     void on_pb_back_2_clicked();
 
     void on_lesearch_2_textChanged(const QString &arg1);
+
+    void on_pushButton_13_clicked();
+
+    void on_pushButton_send_clicked();
+    void displayReceivedMessages(QString receiver);
+
+    void on_BackSupprimer_2_clicked();
+
+    void on_ChatBoxButton_clicked();
 
 private:
     Ui::MainWindow *ui;
