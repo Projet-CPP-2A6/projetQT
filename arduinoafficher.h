@@ -20,7 +20,7 @@ public:
 private:
     Ui::arduinoafficher *ui;
     QByteArray data; // variable contenant les données reçues
-    Arduino A; // objet temporaire
+    Arduino A; // objet temporaire.
 private slots:
     void update_label();
     void on_onlcd_clicked();

@@ -18,8 +18,8 @@ QSerialPort *Arduino::getserial()
    return serial;
 }
 int Arduino::connect_arduino()
-{   // recherche du port sur lequel la carte arduino identifée par  arduino_uno_vendor_id
-    // est connectée
+{   // recherche du port sur lequel la carte arduino identifée par  arduino_uno_vendor_id.
+    // est connectée.
     foreach (const QSerialPortInfo &serial_port_info, QSerialPortInfo::availablePorts()){
            if(serial_port_info.hasVendorIdentifier() && serial_port_info.hasProductIdentifier()){
                if(serial_port_info.vendorIdentifier() == arduino_uno_vendor_id && serial_port_info.productIdentifier()

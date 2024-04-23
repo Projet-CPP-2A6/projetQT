@@ -14,7 +14,7 @@ arduinoafficher::arduinoafficher(QWidget *parent) :
        break;
     case(-1):qDebug() << "arduino is not available";
     }
-     QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
+     QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer.
      //le slot update_label suite à la reception du signal readyRead (reception des données).
 }
 
