@@ -15,12 +15,15 @@ int main(int argc, char *argv[])
     Connection c;
     bool test=c.createConnection();
     if(test)
-    {w.show();
-        QMessageBox::information(nullptr, QObject::tr("database is open"),
-                    QObject::tr("connection successful.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
+    {
+         w.show();
+         QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+         notifyIcon->setIcon(QIcon("C:/Users/salem/Downloads/logoartnexus.png"));
+         notifyIcon->show();
+         // Affiche un message d'information avec une durée d'affichage de 15 secondes
+         notifyIcon->showMessage("database is open","connection successful",QSystemTrayIcon::Information,15000);
 
-}
+            }
     else
         QMessageBox::critical(nullptr, QObject::tr("database is not open"),
                     QObject::tr("connection failed.\n"

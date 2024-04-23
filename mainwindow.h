@@ -11,6 +11,12 @@
 #include "association.h"
 #include "oeuvre.h"
 #include "employe.h"
+#include <QMediaPlayer>
+#include <QVideoWidget>
+#include <QtWidgets>
+#include <QQuickWidget>
+#include <QFileDialog>
+#include "notification.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -22,7 +28,11 @@ class ArtNexus : public QMainWindow
 public:
     ArtNexus(QWidget *parent = nullptr);
     ~ArtNexus();
- void seConnecter();
+
+ void afficherchatboxx();
+ QString affichermsg(QString RECEIVER);
+public slots:
+  void on_messagePreviewClicked(const QModelIndex &index);
 private slots:
     bool  controlSaisie();
     void on_add_r_clicked();
@@ -240,6 +250,23 @@ void on_pbrefresh_clicked();
 
     void on_stats_clicked();
 
+void on_pbps_clicked();
+void on_pushButton_27_clicked();
+
+void displayReceivedMessages(QString receiver);
+
+void on_BackSupprimer_5_clicked();
+
+void on_ChatBoxButton_3_clicked();
+void on_pushButton_send_2_clicked();
+void on_btn_addvd_clicked();
+void on_pushButton_pvd_3_clicked();
+void playeVd(QPushButton *p );
+void on_verticalSlider_3_sliderMoved(int position);
+void on_horizontalSlider_3_sliderMoved(int position);
+void on_positionChanged(qint64 position);
+void on_durationChanged(qint64 position);
+void on_closeVdBtn_3_clicked();
 private:
     Ui::MainWindow *ui;
     int selected;
@@ -253,5 +280,9 @@ private:
 QStandardItemModel *model;
 QSortFilterProxyModel *proxyModel;
 artiste art;
+notification notif;
+QString FILEPATH;
+QMediaPlayer *player = new QMediaPlayer;
+ QVideoWidget *videoWidget = new QVideoWidget;
 };
 #endif // MAINWINDOW_H

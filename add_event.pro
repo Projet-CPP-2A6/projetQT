@@ -1,4 +1,4 @@
-QT       += core gui sql charts network location
+QT       += core gui sql charts network location multimedia multimediawidgets widgets quickwidgets
 QT += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -19,24 +19,29 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     artiste.cpp \
     association.cpp \
+    chatbox.cpp \
     connection.cpp \
     employe.cpp \
     event.cpp \
     main.cpp \
     mainwindow.cpp \
+    notification.cpp \
     oeuvre.cpp \
     qrcode.cpp \
     smtp.cpp \
     statsdialog.cpp
-INCLUDEPATH += "C:\Users\DELL\Downloads\eigen-3.4.0\eigen-3.4.0"
+INCLUDEPATH += "C:\Users\salem\Downloads\eigen-3.4.0"
+
 
 HEADERS += \
     artiste.h \
     association.h \
+    chatbox.h \
     connection.h \
     employe.h \
     event.h \
     mainwindow.h \
+    notification.h \
     oeuvre.h \
     qrcode.h \
     smtp.h \
@@ -52,3 +57,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    ressources.qrc
