@@ -90,4 +90,37 @@ QSqlQueryModel * Employe::afficher()
         return model;
 
  }
+ bool Employe::seConnecter()
+ {
+     QSqlQuery query;
+     query.prepare("SELECT * FROM EMPLOYE WHERE email = :email AND mdp = :password");
+     query.bindValue(":email",email);
+     query.bindValue(":password",mdp);
+     query.exec();
+     if(query.next()){
+         this->nom_e = query.value(1).toString();
+         this->prenom_e = query.value(2).toString();
+         this->id_e = query.value(0).toInt();
+         return true;
+     }
+     return false;
+ }
+
+ QSqlQueryModel * Employe::afficher_calendar(QDate x)
+ {
+     QSqlQueryModel * model= new QSqlQueryModel();
+     QString x1=QString::number(x.month()),x2=QString::number(x.day()),x3=QString::number(x.year());
+     model->setQuery("select * from EMPLOYE where(extract(day  from DEBUT_CONGE)='"+x2+"' and extract(month  from DEBUT_CONGE)='"+x1+"' and extract(year  from DEBUT_CONGE)='"+x3+"') OR (extract(day  from FIN_CONGE)='"+x2+"' and extract(month  from FIN_CONGE)='"+x1+"' and extract(year  from FIN_CONGE)='"+x3+"')");
+     model->setHeaderData(0,Qt::Horizontal,QObject::tr("ID"));
+     model->setHeaderData(1,Qt::Horizontal,QObject::tr("nom"));
+     model->setHeaderData(2,Qt::Horizontal,QObject::tr("prenom"));
+     model->setHeaderData(3,Qt::Horizontal,QObject::tr("telephone"));
+     model->setHeaderData(5,Qt::Horizontal,QObject::tr("salaire"));
+     model->setHeaderData(4,Qt::Horizontal,QObject::tr("role"));
+     model->setHeaderData(6,Qt::Horizontal,QObject::tr("debut_conge"));
+     model->setHeaderData(7,Qt::Horizontal,QObject::tr("fin_conge"));
+     model->setHeaderData(8,Qt::Horizontal,QObject::tr("email"));
+     model->setHeaderData(9,Qt::Horizontal,QObject::tr("mdp"));
+     return model;
+ }
 

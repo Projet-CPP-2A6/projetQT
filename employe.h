@@ -47,6 +47,8 @@ public:
     bool supprimer(int);
     bool modifier( int );
     QSqlQueryModel * tri();
+    bool seConnecter();
+    QSqlQueryModel * afficher_calendar(QDate x);
 
 
 };

@@ -19,6 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     artiste.cpp \
     association.cpp \
+    chatbox.cpp \
     connection.cpp \
     employe.cpp \
     event.cpp \
@@ -26,32 +27,36 @@ SOURCES += \
     mainwindow.cpp \
     notification.cpp \
     oeuvre.cpp \
+    qrcode.cpp \
     smtp.cpp \
     statsdialog.cpp
+INCLUDEPATH += "C:\Users\medal\Downloads\eigen-3.4.0"
+
 
 HEADERS += \
     artiste.h \
     association.h \
+    chatbox.h \
     connection.h \
     employe.h \
     event.h \
     mainwindow.h \
     notification.h \
     oeuvre.h \
+    qrcode.h \
     smtp.h \
     statsdialog.h
 
 FORMS += \
     dialog.ui \
+    dialog1.ui \
+    dialogemp.ui \
     mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-DISTFILES += \
-    ressources/map.qml
 
 RESOURCES += \
     ressources.qrc

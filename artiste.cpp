@@ -92,6 +92,27 @@ QSqlQueryModel * artiste::triNom()
            return model;
 
 }
+QSqlQueryModel * artiste::triNat()
+{
+        QSqlQueryModel * model = new QSqlQueryModel();
+           model->setQuery("SELECT * FROM artiste ORDER BY nationalite asc");
+           return model;
+
+}
+QSqlQueryModel * artiste::triId()
+{
+        QSqlQueryModel * model = new QSqlQueryModel();
+           model->setQuery("SELECT * FROM artiste ORDER BY id asc");
+           return model;
+
+}
+QSqlQueryModel* artiste::findbyid(int NUMERO)
+{
+    QSqlQueryModel *modal = new QSqlQueryModel();
+    modal->setQuery("SELECT * FROM artiste WHERE id LIKE '%" + QString::number(NUMERO) + "%'");
+    return modal;
+}
+
 void artiste::setId(int id)
 {
     this->id = id;

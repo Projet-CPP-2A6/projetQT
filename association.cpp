@@ -75,3 +75,18 @@ QSqlQueryModel * Association::tri()
       return model;
 }
 
+int Association::login(QString email, QString mdp)
+{
+int row_count = 0;
+QSqlQuery query;
+query.prepare("SELECT * FROM CADMIN where NOM=? and MOTDEPASSE=? ");
+query.addBindValue(email);
+    query.addBindValue(mdp);
+ query.exec();
+ while(query.next())
+ {
+     row_count++;
+ }
+qDebug() << "Number of Rows: " << row_count;
+return row_count;
+}

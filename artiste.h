@@ -41,8 +41,10 @@ public:
     bool ADD();
     bool artisteExists(int id);
     bool UPDATE();
+    QSqlQueryModel* triNat();
+    QSqlQueryModel* triId();
     QSqlQueryModel* triNom();
-
+QSqlQueryModel*  findbyid(int NUMERO);
 
 };
 

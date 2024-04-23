@@ -84,7 +84,7 @@ public:
     bool modifier();
     bool supprimer(int);
     QSqlQueryModel *tri();
-
+int login(QString email , QString mdp);
 
 };
 

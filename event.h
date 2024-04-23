@@ -4,9 +4,6 @@
 #include<QSqlQuery>
 #include<QSqlQueryModel>
 #include <QDate>
-#include <QtQml>
-
-
 class event
 {
 private :
@@ -15,6 +12,7 @@ private :
 
 
 public:
+
 
     event();
     event(int id_event,QString nom_event,QString descript_event,QString location,QString date_event)
@@ -81,6 +79,8 @@ public:
     bool supprimer(int id_event);
     bool supprimerTous();
     QSqlQueryModel* triNom();
+    QSqlQueryModel* triLocation();
+    QSqlQueryModel* triId();
     int stat(QString occ);
 
 

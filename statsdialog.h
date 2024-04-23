@@ -17,6 +17,9 @@ public:
     ~Dialog();
 
     void setChartData(const QMap<QString, QList<int>> &data);
+    void setChartDataassoc(const QMap<QString, double> &data);
+    void setChartDataemp(const QMap<QString, QList<int>> &data);
+     void setPredictiveChartData();
 
 private:
     Ui::Dialog *ui;

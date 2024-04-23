@@ -68,7 +68,21 @@ bool event::modifier(){
 QSqlQueryModel * event::triNom()
 {
     QSqlQueryModel * model = new QSqlQueryModel();
-       model->setQuery("SELECT * FROM event ORDER BY nom_event");
+       model->setQuery("SELECT * FROM event ORDER BY nom_event asc");
+       return model;
+
+}
+QSqlQueryModel * event::triLocation()
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+       model->setQuery("SELECT * FROM event ORDER BY location asc");
+       return model;
+
+}
+QSqlQueryModel * event::triId()
+{
+    QSqlQueryModel * model = new QSqlQueryModel();
+       model->setQuery("SELECT * FROM event ORDER BY id_event asc");
        return model;
 
 }

@@ -10,7 +10,6 @@ class Oeuvre
 {
 signals:
     void cityNameChanged(const QString &cityName);
-
 public:
     QString FILEPATH;
     QString id_artiste,id_event;
@@ -22,9 +21,6 @@ public:
     void setTYPE(QString n);
     void setPOSITION(QString n);
     void setETAT(QString n);
-    void setLOCATION(QString n);
-
-
 
     QString get_REFERENCE();
     QString get_NOM();
@@ -34,13 +30,11 @@ public:
     QString get_TYPE();
     QString get_POSITION();
     QString get_ETAT();
-    QString get_LOCATION();
 
 
     Oeuvre();
-    Oeuvre(QString ,QString ,int,QString,QDate,QString,QString,QString,QString);
-    Oeuvre(QString ,QString ,int,QString,QDate,QString,QString,QString,QString,QString,QString,QString);
-
+    Oeuvre(QString ,QString ,int,QString,QDate,QString,QString,QString);
+    Oeuvre(QString ,QString ,int,QString,QDate,QString,QString,QString,QString,QString,QString);
     int nombreDeVentes();
 public slots:
     bool ajouter();
@@ -49,17 +43,10 @@ public slots:
     bool modifier( QString );
     QSqlQueryModel * rechercherOEUVRES(QString recherche);
     QSqlQueryModel * triOEUVRES(QString tri);
-
-
-
-
-
 private:
-    QString REFERENCE,NOM,DESCRIPTION,TYPE,POSITION,ETAT,LOCATION;
+    QString REFERENCE,NOM,DESCRIPTION,TYPE,POSITION,ETAT;
     QDate DATEC;
     int PRICE;
-
-
 };
 
 

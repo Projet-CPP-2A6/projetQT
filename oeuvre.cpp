@@ -11,22 +11,10 @@ Oeuvre::Oeuvre()
     TYPE="";
     POSITION="";
     ETAT="";
-    LOCATION="";
-}
-Oeuvre::Oeuvre(QString REFERENCE,QString NOM,int PRICE,QString DESCRIPTION,QDate DATEC,QString TYPE,QString POSITION,QString ETAT,QString LOCATION)
-{
-    this->REFERENCE=REFERENCE;
-    this->NOM=NOM;
-    this->PRICE=PRICE;
-    this->DESCRIPTION=DESCRIPTION;
-    this->DATEC=DATEC;
-     this->TYPE=TYPE;
-     this->POSITION=POSITION;
-     this->ETAT=ETAT;
-    this->LOCATION=LOCATION;
+
 
 }
-Oeuvre::Oeuvre(QString REFERENCE,QString NOM,int PRICE,QString DESCRIPTION,QDate DATEC,QString TYPE,QString POSITION,QString ETAT,QString LOCATION,QString FILEPATH,QString id_artiste,QString id_event)
+Oeuvre::Oeuvre(QString REFERENCE,QString NOM,int PRICE,QString DESCRIPTION,QDate DATEC,QString TYPE,QString POSITION,QString ETAT)
 {
     this->REFERENCE=REFERENCE;
     this->NOM=NOM;
@@ -36,7 +24,20 @@ Oeuvre::Oeuvre(QString REFERENCE,QString NOM,int PRICE,QString DESCRIPTION,QDate
      this->TYPE=TYPE;
      this->POSITION=POSITION;
      this->ETAT=ETAT;
-    this->LOCATION=LOCATION;
+
+
+}
+Oeuvre::Oeuvre(QString REFERENCE,QString NOM,int PRICE,QString DESCRIPTION,QDate DATEC,QString TYPE,QString POSITION,QString ETAT,QString FILEPATH,QString id_artiste,QString id_event)
+{
+    this->REFERENCE=REFERENCE;
+    this->NOM=NOM;
+    this->PRICE=PRICE;
+    this->DESCRIPTION=DESCRIPTION;
+    this->DATEC=DATEC;
+     this->TYPE=TYPE;
+     this->POSITION=POSITION;
+     this->ETAT=ETAT;
+
     this->FILEPATH=FILEPATH;
     this->id_artiste=id_artiste;
     this->id_event=id_event;
@@ -51,7 +52,6 @@ void Oeuvre::setDATEC(QDate date){DATEC=date;}
 void Oeuvre::setTYPE(QString n){TYPE=n;}
 void Oeuvre::setPOSITION(QString n){POSITION=n;}
 void Oeuvre::setETAT(QString n){ETAT=n;}
-void Oeuvre::setLOCATION(QString n){LOCATION=n;}
 
 
 QString Oeuvre::get_REFERENCE(){return REFERENCE;}
@@ -62,14 +62,14 @@ QDate Oeuvre::get_DATEC(){return DATEC;}
 QString Oeuvre::get_TYPE(){return TYPE;}
 QString Oeuvre::get_POSITION(){return POSITION;}
 QString Oeuvre::get_ETAT(){return ETAT;}
-QString Oeuvre::get_LOCATION(){return LOCATION;}
+
 
 
 bool Oeuvre::ajouter()
   {
       QSqlQuery query;
       QString res=QString::number(PRICE);
-      query.prepare("insert into OEUVRES (REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,LOCATION,FILEPATH,id_artiste,id_event )""values(:ref,:name,:price,:description,:datec,:TYPE,:POSITION,:ETAT,:LOCATION,:FILEPATH,:id_artiste,:id_event)");
+      query.prepare("insert into OEUVRES (REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,FILEPATH,id_artiste,id_event )""values(:ref,:name,:price,:description,:datec,:TYPE,:POSITION,:ETAT,:FILEPATH,:id_artiste,:id_event)");
       query.bindValue(":ref", REFERENCE);
       query.bindValue(":name", NOM);
       query.bindValue(":price", res);
@@ -78,7 +78,7 @@ bool Oeuvre::ajouter()
       query.bindValue(":TYPE", TYPE);
       query.bindValue(":POSITION", POSITION);
       query.bindValue(":ETAT", ETAT);
-      query.bindValue(":LOCATION", LOCATION);
+
       query.bindValue(":FILEPATH", FILEPATH);
       query.bindValue(":id_artiste", id_artiste);
       query.bindValue(":id_event", id_event);
@@ -88,7 +88,7 @@ bool Oeuvre::ajouter()
   QSqlQueryModel *Oeuvre::afficher()
   {
   QSqlQueryModel *model=new QSqlQueryModel();
-  model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,LOCATION,FILEPATH,id_artiste,id_event from OEUVRES");
+  model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,FILEPATH,id_artiste,id_event from OEUVRES");
   model->setHeaderData(0,Qt::Horizontal,QObject::tr("REFERENCE"));
   model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
   model->setHeaderData(3,Qt::Horizontal,QObject::tr("DESCRIPTION"));
@@ -97,10 +97,10 @@ bool Oeuvre::ajouter()
   model->setHeaderData(5,Qt::Horizontal,QObject::tr("TYPE"));
   model->setHeaderData(6,Qt::Horizontal,QObject::tr("POSITION"));
   model->setHeaderData(7,Qt::Horizontal,QObject::tr("ETAT"));
-  model->setHeaderData(8,Qt::Horizontal,QObject::tr("LOCATION"));
-  model->setHeaderData(9,Qt::Horizontal,QObject::tr("FILEPATH"));
-  model->setHeaderData(10,Qt::Horizontal,QObject::tr("id_artiste"));
-  model->setHeaderData(11,Qt::Horizontal,QObject::tr("id_event"));
+
+  model->setHeaderData(8,Qt::Horizontal,QObject::tr("FILEPATH"));
+  model->setHeaderData(9,Qt::Horizontal,QObject::tr("id_artiste"));
+  model->setHeaderData(10,Qt::Horizontal,QObject::tr("id_event"));
 
 
 
@@ -119,7 +119,7 @@ bool Oeuvre::ajouter()
 
       QSqlQuery query;
           QString res=QString::number(PRICE);
-            query.prepare("UPDATE OEUVRES SET REFERENCE=:ref, NOM=:nom, PRICE=:price , DESCRIPTION=:description ,DATEC=:datec,TYPE=:TYPE,POSITION=:POSITION,ETAT=:ETAT,LOCATION=:LOCATION,id_artiste=:id_artiste,id_event=:id_event where reference='"+REFERENCE+"' ");
+            query.prepare("UPDATE OEUVRES SET REFERENCE=:ref, NOM=:nom, PRICE=:price , DESCRIPTION=:description ,DATEC=:datec,TYPE=:TYPE,POSITION=:POSITION,ETAT=:ETAT,id_artiste=:id_artiste,id_event=:id_event where reference='"+REFERENCE+"' ");
             query.bindValue(":ref", REFERENCE);
             query.bindValue(":nom", NOM);
             query.bindValue(":price", res);
@@ -128,7 +128,6 @@ bool Oeuvre::ajouter()
             query.bindValue(":TYPE", TYPE);
             query.bindValue(":POSITION", POSITION);
             query.bindValue(":ETAT", ETAT);
-            query.bindValue(":LOCATION", LOCATION);
             query.bindValue(":id_artiste", id_artiste);
             query.bindValue(":id_event", id_event);
 
@@ -147,7 +146,7 @@ bool Oeuvre::ajouter()
       model->setHeaderData(5,Qt::Horizontal,QObject::tr("TYPE"));
       model->setHeaderData(6,Qt::Horizontal,QObject::tr("POSITION"));
       model->setHeaderData(7,Qt::Horizontal,QObject::tr("ETAT"));
-      model->setHeaderData(8,Qt::Horizontal,QObject::tr("LOCATION"));
+
 
       return model;
 
@@ -156,13 +155,13 @@ QSqlQueryModel * Oeuvre::triOEUVRES(QString tri)
 {
     QSqlQueryModel * model = new QSqlQueryModel();
     if(tri == "Tri par defaut"){
-        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,LOCATION from OEUVRES");}
+        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT from OEUVRES");}
     else if(tri == "Tri Par Price"){
-        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,LOCATION from OEUVRES ORDER BY PRICE asc");
+        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT from OEUVRES ORDER BY PRICE asc");
         }else if (tri == "Tri Par Reference") {
-        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,LOCATION from OEUVRES ORDER BY REFERENCE asc ");
+        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT from OEUVRES ORDER BY REFERENCE asc ");
     } else if (tri == "Tri Par Nom") {
-        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,LOCATION from OEUVRES ORDER BY NOM asc");
+        model->setQuery("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT from OEUVRES ORDER BY NOM asc");
     }
     model->setHeaderData(2,Qt::Horizontal,QObject::tr("PRICE"));
     model->setHeaderData(0,Qt::Horizontal,QObject::tr("REFERENCE"));
@@ -170,4 +169,3 @@ QSqlQueryModel * Oeuvre::triOEUVRES(QString tri)
     return model;
 
 }
-

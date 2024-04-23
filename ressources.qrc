@@ -1,6 +1,5 @@
 <RCC>
-    <qresource prefix="/">
-        <file>ressources/map.qml</file>
-        <file>ressources/icons8-effacer-48.png</file>
+    <qresource prefix="/new/prefix1">
+        <file>icons8-effacer-48.png</file>
     </qresource>
 </RCC>
