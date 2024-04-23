@@ -2,6 +2,7 @@ QT       += core gui
 QT       += core gui sql
 QT +=printsupport
 QT += charts
+QT       += core gui serialport
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -13,6 +14,8 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arduino.cpp \
+    arduinotemp.cpp \
     association.cpp \
     chatbox.cpp \
     connexion.cpp \
@@ -22,6 +25,8 @@ SOURCES += \
 INCLUDEPATH += "C:\Users\DELL\Downloads\eigen-3.4.0\eigen-3.4.0"
 
 HEADERS += \
+    arduino.h \
+    arduinotemp.h \
     association.h \
     chatbox.h \
     connexion.h \
@@ -29,6 +34,7 @@ HEADERS += \
     statdialog.h
 
 FORMS += \
+    arduinotemp.ui \
     dialog.ui \
     mainwindow.ui
 

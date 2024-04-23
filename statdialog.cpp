@@ -44,7 +44,6 @@ void Dialog::setChartData(const QMap<QString, double> &data)
 
 void Dialog::setPredictiveChartData()
 {
-    // Fetch data from the database
     QSqlQuery query;
     query.prepare("SELECT montant_association, domaine_association FROM associations");
     if (!query.exec()) {
@@ -53,7 +52,6 @@ void Dialog::setPredictiveChartData()
         return;
     }
 
-    // Prepare data for linear regression
     QVector<double> montantData;
     QVector<double> domaineData;
 
@@ -61,7 +59,6 @@ void Dialog::setPredictiveChartData()
         double montant = query.value(0).toDouble();
         QString domaine = query.value(1).toString();
 
-        // Convert domain to numerical values (for example, using one-hot encoding)
         double domainValue = 0.0;
         if (domaine == "sante") {
             domainValue = 1.0;
@@ -75,18 +72,15 @@ void Dialog::setPredictiveChartData()
         domaineData.append(domainValue);
     }
 
-    // Perform linear regression using Eigen library
     Eigen::MatrixXd X(montantData.size(), 2); // Matrix to store input data
     Eigen::VectorXd y(montantData.size());    // Vector to store output data
 
-    // Populate input and output data
     for (int i = 0; i < montantData.size(); ++i) {
         X(i, 0) = 1.0;          // Intercept term
         X(i, 1) = domaineData[i]; // Domain value
         y(i) = montantData[i]; // Montant value
     }
 
-    // Calculate coefficients (parameters) for linear regression
     Eigen::VectorXd coeffs;
     if (montantData.size() > 0) {
         coeffs = X.colPivHouseholderQr().solve(y);
@@ -96,14 +90,12 @@ void Dialog::setPredictiveChartData()
         return;
     }
 
-    // Predict montant_association for each domaine_association
     QMap<QString, double> predictiveData;
 
     for (int i = 0; i < domaineData.size(); ++i) {
         QString domain;
         double montant = coeffs[0] + coeffs[1] * domaineData[i];
 
-        // Convert numerical domain value back to string
         if (domaineData[i] == 1.0) {
             domain = "sante";
         } else if (domaineData[i] == 2.0) {
@@ -114,7 +106,6 @@ void Dialog::setPredictiveChartData()
         predictiveData[domain] += montant;
     }
 
-    // Normalize predicted data (sum to 100%)
     double totalMontant = std::accumulate(predictiveData.begin(), predictiveData.end(), 0.0,
                                           [](double sum, const QMap<QString, double>::mapped_type& p) {
                                               return sum + p;
@@ -130,7 +121,6 @@ void Dialog::setPredictiveChartData()
         return;
     }
 
-    // Update chart with predictive statistics data
     setChartData(predictiveData);
 }
 

@@ -83,7 +83,7 @@ public:
     QSqlQueryModel *afficher();
     bool modifier();
     bool supprimer(int);
-    QSqlQueryModel *tri1(const QString &columnName);
+    QSqlQueryModel *tri(const QString &columnName);
     int login(QString email , QString mdp);
 
 

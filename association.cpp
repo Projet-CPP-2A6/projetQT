@@ -68,12 +68,14 @@ bool Association::supprimer(int id)
 
     return  query.exec();
 }
-QSqlQueryModel * Association::tri1(const QString &columnName)
+QSqlQueryModel * Association::tri(const QString &columnName)
 {
     QSqlQueryModel * model = new QSqlQueryModel();
     model->setQuery("SELECT * FROM ASSOCIATIONS ORDER BY " + columnName);
     return model;
 }
+
+
 int Association::login(QString email, QString mdp)
 {
 int row_count = 0;
@@ -89,5 +91,4 @@ query.addBindValue(email);
 qDebug() << "Number of Rows: " << row_count;
 return row_count;
 }
-
 
