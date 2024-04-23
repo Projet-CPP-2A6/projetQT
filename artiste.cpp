@@ -88,7 +88,7 @@ bool artiste::artisteExists(int id)
 QSqlQueryModel * artiste::triNom()
 {
         QSqlQueryModel * model = new QSqlQueryModel();
-           model->setQuery("SELECT * FROM artiste ORDER BY nom asc");
+           model->setQuery("SELECT * FROM artiste ORDER BY nom");
            return model;
 
 }
@@ -112,7 +112,6 @@ QSqlQueryModel* artiste::findbyid(int NUMERO)
     modal->setQuery("SELECT * FROM artiste WHERE id LIKE '%" + QString::number(NUMERO) + "%'");
     return modal;
 }
-
 
 void artiste::setId(int id)
 {
