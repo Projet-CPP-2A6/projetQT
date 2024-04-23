@@ -1,5 +1,6 @@
 QT       += core gui sql charts network location multimedia multimediawidgets widgets quickwidgets
 QT += printsupport
+QT       += core gui serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,6 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arduino.cpp \
+    arduinoafficher.cpp \
     artiste.cpp \
     association.cpp \
     chatbox.cpp \
@@ -34,6 +37,8 @@ INCLUDEPATH += "C:\Users\amine\Desktop\int_event\int_event\eigen-3.4.0"
 
 
 HEADERS += \
+    arduino.h \
+    arduinoafficher.h \
     artiste.h \
     association.h \
     chatbox.h \
@@ -48,6 +53,7 @@ HEADERS += \
     statsdialog.h
 
 FORMS += \
+    arduinoafficher.ui \
     dialog.ui \
     dialog1.ui \
     dialogemp.ui \
