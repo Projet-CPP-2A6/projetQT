@@ -27,7 +27,7 @@
      <string notr="true">background-color: rgb(164, 133, 105);</string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="stackedWidgetEvent">
      <widget class="QLabel" name="label_salemdiber">
@@ -2570,6 +2570,34 @@ background-color: #C29E7E;
          </property>
          <property name="text">
           <string>Tri id</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="arduino">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>260</y>
+           <width>101</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:white;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+         </property>
+         <property name="text">
+          <string>arduino</string>
          </property>
         </widget>
        </widget>
@@ -9441,7 +9469,7 @@ QLabel {
      <x>0</x>
      <y>0</y>
      <width>1251</width>
-     <height>22</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>

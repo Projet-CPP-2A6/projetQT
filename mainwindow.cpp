@@ -33,6 +33,8 @@
 #include "association.h"
 #include "qrcode.h"
 #include "notification.h"
+#include "arduino.h"
+#include "arduinotemp.h"
 ArtNexus::ArtNexus(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -2178,4 +2180,17 @@ void ArtNexus::on_pushButton_send_2_clicked()
     } else {
         QMessageBox::critical(this, "Error", "Failed to send message. Please try again.");
     }
+}
+
+void ArtNexus::on_arduino_clicked()
+{
+
+    // Create an instance of arduinotemp dialog
+        arduinotemp *arduinoTempDialog = new arduinotemp(this);
+
+        // Hide the current MainWindow
+        this->hide();
+
+        // Show the arduinotemp dialog
+        arduinoTempDialog->show();
 }

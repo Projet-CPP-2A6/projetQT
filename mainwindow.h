@@ -267,6 +267,8 @@ void on_horizontalSlider_3_sliderMoved(int position);
 void on_positionChanged(qint64 position);
 void on_durationChanged(qint64 position);
 void on_closeVdBtn_3_clicked();
+void on_arduino_clicked();
+
 private:
     Ui::MainWindow *ui;
     int selected;

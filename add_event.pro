@@ -19,7 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     arduino.cpp \
-    arduinoafficher.cpp \
+    arduinotemp.cpp \
     artiste.cpp \
     association.cpp \
     chatbox.cpp \
@@ -38,7 +38,7 @@ INCLUDEPATH += "C:\Users\amine\Desktop\int_event\int_event\eigen-3.4.0"
 
 HEADERS += \
     arduino.h \
-    arduinoafficher.h \
+    arduinotemp.h \
     artiste.h \
     association.h \
     chatbox.h \
@@ -53,7 +53,7 @@ HEADERS += \
     statsdialog.h
 
 FORMS += \
-    arduinoafficher.ui \
+    arduinotemp.ui \
     dialog.ui \
     dialog1.ui \
     dialogemp.ui \
