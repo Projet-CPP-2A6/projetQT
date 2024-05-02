@@ -56,104 +56,166 @@ QLabel {
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:24pt; color:#a48569;&quot;&gt;Capteur temperature&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="onlm35">
+  <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>160</y>
-     <width>211</width>
-     <height>51</height>
+     <x>185</x>
+     <y>110</y>
+     <width>191</width>
+     <height>141</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QPushButton {
-    font-size: 12pt; /* Larger font size */
-    border: 2px solid #000000; /* Black border */
-    border-radius: 15px; /* Rounded corners */
-    padding: 10px 20px; /* Padding */
-    color: #8B4513; /* White text */
-    background-color: #FFF5E1; /* Gold background */
+    <string notr="true">background-color :#FFF5E1 ;
+border:1px solid black ; 
+border-radius:16px</string>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>145</x>
+      <y>17</y>
+      <width>21</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border : 0 px  ; 
+font-size:25px </string>
+    </property>
+    <property name="text">
+     <string>°</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>46</x>
+      <y>20</y>
+      <width>101</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border:0px ;
+font-size:80px ;
+font-weight : bold ; 
+balckground-color:transparent ; </string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>157</x>
+      <y>17</y>
+      <width>21</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border : 0 px  ; 
+font-size:40px </string>
+    </property>
+    <property name="text">
+     <string>c</string>
+    </property>
+   </widget>
+   <zorder>label_2</zorder>
+   <zorder>label</zorder>
+   <zorder>label_3</zorder>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>156</x>
+     <y>312</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#pushButton{
+	background-color : #FFF5E1 ; 
+	border : 1px  solid black ; 
+	border-radius : 10px ; 
+	color : black ; 
 }
-
-QPushButton:hover {
-    background-color: #A48569; /* Lighter gold on hover */
-}
-
-QPushButton:pressed {
-    background-color: #A48569; /* Slightly darker gold when pressed */
+#pushButton:hover {
+	background-color: #a48569 ; 
+	color : white ; 
 }</string>
    </property>
    <property name="text">
-    <string>ON</string>
+    <string>Stop</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="offlm35">
+  <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>230</y>
-     <width>211</width>
-     <height>51</height>
+     <x>288</x>
+     <y>312</y>
+     <width>121</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QPushButton {
-    font-size: 12pt; /* Larger font size */
-    border: 2px solid #000000; /* Black border */
-    border-radius: 15px; /* Rounded corners */
-    padding: 10px 20px; /* Padding */
-    color: #8B4513; /* White text */
-    background-color: #FFF5E1; /* Gold background */
+    <string notr="true">#pushButton_2{
+	background-color : #FFF5E1 ; 
+	border : 1px  solid black ; 
+	border-radius : 10px ; 
+	color : black ; 
 }
-
-QPushButton:hover {
-    background-color: #A48569; /* Lighter gold on hover */
-}
-
-QPushButton:pressed {
-    background-color: #A48569; /* Slightly darker gold when pressed */
+#pushButton_2:hover {
+	background-color: #a48569 ; 
+	color : white ; 
 }</string>
    </property>
    <property name="text">
-    <string>OFF</string>
+    <string>Start </string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_etat">
+  <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>310</y>
-     <width>421</width>
-     <height>61</height>
+     <x>160</x>
+     <y>269</y>
+     <width>241</width>
+     <height>31</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
    <property name="styleSheet">
-    <string notr="true">/* Style for the label */
-background-color: rgb(232, 215, 198);
-QLabel {
-    font-size: 40px; /* Font size */
-    font-weight: bold; /* Bold font */
-    color: #ffffff; /* White text color */
-    text-transform: uppercase; /* Uppercase text */
-    letter-spacing: 2px; /* Letter spacing */
-    padding: 10px 20px; /* Padding */
- 
-    border-radius: 30px; /* Rounded corners */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Shadow */
-    transition: background-color 0.3s ease; /* Smooth transition */
-}
-
-
-</string>
+    <string notr="true">font-size: 20 px ; </string>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt; font-weight:400; color:#000000;&quot;&gt;Etat:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>264</y>
+     <width>81</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#pushButton_3{
+	background-color : #FFF5E1 ; 
+	border : 1px  solid black ; 
+	border-radius : 10px ; 
+	color : black ; 
+}
+#pushButton_3:hover {
+	background-color: #a48569 ; 
+	color : white ; 
+}</string>
+   </property>
+   <property name="text">
+    <string>refresh</string>
    </property>
   </widget>
  </widget>

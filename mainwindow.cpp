@@ -473,4 +473,6 @@ void MainWindow::on_arduino_clicked()
 
         // Show the arduinotemp dialog
         arduinoTempDialog->show();
+
+
 }

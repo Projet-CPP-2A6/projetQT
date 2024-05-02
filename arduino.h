@@ -21,7 +21,7 @@ static const quint16 arduino_uno_vendor_id=9025;
 static const quint16 arduino_uno_producy_id=67;
 QString arduino_port_name;
 bool arduino_is_available;
-QByteArray data;  // contenant les données lues à partir d'Arduino
+QByteArray data ;  // contenant les données lues à partir d'Arduino
 };
 
 #endif // ARDUINO_H

@@ -14,7 +14,7 @@ arduinotemp::arduinotemp(QWidget *parent) :
     ui->setupUi(this);
     int ret = A.connect_arduino(); // Connect to Arduino
    if (ret) {
-        qDebug() << "arduino mrgl" ;
+        qDebug() << "arduino fonctionnel" ;
    }
 
    timer = new QTimer(this);
