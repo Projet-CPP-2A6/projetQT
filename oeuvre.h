@@ -8,7 +8,11 @@
 #include<QSqlQueryModel>
 class Oeuvre
 {
+signals:
+    void cityNameChanged(const QString &cityName);
 public:
+    QString FILEPATH;
+    QString id_artiste,id_event;
     void setREFERENCE(QString n);
     void setNOM(QString n);
     void setPRICE(int n);
@@ -27,8 +31,10 @@ public:
     QString get_POSITION();
     QString get_ETAT();
 
+
     Oeuvre();
     Oeuvre(QString ,QString ,int,QString,QDate,QString,QString,QString);
+    Oeuvre(QString ,QString ,int,QString,QDate,QString,QString,QString,QString,QString,QString);
     int nombreDeVentes();
 public slots:
     bool ajouter();

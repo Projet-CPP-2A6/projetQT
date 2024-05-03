@@ -14,6 +14,7 @@
 #include <QSortFilterProxyModel>
 #include <QSqlRecord>
 #include "event.h"
+#include "chatbox.h"
 #include "eventmodel.h"
 #include <QRegExpValidator>
 #include <qsqldatabase.h>
@@ -31,13 +32,21 @@
 #include <QRegularExpression>
 #include "association.h"
 #include "qrcode.h"
+#include "notification.h"
+#include "arduino.h"
+#include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QDateTime>
+
+
 ArtNexus::ArtNexus(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
 
     ui->setupUi(this);
-    ui->errorLogin->setVisible(false);
+
+
     connect(ui->tri_r, &QPushButton::clicked, this, &ArtNexus::on_tri_r_clicked);
     connect(ui->historique_r, &QPushButton::clicked, this, &ArtNexus::on_historique_r_clicked);
  ui->tableView->setModel(Etmp.afficher());
@@ -52,12 +61,23 @@ ui->pbrefresh->setVisible(false);
 QRegExpValidator *phoneValidator = new QRegExpValidator(QRegExp("[0-9]{8}"));
     ui->telA->setValidator(phoneValidator);  // Set the validator for the telA field
 ui->tableView_Association->setModel(Ctemp.afficher());
-
+connect(ui->tableView2_2, SIGNAL(clicked(const QModelIndex &)), this, SLOT(on_messagePreviewClicked(const QModelIndex &)));
 ui->lineEdit_price->setValidator(new QIntValidator(0,9999,this));//cs
      QRegularExpressionValidator *stringValidator = new QRegularExpressionValidator(QRegularExpression("[A-Za-z0-9]+"), this);
      ui->lineEdit_name->setValidator(stringValidator);
      ui->tableView_oeuvre->setModel(otmp.afficher());
-     ui->stackedWidget_5->setCurrentIndex(1);
+     ui->stackedWidget_ALL->setCurrentIndex(5);
+     int ret=A.connect_arduino(); // lancer la connexion à arduino
+               switch(ret){
+               case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+                   break;
+               case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+                  break;
+               case(-1):qDebug() << "arduino is not available";
+               }
+               //QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(input()));
+               QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(checkRFIDCard()));
+
 
 
 }
@@ -66,6 +86,71 @@ ArtNexus::~ArtNexus()
 {
     delete ui;
 }
+QString ref1;
+void ArtNexus::input(){
+
+
+data=A.read_from_arduino();
+    ref1= data;
+    qDebug()<<ref1.left(ref1.length()-2);
+if(ref1=="b"){
+
+    QSqlQuery query;
+    notif.notifvol(QDateTime::currentDateTime().toString("hh:mm:ss"));
+    query.prepare("insert into historic (OEUVRE,TYPE)""values(:OEUVRE,:TYPE)");
+    query.bindValue(":OEUVRE", "2");
+    query.bindValue(":TYPE", "vol");
+
+ query.exec();
+
+    ref1="0";
+}
+}
+
+void ArtNexus::checkRFIDCard()
+{
+    static QString accumulatedData;
+
+    // Lire les données IDCARD de l'Arduino
+    QByteArray newData = A.read_from_arduino();
+    QString cleanedData = QString::fromUtf8(newData).remove(QRegularExpression("[\\n\\r\\t]"));
+
+    // Accumuler les données nettoyées
+    accumulatedData += cleanedData;
+
+    // Vérifier si la longueur des données accumulées est celle attendue pour un IDCARD
+    if (accumulatedData.length() == 8) {
+        QString IDCARD = accumulatedData.trimmed(); // Nettoyer l'IDCARD
+        qDebug() << "IDCARD:" << IDCARD;
+
+        // Obtenir l'heure actuelle dans le format voulu
+        QString currentDateTimeStr = QDateTime::currentDateTime().toString("dd/MM/yy HH:mm:ss");
+
+        // Préparer la requête SQL pour mettre à jour la colonne HEURE_ENT
+        QSqlQuery query;
+        query.prepare("UPDATE EMPLOYE SET HEURE_ENT = TO_DATE(:currentDateTimeStr, 'DD/MM/RR HH24:MI:SS') WHERE IDCARD = :IDCARD");
+
+        // Lier les valeurs aux paramètres de la requête
+        query.bindValue(":currentDateTimeStr", currentDateTimeStr);
+        query.bindValue(":IDCARD", IDCARD);
+
+        // Exécuter la requête et vérifier le succès
+        if (!query.exec()) {
+            qDebug() << "Échec de la mise à jour de HEURE_ENT pour IDCARD:" << IDCARD;
+            qDebug() << "Erreur:" << query.lastError().text();
+        } else {
+            qDebug() << "Mise à jour de HEURE_ENT réussie pour IDCARD:" << IDCARD;
+        }
+
+        // Vider les données accumulées après le traitement
+        accumulatedData.clear();
+    }
+}
+
+
+
+
+
 /************************************************************PARTIE EVENT**************************************************************/
 void ArtNexus::on_pbconfirm_clicked()
 {
@@ -170,7 +255,25 @@ void ArtNexus::on_pbdelete_clicked()
             {
                 ui->tableView->setModel(e.afficher());
                 QMessageBox::information(nullptr, QObject::tr("OK"),
-                            QObject::tr("Suppression de l'élément effectuée.\n"
+                            QObject::tr(""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        "ession de l'élément effectuée.\n"
                                         "Click Cancel to exit."), QMessageBox::Cancel);
             }
             else
@@ -253,26 +356,26 @@ void ArtNexus::on_pbexportpdf_clicked()
 
 void ArtNexus::on_pbsearch_clicked()
 {
-    // Get the search string from the line edit
+
        QString searchStr = ui->lesearch->text().trimmed();
 
-       // Check if the search string is not empty
+
        if (!searchStr.isEmpty()) {
            // Create a filter for the SQL query
            QString filter = QString("nom_event LIKE '%%1%' OR descript_event LIKE '%%1%' OR location LIKE '%%1%' OR date_event LIKE '%%1%'")
                                 .arg(searchStr);
 
-           // Apply the filter to the SQL query
+
            QSqlQueryModel *filteredModel = new QSqlQueryModel();
            filteredModel->setQuery("SELECT id_event, nom_event, descript_event, location, date_event FROM event WHERE " + filter);
 
-           // Set the filtered model to the table view
+
            ui->tableView->setModel(filteredModel);
 
-           // Update the view
+
            ui->tableView->update();
        } else {
-           // If the search string is empty, display all data
+
            ui->tableView->setModel(etmp.afficher());
        }
 }
@@ -458,10 +561,10 @@ void ArtNexus::on_sendchatbtn_clicked()
            }
        }
 
-       // Clear input field after sending message
+
        ui->inputchatbot->clear();
 
-       // Scroll to the bottom of the chat window
+
        ui->chatbot->verticalScrollBar()->setValue(ui->chatbot->verticalScrollBar()->maximum());
 }
 
@@ -471,26 +574,26 @@ void ArtNexus::on_pbbot_clicked()
 }
 void ArtNexus::on_lesearch_textChanged(const QString &arg1)
 {
-    // Get the search string from the line edit
+
        QString searchStr = ui->lesearch->text().trimmed();
 
-       // Check if the search string is not empty
+
        if (!searchStr.isEmpty()) {
-           // Create a filter for the SQL query
+
            QString filter = QString("nom_event LIKE '%%1%' OR descript_event LIKE '%%1%' OR location LIKE '%%1%' OR date_event LIKE '%%1%'")
                                 .arg(searchStr);
 
-           // Apply the filter to the SQL query
+
            QSqlQueryModel *filteredModel = new QSqlQueryModel();
            filteredModel->setQuery("SELECT id_event, nom_event, descript_event, location, date_event FROM event WHERE " + filter);
 
-           // Set the filtered model to the table view
+
            ui->tableView->setModel(filteredModel);
 
-           // Update the view
+
            ui->tableView->update();
        } else {
-           // If the search string is empty, display all data
+
            ui->tableView->setModel(etmp.afficher());
        }
 }
@@ -1150,7 +1253,20 @@ void ArtNexus::on_pushButton_9_clicked()
 void ArtNexus::on_pushButton_18_clicked()
 {
     ui->stackedWidget_4->setCurrentIndex(1);
-
+    ui->stackedWidget_4->setCurrentIndex(1);
+    QSqlQuery query;
+     ui->comboBox_idevent_4->clear();
+      ui->comboBox_idartiste_5->clear();
+    query.prepare("select id_event from event");
+    query.exec();
+    while (query.next()) {
+        ui->comboBox_idevent_4->addItem(query.value(0).toString());
+    }
+    query.prepare("select id from artiste");
+    query.exec();
+    while (query.next()) {
+        ui->comboBox_idartiste_5->addItem(query.value(0).toString());
+    }
 }
 void ArtNexus::on_btn_confirmer_clicked()
 
@@ -1165,6 +1281,9 @@ void ArtNexus::on_btn_confirmer_clicked()
    QString TYPE=ui->comboBox->currentText();
    QString POSITION=ui->comboBox_2->currentText();
    QString ETAT=ui->comboBox_3->currentText();
+
+   QString id_artiste=ui->comboBox_idartiste_5->currentText();
+   QString id_event=ui->comboBox_idevent_4->currentText();
    QSqlQuery qry ;
    qry.prepare("select * from oeuvres where REFERENCE='"+ref+"' " );
    qry.exec();
@@ -1172,11 +1291,11 @@ void ArtNexus::on_btn_confirmer_clicked()
                                             QObject::tr(" reference already exist .\n"
                                                       "Click Cancel to exit."), QMessageBox::Cancel);}
    else{
-       if(ref==0 || nom=="" || price ==0 ||desc =="" || POSITION == "" || ETAT=="" || TYPE == ""){QMessageBox::warning(nullptr, QObject::tr("add"),
+       if(ref==0 || nom=="" || price ==0 ||desc =="" || POSITION == "" || ETAT=="" || TYPE == "" || FILEPATH == ""){QMessageBox::warning(nullptr, QObject::tr("add"),
                                                                             QObject::tr(" tous les champs sont obligatoires .\n"
                                                                                       "Click Cancel to exit."), QMessageBox::Cancel);}
                                    else{
-   Oeuvre o(ref,nom,price,desc,DATEC,TYPE,POSITION,ETAT);
+     Oeuvre o(ref,nom,price,desc,DATEC,TYPE,POSITION,ETAT,FILEPATH,id_artiste,id_event);
    bool test=o.ajouter();
    if (test)
    {
@@ -1184,10 +1303,7 @@ void ArtNexus::on_btn_confirmer_clicked()
        ui->tableView_oeuvre->setModel(otmp.afficher());
 
         ui->stackedWidget_4->setCurrentIndex(0);
-       QMessageBox::information(nullptr, QObject::tr("add"),
-                  QObject::tr(" successful.\n"
-                            "Click Cancel to exit."), QMessageBox::Cancel);
-
+        notif.notifAjouterOeuvre();
        ui->lineEdit_reference->clear();
        ui->lineEdit_name->clear();
        ui->lineEdit_price->clear();
@@ -1197,6 +1313,9 @@ void ArtNexus::on_btn_confirmer_clicked()
        ui->comboBox_2->currentText();
        ui->comboBox_3->currentText();
 
+       ui->comboBox_idartiste_5->currentText();
+       ui->comboBox_idevent_4->currentText();
+       FILEPATH="";
    }
    else{
 
@@ -1213,7 +1332,7 @@ void ArtNexus::on_tableView_oeuvre_clicked(const QModelIndex &index)
     QModelIndex in=index.sibling(i,0);
     QString val=ui->tableView_oeuvre->model()->data(in).toString();
         QSqlQuery qry;
-        qry.prepare("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT from OEUVRES where REFERENCE='"+val+"' " );
+        qry.prepare("select REFERENCE,NOM,PRICE,DESCRIPTION,DATEC,TYPE,POSITION,ETAT,FILEPATH,id_artiste,id_event from OEUVRES where REFERENCE='"+val+"' " );
         if(qry.exec())
         {
             while(qry.next())
@@ -1226,6 +1345,10 @@ void ArtNexus::on_tableView_oeuvre_clicked(const QModelIndex &index)
                 ui->comboBox_update->setCurrentText(qry.value(6).toString());
                 ui->comboBox_update_2->setCurrentText(qry.value(5).toString());
                 ui->comboBox_update_3->setCurrentText(qry.value(7).toString());
+
+                FILEPATH=qry.value(8).toString();
+                ui->comboBox_idartiste_2->setCurrentText(qry.value(9).toString());
+                ui->comboBox_idevent_2->setCurrentText(qry.value(10).toString());
 
             }
 }
@@ -1259,6 +1382,7 @@ void ArtNexus::on_pushButton_11_clicked()
 void ArtNexus::on_btn_modifier_clicked()
 
 {
+
     QModelIndexList selectedIndexes = ui->tableView_oeuvre->selectionModel()->selectedIndexes();
     if (selectedIndexes.isEmpty()) {
         QMessageBox::warning(nullptr, QObject::tr("Warning"),
@@ -1266,10 +1390,31 @@ void ArtNexus::on_btn_modifier_clicked()
                              QMessageBox::Ok);
         return;
     }
+    QSqlQuery query;
+     ui->comboBox_idevent_4->clear();
+      ui->comboBox_idartiste_5->clear();
+    query.prepare("select id_event from event");
+    query.exec();
+    while (query.next()) {
+        ui->comboBox_idevent_4->addItem(query.value(0).toString());
+    }
+    query.prepare("select id from artiste");
+    query.exec();
+    while (query.next()) {
+        ui->comboBox_idartiste_5->addItem(query.value(0).toString());
+    }
     ui->stackedWidget_4->setCurrentIndex(2);
+
 }
 void ArtNexus::on_btn_supprimer_clicked()
 {
+    QModelIndexList selectedIndexes = ui->tableView_oeuvre->selectionModel()->selectedIndexes();
+    if (selectedIndexes.isEmpty()) {
+        QMessageBox::warning(nullptr, QObject::tr("Warning"),
+                             QObject::tr("Please select an oeuvre to delete."),
+                             QMessageBox::Ok);
+        return;
+    }
     {
         int i;
             QModelIndex index=ui->tableView_oeuvre->currentIndex();
@@ -1283,6 +1428,7 @@ void ArtNexus::on_btn_supprimer_clicked()
             {
 
                 ui->tableView_oeuvre->setModel(otmp.afficher());
+                notif.notifSupprimerOeuvre();
                 ui->lineEdit_reference->clear();
                 ui->lineEdit_name->clear();
                 ui->lineEdit_price->clear();
@@ -1291,6 +1437,7 @@ void ArtNexus::on_btn_supprimer_clicked()
                 ui->comboBox->currentText();
                 ui->comboBox_2->currentText();
                 ui->comboBox_3->currentText();
+
 
 
         }
@@ -1318,16 +1465,16 @@ void ArtNexus::on_updateOvrBtn_clicked()
     QString POSITION=ui->comboBox_update_2->currentText();
     QString ETAT=ui->comboBox_update_3->currentText();
 
+    QString id_artiste=ui->comboBox_idartiste_5->currentText();
+    QString id_event=ui->comboBox_idevent_4->currentText();
     if( nom=="" || price ==0 ||desc =="" || POSITION == "" || ETAT=="" || TYPE == ""){QMessageBox::warning(nullptr, QObject::tr("add"),
                                                                          QObject::tr(" tous les champs sont obligatoires .\n"
                                                                                    "Click Cancel to exit."), QMessageBox::Cancel);}
                                 else{
-    Oeuvre o(ref, nom, price, desc,DATEC,TYPE,POSITION,ETAT);
+    Oeuvre o(ref, nom, price, desc,DATEC,TYPE,POSITION,ETAT,"",id_artiste,id_event);
     bool test = o.modifier(ref);
     if (test) {
-        QMessageBox::information(nullptr, QObject::tr("Update"),
-                                 QObject::tr("Update successful.\nClick OK to return."),
-                                 QMessageBox::Ok);
+        notif.notifModifierOeuvre();
 
         ui->lineEdit_reference_update->clear();
         ui->lineEdit_name_update->clear();
@@ -1337,6 +1484,9 @@ void ArtNexus::on_updateOvrBtn_clicked()
         ui->comboBox_update->currentText();
         ui->comboBox_update_2->currentText();
         ui->comboBox_update_3->currentText();
+
+        ui->comboBox_idartiste_2->currentText();
+        ui->comboBox_idevent_2->currentText();
         ui->stackedWidget_4->setCurrentIndex(0);
         ui->tableView_oeuvre->setModel(otmp.afficher());
     } else {
@@ -1374,8 +1524,6 @@ void ArtNexus::on_lineEdit_6_textChanged(const QString &arg1)
     {ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));}
     else
     {ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));}
-
-
 }
 
 void ArtNexus::on_pushButton_19_clicked()
@@ -1509,7 +1657,131 @@ void ArtNexus::on_returnOvrBtn_2_clicked()
      ui->stackedWidget_4->setCurrentIndex(0);
 }
 
+void ArtNexus::on_btn_addvd_clicked()
+{
+    QString videoPath = QFileDialog::getOpenFileName(this, tr("Open Video File"), "", tr("Video Files (*.mp4 *.avi *.mov *.mkv)"));
+       if (!videoPath.isEmpty()) {
+        FILEPATH=videoPath;
+       }
+}
 
+void ArtNexus::on_pushButton_pvd_3_clicked()
+{
+    if(!ui->tableView_oeuvre->selectionModel()->selectedRows().empty()){
+        ui->stackedWidget_4->setCurrentIndex(4);
+        ui->vdContainer_3->show();
+        ui->vdContainer_3->raise();
+        qDebug()<<FILEPATH;
+    player = new QMediaPlayer;
+     connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(on_positionChanged(qint64)));
+     connect(player, SIGNAL(durationChanged(qint64)), this, SLOT(on_durationChanged(qint64)));
+    player->setMedia(QUrl::fromLocalFile(FILEPATH));
+     videoWidget = new QVideoWidget;
+     player->setVideoOutput(videoWidget);
+     videoWidget->setGeometry(450, 70, 600 , 430);
+     videoWidget->setParent(this);
+     videoWidget->show();
+     videoWidget->raise();
+   int k=player->volume();
+   ui->verticalSlider_3->setValue(k);
+
+
+
+       QObject::connect(ui->PausePlayBtn_3, &QPushButton::clicked, [=]() {
+           this->playeVd(ui->PausePlayBtn_3);
+       });
+
+     player->play();
+
+
+    }else
+         QMessageBox::warning(this, "NO Row Selected", "Please Select Emission.");
+}
+
+
+void ArtNexus::playeVd(QPushButton *p){
+    if (player->state() == QMediaPlayer::PlayingState) {
+                player->pause();
+                p->setText("Play");
+            } else {
+                player->play();
+                p->setText("Pause");
+            }
+
+}
+
+
+void ArtNexus::on_verticalSlider_3_sliderMoved(int position)
+{
+     player->setVolume(position);
+}
+
+
+void ArtNexus::on_horizontalSlider_3_sliderMoved(int position)
+{
+    player->setPosition(position);
+}
+
+
+void ArtNexus::on_positionChanged(qint64 position)
+{
+    ui->horizontalSlider_3->setValue(position);
+
+}
+
+void ArtNexus::on_durationChanged(qint64 position)
+{
+    ui->horizontalSlider_3->setMaximum(position);
+
+}
+
+
+void ArtNexus::on_closeVdBtn_3_clicked()
+{
+   ui->stackedWidget_4->setCurrentIndex(0);
+    player->stop();
+    videoWidget->hide();
+    ui->vdContainer_3->hide();
+    delete player;  // Assuming player is created using new
+       delete videoWidget;  // Assuming videoWidget is created using new
+
+       // Optionally, set the pointers to nullptr after deletion to prevent dangling pointers
+       player = nullptr;
+       videoWidget = nullptr;
+}
+QString tes="z";
+void ArtNexus::on_pushButton_intev_clicked()
+{
+    QModelIndexList selectedIndexes = ui->tableView_oeuvre->selectionModel()->selectedIndexes();
+    if (selectedIndexes.isEmpty()) {
+        QMessageBox::warning(nullptr, QObject::tr("Warning"),
+                             QObject::tr("Please select an oeuvre to intervene."),
+                             QMessageBox::Ok);
+        return;
+    }
+    if (tes!="a"){
+    tes="a";
+
+   }
+    else
+        tes="z";
+    A.write_to_arduino(tes);
+notif.notifintervention();
+    int i;
+        QModelIndex index=ui->tableView_oeuvre->currentIndex();
+    i=index.row();
+    QModelIndex in=index.sibling(i,0);
+
+    QString val=ui->tableView_oeuvre->model()->data(in).toString();
+    QSqlQuery query;
+
+    query.prepare("insert into historic (OEUVRE,TYPE)""values(:OEUVRE,:TYPE)");
+    query.bindValue(":OEUVRE", val);
+    query.bindValue(":TYPE", "movement");
+
+ query.exec();
+
+}
 
 /************************************************************PARTIE EMPLOYE **************************************************************/
 
@@ -1806,18 +2078,7 @@ void ArtNexus::on_pdf_clicked()
           }
 }
 
-void ArtNexus::seConnecter()
-{
-    QString email = ui->leemaillog->text();
-    QString password = ui->lepassword->text();
-    empConnected.setEmail(email);
-    empConnected.setMdp(password);
-    if(empConnected.seConnecter()){
-        ui->errorLogin->setVisible(false);
- ui->stackedWidget_ALL->setCurrentIndex(4);
-        empConnected.setEmail(email);
-    } else ui->errorLogin->setVisible(true);
-}
+
 
 void ArtNexus::on_calendarWidget_selectionChanged()
 {
@@ -1832,7 +2093,7 @@ void ArtNexus::on_show_all_btn_clicked()
 
 void ArtNexus::on_pbsign_clicked()
 {
-    seConnecter();
+
 }
 
 
@@ -1889,3 +2150,220 @@ void ArtNexus::on_stats_clicked()
             Dialog->exec();
         }
 }
+
+void ArtNexus::on_pbps_clicked()
+{
+    // Fetch data from the database
+    QSqlQuery query;
+    query.prepare("SELECT domaine_association, montant_association FROM associations");
+    if (query.exec())
+    {
+        QVector<double> montantData;
+        QVector<QString> domaineData;
+
+        while (query.next())
+        {
+            double montant = query.value(1).toDouble();
+            QString domaine = query.value(0).toString();
+            montantData.append(montant);
+            domaineData.append(domaine);
+        }
+
+        // Perform linear regression
+        // Your linear regression code goes here
+        // You'll need to use montantData and domaineData to perform the regression
+        // Once you have the predictive data, you can display it using the Dialog class
+
+
+        Dialog *dialog1 = new Dialog(this);
+        dialog1->setPredictiveChartData(); // Call the method to set predictive data
+        dialog1->exec();
+    }
+}
+
+
+
+
+void ArtNexus::on_pushButton_27_clicked()
+{
+    QString email = ui->nomLogin->text();
+    QString password = ui->mdp_2->text();
+
+    if (email.isEmpty() || password.isEmpty()) {
+        QMessageBox::critical(this, "Error", "Email and password are required.");
+        return;
+    }
+
+    Association association;
+    int result = association.login(email, password);
+
+
+    if (result > 0) {
+        QMessageBox::information(this, "Success", "Login successful.");
+        if (email == "salem" && password == "salem") {
+                    ui->stackedWidget_ALL->setCurrentIndex(0);
+                } else if (email == "rihem" && password == "rihem") {
+                    ui->stackedWidget_ALL->setCurrentIndex(1);
+                } else if (email == "lamis" && password == "lamis") {
+                    ui->stackedWidget_ALL->setCurrentIndex(2);
+                } else if (email == "yassine" && password == "yassine") {
+                    ui->stackedWidget_ALL->setCurrentIndex(3);
+                } else if (email == "amine" && password == "amine") {
+                    ui->stackedWidget_ALL->setCurrentIndex(4);
+                } else {
+                    // Default index if email and password don't match any condition
+                    ui->stackedWidget_ALL->setCurrentIndex(2);
+                }
+
+        displayReceivedMessages(email);
+    } else {
+
+        QMessageBox::critical(this, "Error", "Invalid email or password.");
+    }
+}
+
+
+void ArtNexus::on_ChatBoxButton_3_clicked()
+{
+    ui->stackedWidget_3->setCurrentIndex(4);
+    ui->tableView_Association->setModel(Ctemp.afficher());
+}
+void ArtNexus::displayReceivedMessages(QString receiver) {
+    Message messageModel;
+    QSqlQueryModel *receivedMessages = messageModel.retrieveMessages(receiver);
+
+
+    QAbstractItemModel *existingModel = ui->tableView2_2->model();
+
+
+    if (existingModel) {
+        for (int row = 0; row < receivedMessages->rowCount(); ++row) {
+            QString sender = receivedMessages->record(row).value("sender").toString();
+            QString message = receivedMessages->record(row).value("msg").toString();
+            QString timestamp = receivedMessages->record(row).value("timestamp").toString();
+
+            QModelIndexList matchList = existingModel->match(existingModel->index(0, 1), Qt::DisplayRole, sender);
+            if (!matchList.isEmpty()) {
+                int rowToUpdate = matchList.first().row();
+                existingModel->setData(existingModel->index(rowToUpdate, 2), message);
+
+                existingModel->setData(existingModel->index(rowToUpdate, 3), timestamp);
+            } else {
+                int rowCount = existingModel->rowCount();
+                existingModel->insertRow(rowCount);
+                existingModel->setData(existingModel->index(rowCount, 1), sender);
+                existingModel->setData(existingModel->index(rowCount, 2), message);
+                existingModel->setData(existingModel->index(rowCount, 3), timestamp);
+            }
+        }
+
+        delete receivedMessages;
+    } else {
+        ui->tableView2_2->setModel(receivedMessages);
+    }
+    ui->tableView2_2->resizeColumnsToContents();
+}
+
+
+
+
+
+
+
+void ArtNexus::on_messagePreviewClicked(const QModelIndex &index)
+{
+    QString receiver = ui->lineEdit_receiver_2->text();
+    QString sender = ui->nomLogin->text();
+
+
+
+    QString otherParty = index.data(Qt::DisplayRole).toString();
+
+    Message messageModel;
+    QSqlQueryModel *conversation = messageModel.retrieveFullConversation(sender, otherParty);
+
+    if (conversation) {
+        ui->chatbox_2->clear();
+        for (int i = 0; i < conversation->rowCount(); ++i)
+        {
+            QString messageSender = conversation->record(i).value("sender").toString();
+            QString message = conversation->record(i).value("msg").toString();
+            QString timestamp = conversation->record(i).value("timestamp").toString();
+
+            QString formattedMessage;
+            if (messageSender == sender) {
+                formattedMessage = QString("<div align='right' style='color: blue;'>[%1] %2: %3</div>").arg(timestamp, messageSender, message);
+            } else {
+                formattedMessage = QString("<div align='left'>[%1] %2: %3</div>").arg(timestamp, messageSender, message);
+            }
+
+            ui->chatbox_2->append(formattedMessage);
+        }
+
+        delete conversation;
+    } else {
+        QMessageBox::information(this, "No Conversation", "No conversation found between the two parties.");
+    }
+}
+
+void ArtNexus::on_BackSupprimer_5_clicked()
+{
+    ui->stackedWidget_3->setCurrentIndex(0);
+    ui->tableView_Association->setModel(Ctemp.afficher());
+}
+
+
+void ArtNexus::on_pushButton_send_2_clicked()
+{
+    QString receiver = ui->lineEdit_receiver_2->text();
+    QString messageContent = ui->lineEdit_send_2->text();
+    QString sender = ui->nomLogin->text();
+    Message m(sender, receiver, messageContent);
+    bool success = m.sendmsg(sender, receiver); // Pass sender and receiver info
+
+    if (success) {
+        ui->lineEdit_send_2->clear();
+        QMessageBox::information(this, "Success", "Message sent successfully.");
+
+        displayReceivedMessages(receiver);
+
+        QString formattedMessage = QString("<div align='right' style='color: blue;'>[%1] %2: %3</div>")
+                                        .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"), sender, messageContent);
+        ui->chatbox_2->append(formattedMessage);
+    } else {
+        QMessageBox::critical(this, "Error", "Failed to send message. Please try again.");
+    }
+}
+
+void ArtNexus::on_pushButton_20_clicked()
+{
+    ui->stackedWidget_ALL->setCurrentIndex(5);
+
+}
+
+void ArtNexus::on_pushButton_28_clicked()
+{
+    ui->stackedWidget_ALL->setCurrentIndex(5);
+
+}
+
+void ArtNexus::on_pushButton_29_clicked()
+{
+    ui->stackedWidget_ALL->setCurrentIndex(5);
+
+}
+
+void ArtNexus::on_pushButton_30_clicked()
+{
+    ui->stackedWidget_ALL->setCurrentIndex(5);
+
+}
+
+void ArtNexus::on_pushButton_31_clicked()
+{
+    ui->stackedWidget_ALL->setCurrentIndex(5);
+
+}
+
+
+
