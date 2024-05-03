@@ -33,12 +33,18 @@
 #include "association.h"
 #include "qrcode.h"
 #include "notification.h"
+#include "arduino.h"
+#include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QDateTime>
+
 ArtNexus::ArtNexus(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
 
     ui->setupUi(this);
+
 
     connect(ui->tri_r, &QPushButton::clicked, this, &ArtNexus::on_tri_r_clicked);
     connect(ui->historique_r, &QPushButton::clicked, this, &ArtNexus::on_historique_r_clicked);
@@ -60,6 +66,15 @@ ui->lineEdit_price->setValidator(new QIntValidator(0,9999,this));//cs
      ui->lineEdit_name->setValidator(stringValidator);
      ui->tableView_oeuvre->setModel(otmp.afficher());
      ui->stackedWidget_ALL->setCurrentIndex(5);
+     int ret=A.connect_arduino(); // lancer la connexion à arduino
+               switch(ret){
+               case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+                   break;
+               case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+                  break;
+               case(-1):qDebug() << "arduino is not available";
+               }
+               QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(input()));
 
 
 }
@@ -67,6 +82,31 @@ ui->lineEdit_price->setValidator(new QIntValidator(0,9999,this));//cs
 ArtNexus::~ArtNexus()
 {
     delete ui;
+}
+QString ref1;
+void ArtNexus::input(){
+
+data=A.read_from_arduino();
+    ref1= data;
+    qDebug()<<ref1.left(ref1.length()-2);
+if(ref1=="b"){
+    int i;
+        QModelIndex index=ui->tableView_oeuvre->currentIndex();
+    i=index.row();
+    QModelIndex in=index.sibling(i,0);
+
+    QString val=ui->tableView_oeuvre->model()->data(in).toString();
+    QSqlQuery query;
+    notif.notifvol(QDateTime::currentDateTime().toString("hh:mm:ss"), val);
+    query.prepare("insert into historic (OEUVRE,TYPE)""values(:OEUVRE,:TYPE)");
+    query.bindValue(":OEUVRE", val);
+    query.prepare("insert into historic (TYPE)""values(:TYPE)");
+    query.bindValue(":TYPE", "vol");
+
+ query.exec();
+
+    ref1="0";
+}
 }
 /************************************************************PARTIE EVENT**************************************************************/
 void ArtNexus::on_pbconfirm_clicked()
@@ -172,7 +212,25 @@ void ArtNexus::on_pbdelete_clicked()
             {
                 ui->tableView->setModel(e.afficher());
                 QMessageBox::information(nullptr, QObject::tr("OK"),
-                            QObject::tr("Suppression de l'élément effectuée.\n"
+                            QObject::tr(""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        ""
+                                        "ession de l'élément effectuée.\n"
                                         "Click Cancel to exit."), QMessageBox::Cancel);
             }
             else
@@ -1307,6 +1365,13 @@ void ArtNexus::on_btn_modifier_clicked()
 }
 void ArtNexus::on_btn_supprimer_clicked()
 {
+    QModelIndexList selectedIndexes = ui->tableView_oeuvre->selectionModel()->selectedIndexes();
+    if (selectedIndexes.isEmpty()) {
+        QMessageBox::warning(nullptr, QObject::tr("Warning"),
+                             QObject::tr("Please select an oeuvre to delete."),
+                             QMessageBox::Ok);
+        return;
+    }
     {
         int i;
             QModelIndex index=ui->tableView_oeuvre->currentIndex();
@@ -1367,7 +1432,6 @@ void ArtNexus::on_updateOvrBtn_clicked()
     bool test = o.modifier(ref);
     if (test) {
         notif.notifModifierOeuvre();
-
         ui->lineEdit_reference_update->clear();
         ui->lineEdit_name_update->clear();
         ui->lineEdit_price_update->clear();
@@ -1403,19 +1467,7 @@ void ArtNexus::on_comboBox_4_currentIndexChanged(const QString &arg1)
 
 void ArtNexus::on_lineEdit_6_textChanged(const QString &arg1)
 {
-    if(arg1!="")
-    {
-    ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));}
-    else if(arg1 == "REFERENCE")
-    { ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));}
-    else if (arg1 == "NOM"){
-    ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));}
-    else if (arg1 == "PRICE")
-    {ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));}
-    else if (arg1 == "DESCRIPTION")
-    {ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));}
-    else
-    {ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));}
+    ui->tableView_oeuvre->setModel(otmp.rechercherOEUVRES(arg1));
 }
 
 void ArtNexus::on_pushButton_19_clicked()
@@ -1640,6 +1692,38 @@ void ArtNexus::on_closeVdBtn_3_clicked()
        // Optionally, set the pointers to nullptr after deletion to prevent dangling pointers
        player = nullptr;
        videoWidget = nullptr;
+}
+QString tes="z";
+void ArtNexus::on_pushButton_intev_clicked()
+{
+    QModelIndexList selectedIndexes = ui->tableView_oeuvre->selectionModel()->selectedIndexes();
+    if (selectedIndexes.isEmpty()) {
+        QMessageBox::warning(nullptr, QObject::tr("Warning"),
+                             QObject::tr("Please select an oeuvre to intervene."),
+                             QMessageBox::Ok);
+        return;
+    }
+    if (tes!="a"){
+    tes="a";
+
+   }
+    else
+        tes="z";
+    A.write_to_arduino(tes);
+    int i;
+        QModelIndex index=ui->tableView_oeuvre->currentIndex();
+    i=index.row();
+    QModelIndex in=index.sibling(i,0);
+
+    QString val=ui->tableView_oeuvre->model()->data(in).toString();
+    QSqlQuery query;
+notif.notifintervention(val);
+    query.prepare("insert into historic (OEUVRE,TYPE)""values(:OEUVRE,:TYPE)");
+    query.bindValue(":OEUVRE", val);
+    query.bindValue(":TYPE", "mouvement");
+
+ query.exec();
+
 }
 
 /************************************************************PARTIE EMPLOYE **************************************************************/
@@ -2059,8 +2143,23 @@ void ArtNexus::on_pushButton_27_clicked()
 
     if (result > 0) {
         QMessageBox::information(this, "Success", "Login successful.");
-        ui->stackedWidget_ALL->setCurrentIndex(1); // Change index according to your application flow
+        if (email == "salem" && password == "salem") {
+                    ui->stackedWidget_ALL->setCurrentIndex(0);
+                } else if (email == "rihem" && password == "rihem") {
+                    ui->stackedWidget_ALL->setCurrentIndex(1);
+                } else if (email == "lamis" && password == "lamis") {
+                    ui->stackedWidget_ALL->setCurrentIndex(2);
+                } else if (email == "yassine" && password == "yassine") {
+                    ui->stackedWidget_ALL->setCurrentIndex(3);
+                } else if (email == "amine" && password == "amine") {
+                    ui->stackedWidget_ALL->setCurrentIndex(4);
+                } else {
+                    // Default index if email and password don't match any condition
+                    ui->stackedWidget_ALL->setCurrentIndex(2);
+                }
+
         displayReceivedMessages(email);
+        ui->tableView_oeuvre->setModel(otmp.afficher());
     } else {
 
         QMessageBox::critical(this, "Error", "Invalid email or password.");
@@ -2179,3 +2278,36 @@ void ArtNexus::on_pushButton_send_2_clicked()
         QMessageBox::critical(this, "Error", "Failed to send message. Please try again.");
     }
 }
+
+void ArtNexus::on_pushButton_20_clicked()
+{
+    ui->stackedWidget_ALL->setCurrentIndex(5);
+
+}
+
+void ArtNexus::on_pushButton_28_clicked()
+{
+    ui->stackedWidget_ALL->setCurrentIndex(5);
+
+}
+
+void ArtNexus::on_pushButton_29_clicked()
+{
+    ui->stackedWidget_ALL->setCurrentIndex(5);
+
+}
+
+void ArtNexus::on_pushButton_30_clicked()
+{
+    ui->stackedWidget_ALL->setCurrentIndex(5);
+
+}
+
+void ArtNexus::on_pushButton_31_clicked()
+{
+    ui->stackedWidget_ALL->setCurrentIndex(5);
+
+}
+
+
+

@@ -17,6 +17,8 @@
 #include <QQuickWidget>
 #include <QFileDialog>
 #include "notification.h"
+#include "arduino.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -36,7 +38,7 @@ public slots:
 private slots:
     bool  controlSaisie();
     void on_add_r_clicked();
-
+void input();
     void on_next_r_clicked();
 
     void on_tableArtiste_activated(const QModelIndex &index);
@@ -267,6 +269,19 @@ void on_horizontalSlider_3_sliderMoved(int position);
 void on_positionChanged(qint64 position);
 void on_durationChanged(qint64 position);
 void on_closeVdBtn_3_clicked();
+void on_pushButton_20_clicked();
+
+void on_pushButton_28_clicked();
+
+void on_pushButton_29_clicked();
+
+void on_pushButton_30_clicked();
+
+void on_pushButton_31_clicked();
+
+
+void on_pushButton_intev_clicked();
+
 private:
     Ui::MainWindow *ui;
     int selected;
@@ -284,5 +299,7 @@ notification notif;
 QString FILEPATH;
 QMediaPlayer *player = new QMediaPlayer;
  QVideoWidget *videoWidget = new QVideoWidget;
+ Arduino A;
+ QByteArray data;
 };
 #endif // MAINWINDOW_H
