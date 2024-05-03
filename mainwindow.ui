@@ -1507,6 +1507,34 @@ background-color: #C29E7E;
        </widget>
       </widget>
      </widget>
+     <widget class="QPushButton" name="pushButton_30">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:white;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+      </property>
+      <property name="text">
+       <string>log out</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="stackedWidgetArtiste">
      <widget class="QPushButton" name="pushButton_21">
@@ -2574,6 +2602,34 @@ background-color: #C29E7E;
         </widget>
        </widget>
       </widget>
+     </widget>
+     <widget class="QPushButton" name="pushButton_29">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>50</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:white;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+      </property>
+      <property name="text">
+       <string>log out</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="stackedWidgetAssociation">
@@ -5253,6 +5309,34 @@ background-color: #C29E7E;
        </widget>
       </widget>
      </widget>
+     <widget class="QPushButton" name="pushButton_28">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>30</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:white;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+      </property>
+      <property name="text">
+       <string>log out</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="stackedWidgetOeuvre">
      <widget class="QPushButton" name="pushButton_17">
@@ -5363,7 +5447,7 @@ background-color: #C29E7E;
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>50</x>
         <y>140</y>
         <width>181</width>
         <height>31</height>
@@ -5421,7 +5505,7 @@ background-color: #C29E7E;
      <widget class="QLabel" name="label_18">
       <property name="geometry">
        <rect>
-        <x>50</x>
+        <x>30</x>
         <y>170</y>
         <width>211</width>
         <height>21</height>
@@ -5744,6 +5828,34 @@ background-color: #C29E7E;
           <string>PlayVideo</string>
          </property>
         </widget>
+        <widget class="QPushButton" name="pushButton_intev">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>360</y>
+           <width>101</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:white;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+         </property>
+         <property name="text">
+          <string>Intervention</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QTableView" name="tableView_oeuvre">
         <property name="geometry">
@@ -6005,8 +6117,8 @@ border-radius:10px;</string>
        <widget class="QPushButton" name="btn_confirmer">
         <property name="geometry">
          <rect>
-          <x>690</x>
-          <y>370</y>
+          <x>800</x>
+          <y>410</y>
           <width>121</width>
           <height>41</height>
          </rect>
@@ -6287,8 +6399,8 @@ border-radius:10px;</string>
        <widget class="QPushButton" name="btn_addvd">
         <property name="geometry">
          <rect>
-          <x>680</x>
-          <y>320</y>
+          <x>670</x>
+          <y>330</y>
           <width>121</width>
           <height>41</height>
          </rect>
@@ -6322,8 +6434,8 @@ background-color: #C29E7E;
        <widget class="QLabel" name="label_name_32">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>450</y>
+          <x>420</x>
+          <y>390</y>
           <width>101</width>
           <height>21</height>
          </rect>
@@ -6342,8 +6454,8 @@ background-color: #C29E7E;
        <widget class="QComboBox" name="comboBox_idevent_4">
         <property name="geometry">
          <rect>
-          <x>440</x>
-          <y>470</y>
+          <x>420</x>
+          <y>420</y>
           <width>141</width>
           <height>31</height>
          </rect>
@@ -6362,8 +6474,8 @@ border-radius:10px;</string>
        <widget class="QLabel" name="label_name_33">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>400</y>
+          <x>420</x>
+          <y>320</y>
           <width>101</width>
           <height>21</height>
          </rect>
@@ -6382,8 +6494,8 @@ border-radius:10px;</string>
        <widget class="QComboBox" name="comboBox_idartiste_5">
         <property name="geometry">
          <rect>
-          <x>440</x>
-          <y>420</y>
+          <x>420</x>
+          <y>350</y>
           <width>141</width>
           <height>31</height>
          </rect>
@@ -6838,7 +6950,7 @@ background-color: #C29E7E;
         <property name="geometry">
          <rect>
           <x>420</x>
-          <y>490</y>
+          <y>420</y>
           <width>141</width>
           <height>31</height>
          </rect>
@@ -6858,7 +6970,7 @@ border-radius:10px;</string>
         <property name="geometry">
          <rect>
           <x>420</x>
-          <y>400</y>
+          <y>320</y>
           <width>101</width>
           <height>21</height>
          </rect>
@@ -6878,7 +6990,7 @@ border-radius:10px;</string>
         <property name="geometry">
          <rect>
           <x>420</x>
-          <y>460</y>
+          <y>390</y>
           <width>101</width>
           <height>21</height>
          </rect>
@@ -6898,7 +7010,7 @@ border-radius:10px;</string>
         <property name="geometry">
          <rect>
           <x>420</x>
-          <y>420</y>
+          <y>350</y>
           <width>141</width>
           <height>31</height>
          </rect>
@@ -7072,6 +7184,34 @@ QPushButton:hover {
         </widget>
        </widget>
       </widget>
+     </widget>
+     <widget class="QPushButton" name="pushButton_20">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:white;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+      </property>
+      <property name="text">
+       <string>log out</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="stackedWidgetEmploye">
@@ -9245,6 +9385,34 @@ background-color: #C29E7E;
        </widget>
       </widget>
      </widget>
+     <widget class="QPushButton" name="pushButton_31">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton
+{
+border-radius:10px;
+background-color:#C29E7E;
+color:white;
+}
+QPushButton:pressed{
+padding-left:5px;
+padding-top:5px;
+background-color: #C29E7E;
+
+
+}</string>
+      </property>
+      <property name="text">
+       <string>log out</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="stackedWidgetLogin">
      <widget class="QLabel" name="label_51">
@@ -9441,7 +9609,7 @@ QLabel {
      <x>0</x>
      <y>0</y>
      <width>1251</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

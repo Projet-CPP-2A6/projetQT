@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     {
          w.show();
          QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
-         notifyIcon->setIcon(QIcon("C:/Users/salem/Downloads/logoartnexus.png"));
+         notifyIcon->setIcon(QIcon("C:/Users/medal/Downloads/loggg.png"));
          notifyIcon->show();
          // Affiche un message d'information avec une durée d'affichage de 15 secondes
          notifyIcon->showMessage("database is open","connection successful",QSystemTrayIcon::Information,15000);

@@ -137,7 +137,7 @@ bool Oeuvre::ajouter()
   QSqlQueryModel *Oeuvre::rechercherOEUVRES(QString recherche)
   {
       QSqlQueryModel * model = new QSqlQueryModel();
-      model->setQuery("SELECT * from OEUVRES WHERE (UPPER(REFERENCE) LIKE UPPER('%"+recherche+"%') OR UPPER(NOM) LIKE UPPER('%"+recherche+"%') OR UPPER(PRICE) LIKE UPPER('%"+recherche+"%') OR UPPER(DESCRIPTION) LIKE UPPER('%"+recherche+"%') OR UPPER(DATEC) LIKE UPPER('%"+recherche+"%') OR UPPER(TYPE) LIKE UPPER('%"+recherche+"%') OR UPPER(POSITION) LIKE UPPER('%"+recherche+"%') OR UPPER(ETAT) LIKE UPPER('%"+recherche+"%')OR UPPER(LOCATION) LIKE UPPER('%"+recherche+"%'))");
+      model->setQuery("SELECT * from OEUVRES WHERE (UPPER(REFERENCE) LIKE UPPER('%"+recherche+"%') OR UPPER(NOM) LIKE UPPER('%"+recherche+"%') OR UPPER(PRICE) LIKE UPPER('%"+recherche+"%') OR UPPER(DESCRIPTION) LIKE UPPER('%"+recherche+"%')  )");
       model->setHeaderData(0,Qt::Horizontal,QObject::tr("REFERENCE"));
       model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
       model->setHeaderData(3,Qt::Horizontal,QObject::tr("DESCRIPTION"));
@@ -146,8 +146,6 @@ bool Oeuvre::ajouter()
       model->setHeaderData(5,Qt::Horizontal,QObject::tr("TYPE"));
       model->setHeaderData(6,Qt::Horizontal,QObject::tr("POSITION"));
       model->setHeaderData(7,Qt::Horizontal,QObject::tr("ETAT"));
-
-
       return model;
 
   }

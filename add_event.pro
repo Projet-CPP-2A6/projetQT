@@ -1,4 +1,4 @@
-QT       += core gui sql charts network location multimedia multimediawidgets widgets quickwidgets
+QT       += core gui sql charts network location multimedia winextras multimediawidgets widgets quickwidgets serialport
 QT += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arduino.cpp \
     artiste.cpp \
     association.cpp \
     chatbox.cpp \
@@ -34,6 +35,7 @@ INCLUDEPATH += "C:\Users\salem\Downloads\eigen-3.4.0"
 
 
 HEADERS += \
+    arduino.h \
     artiste.h \
     association.h \
     chatbox.h \

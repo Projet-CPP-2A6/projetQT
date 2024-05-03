@@ -1,4 +1,9 @@
 #include "notification.h"
+#include <QDateTime>
+#include <QSqlQuery>
+#include <QMessageBox>
+#include <QMainWindow>
+#include <QVariant>
 notification::notification()
 {
 
@@ -26,3 +31,17 @@ void notification::notifSupprimerOeuvre(){
     notifyIcon->show();
     notifyIcon->showMessage("Gestion des Oeuvres","Nouveau Oeuvre est supprimée",QSystemTrayIcon::Information,15000);
 }
+void notification::notifintervention(const QString &oeuvre){
+    QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+    notifyIcon->setIcon(QIcon("C:/Users/salem/Downloads/logoartnexus.png"));
+    notifyIcon->show();
+    notifyIcon->showMessage("Gestion des Oeuvres","Intervention sur l'oeuvre avec REF : "+oeuvre,QSystemTrayIcon::Information,15000);
+}
+void notification:: notification::notifvol(const QString &time,const QString &oeuvre){
+    QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+    notifyIcon->setIcon(QIcon("C:/Users/salem/Downloads/logoartnexus.png"));
+    notifyIcon->show();
+    QString message = "risque de Vol at sur l'oeuvre avec REF : "+oeuvre + time;
+    notifyIcon->showMessage("Gestion des Oeuvres",message,QSystemTrayIcon::Information,15000);
+}
+
