@@ -3,6 +3,7 @@
 #include <QSystemTrayIcon>
 #include<QString>
 #include <QMainWindow>
+#include "arduino.h"
 
 class notification
 {
@@ -13,6 +14,8 @@ public:
     void notifModifierOeuvre();
     void notifvol(const QString &time,const QString &oeuvre);
     void notifintervention(const QString &oeuvre);
+private:
+    Arduino A;
 };
 
 #endif // NOTIFICATION_H

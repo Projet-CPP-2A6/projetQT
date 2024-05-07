@@ -97,6 +97,11 @@ if(ref1=="b"){
 
     QString val=ui->tableView_oeuvre->model()->data(in).toString();
     QSqlQuery query;
+    QByteArray message ;
+    QString timeString = QDateTime::currentDateTime().toString("hh:mm:ss");
+    message = "risque de Vol sur l'oeuvre avec REF : " + val.toUtf8() + " à " + timeString.toUtf8();
+    //msg = "risque de Vol sur l'oeuvre avec REF : "+val.toUtf8() ," à " + QDateTime::currentDateTime().toString("hh:mm:ss");
+    A.write_to_arduino(message);
     notif.notifvol(QDateTime::currentDateTime().toString("hh:mm:ss"), val);
     query.prepare("insert into historic (OEUVRE,TYPE)""values(:OEUVRE,:TYPE)");
     query.bindValue(":OEUVRE", val);
@@ -1717,6 +1722,9 @@ void ArtNexus::on_pushButton_intev_clicked()
 
     QString val=ui->tableView_oeuvre->model()->data(in).toString();
     QSqlQuery query;
+    QByteArray msg ;
+    msg = "Intervention sur l'oeuvre avec REF : "+val.toUtf8();
+    A.write_to_arduino(msg);
 notif.notifintervention(val);
     query.prepare("insert into historic (OEUVRE,TYPE)""values(:OEUVRE,:TYPE)");
     query.bindValue(":OEUVRE", val);

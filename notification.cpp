@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include <QMainWindow>
 #include <QVariant>
+#include "arduino.h"
+
 notification::notification()
 {
 
@@ -36,12 +38,14 @@ void notification::notifintervention(const QString &oeuvre){
     notifyIcon->setIcon(QIcon("C:/Users/medal/Downloads/loggg.png"));
     notifyIcon->show();
     notifyIcon->showMessage("Gestion des Oeuvres","Intervention sur l'oeuvre avec REF : "+oeuvre,QSystemTrayIcon::Information,15000);
+
 }
 void notification:: notification::notifvol(const QString &time,const QString &oeuvre){
     QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
     notifyIcon->setIcon(QIcon("C:/Users/medal/Downloads/loggg.png"));
     notifyIcon->show();
-    QString message = "risque de Vol at sur l'oeuvre avec REF : "+oeuvre + time;
+    QString message = "risque de Vol sur l'oeuvre avec REF : "+oeuvre + " à " + time;
     notifyIcon->showMessage("Gestion des Oeuvres",message,QSystemTrayIcon::Information,15000);
+
 }
 
