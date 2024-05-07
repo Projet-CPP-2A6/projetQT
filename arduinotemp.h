@@ -2,6 +2,7 @@
 #define ARDUINOTEMP_H
 
 #include "arduino.h"
+#include "notification.h"
 #include <QDialog>
 
 namespace Ui {
@@ -30,7 +31,7 @@ private:
     int i  = 0 ;
     QByteArray data; // variable contenant les données reçues
     Arduino A; // objet temporaire
-
+    notification notif;
     void update_label(); // Declaring update_label as a private member function
     void displayArtworks(const QStringList &artworks); // Declaring displayArtworks as a private member function
     void update_label2(); // Function to update label_etat2

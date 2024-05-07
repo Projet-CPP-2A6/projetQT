@@ -9,7 +9,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QApplication::setWindowIcon(QIcon("C:/Users/salem/Downloads/logoartnexus.png"));
+    QApplication::setWindowIcon(QIcon("C:/Utilisateurs/amine/Bureau/ART NEXUS.png"));
     ArtNexus w;
     w.show();
     Connection c;
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     {
          w.show();
          QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
-         notifyIcon->setIcon(QIcon("C:/Users/salem/Downloads/logoartnexus.png"));
+         notifyIcon->setIcon(QIcon("C:/Utilisateurs/amine/Bureau/ART NEXUS.png"));
          notifyIcon->show();
          // Affiche un message d'information avec une durée d'affichage de 15 secondes
          notifyIcon->showMessage("database is open","connection successful",QSystemTrayIcon::Information,15000);

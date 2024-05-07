@@ -4,7 +4,8 @@
 #include <QSqlError>
 #include <QTimer> // Include QTimer for delays
 #include <QThread>
-
+#include "notification.h"
+#include "mainwindow.h"
 arduinotemp::arduinotemp(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::arduinotemp)
@@ -58,7 +59,7 @@ void arduinotemp::update_label2()
     if(reply != ""){
         ui->label_2->setText(reply);
 
-    if ( reply.toInt() >= 29 ) {
+    if ( reply.toInt() >= 30 ) {
         etat = "Risque";
 
         q1.prepare("UPDATE OEUVRES SET ETAT = :etat WHERE REFERENCE = 1");
@@ -70,6 +71,7 @@ void arduinotemp::update_label2()
         if(q2.exec() && q2.next()) {
                if (q2.value(0) == "Risque" ){
                         A.write_to_arduino("0") ;
+                        notif.notifAlert();
                }
                else {
                         q1.exec() ;

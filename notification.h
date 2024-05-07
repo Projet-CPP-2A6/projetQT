@@ -10,6 +10,7 @@ public:
     void notifAjouterOeuvre();
     void notifSupprimerOeuvre();
     void notifModifierOeuvre();
+    void notifAlert();
 };
 
 #endif // NOTIFICATION_H
