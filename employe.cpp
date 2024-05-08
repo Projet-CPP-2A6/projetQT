@@ -1,6 +1,6 @@
 #include "employe.h"
 
-Employe::Employe(int id_e, QString nom_e, QString prenom_e, int tel_e, int salaire_e,QString role_e,QDate debut_conge,QDate fin_conge,QString email,QString mdp)
+Employe::Employe(int id_e, QString nom_e, QString prenom_e, int tel_e, int salaire_e,QString role_e,QDate debut_conge,QDate fin_conge,QString email,QString mdp,QString idcard)
 {
     this->id_e = id_e;
     this->nom_e = nom_e;
@@ -12,6 +12,11 @@ Employe::Employe(int id_e, QString nom_e, QString prenom_e, int tel_e, int salai
     this->fin_conge = fin_conge;
     this->email = email;
     this->mdp = mdp;
+    this->heure_ent = heure_ent;
+    this->idcard = idcard;
+
+
+
 
 
 }
@@ -20,8 +25,8 @@ bool Employe::ajouter()
 {
     QSqlQuery query;
 
-    query.prepare("INSERT INTO EMPLOYE (ID_E, NOM_E, PRENOM_E, TEL_E, SALAIRE_E, ROLE_E, DEBUT_CONGE, FIN_CONGE, EMAIL, MDP) "
-                  "VALUES (:id_e, :nom_e, :prenom_e, :tel_e, :salaire_e, :role_e, TO_DATE(:debut_conge, 'DD/MM/YYYY'), TO_DATE(:fin_conge, 'DD/MM/YYYY'), :email, :mdp)");
+    query.prepare("INSERT INTO EMPLOYE (ID_E, NOM_E, PRENOM_E, TEL_E, SALAIRE_E, ROLE_E, DEBUT_CONGE, FIN_CONGE, EMAIL, MDP, IDCARD) "
+                  "VALUES (:id_e, :nom_e, :prenom_e, :tel_e, :salaire_e, :role_e, TO_DATE(:debut_conge, 'DD/MM/YYYY'), TO_DATE(:fin_conge, 'DD/MM/YYYY'), :email, :mdp, :idcard)");
     query.bindValue(":id_e", id_e);
     query.bindValue(":nom_e", nom_e);
     query.bindValue(":prenom_e", prenom_e);
@@ -32,6 +37,9 @@ bool Employe::ajouter()
     query.bindValue(":fin_conge", fin_conge.toString("dd/MM/yyyy"));
     query.bindValue(":email", email);
     query.bindValue(":mdp", mdp);
+    query.bindValue(":idcard", idcard);
+
+
 
     return query.exec();
 }
@@ -51,6 +59,9 @@ QSqlQueryModel * Employe::afficher()
        model->setHeaderData(7,Qt::Horizontal,QObject::tr("fin_conge"));
        model->setHeaderData(8,Qt::Horizontal,QObject::tr("email"));
        model->setHeaderData(9,Qt::Horizontal,QObject::tr("mdp"));
+       model->setHeaderData(10,Qt::Horizontal,QObject::tr("heure_ent"));
+       model->setHeaderData(11,Qt::Horizontal,QObject::tr("idcard"));
+
 
        return model;
 }
@@ -69,7 +80,7 @@ QSqlQueryModel * Employe::afficher()
      QString salaire = QString::number(salaire_e);
      QString tel = QString::number(tel_e);
 
-     query.prepare("UPDATE EMPLOYE SET NOM_E=:nom_e, PRENOM_E=:prenom_e, TEL_E=:tel_e, SALAIRE_E=:salaire_e, ROLE_E=:role_e, DEBUT_CONGE=:debut_conge, FIN_CONGE=:fin_conge, EMAIL=:email, MDP=:mdp WHERE ID_E=:id_e");
+     query.prepare("UPDATE EMPLOYE SET NOM_E=:nom_e, PRENOM_E=:prenom_e, TEL_E=:tel_e, SALAIRE_E=:salaire_e, ROLE_E=:role_e, DEBUT_CONGE=:debut_conge, FIN_CONGE=:fin_conge, EMAIL=:email, MDP=:mdp, IDCARD=:idcard WHERE ID_E=:id_e");
      query.bindValue(":id_e", id);
      query.bindValue(":nom_e", nom_e);
      query.bindValue(":prenom_e", prenom_e);
@@ -80,6 +91,9 @@ QSqlQueryModel * Employe::afficher()
      query.bindValue(":fin_conge", fin_conge);
      query.bindValue(":email", email);
      query.bindValue(":mdp", mdp);
+     query.bindValue(":idcard", idcard);
+
+
 
      return query.exec();
  }
@@ -121,6 +135,9 @@ QSqlQueryModel * Employe::afficher()
      model->setHeaderData(7,Qt::Horizontal,QObject::tr("fin_conge"));
      model->setHeaderData(8,Qt::Horizontal,QObject::tr("email"));
      model->setHeaderData(9,Qt::Horizontal,QObject::tr("mdp"));
+     model->setHeaderData(10,Qt::Horizontal,QObject::tr("heure_ent"));
+     model->setHeaderData(11,Qt::Horizontal,QObject::tr("idcard"));
+
      return model;
  }
 

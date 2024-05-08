@@ -13,6 +13,7 @@ public:
     void notifvol(const QString &time);
     void notifintervention();
     void notifentre();
+    void notifmal();
 };
 
 #endif // NOTIFICATION_H

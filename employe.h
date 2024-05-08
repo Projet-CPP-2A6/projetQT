@@ -9,14 +9,14 @@
 #include <QMessageBox>
 class Employe
 {
-    QDate debut_conge, fin_conge;
-    QString nom_e, prenom_e, role_e, email, mdp;
+    QDate debut_conge, fin_conge, heure_ent;
+    QString nom_e, prenom_e, role_e, email, mdp, idcard;
     int id_e, tel_e, salaire_e;
 
 public:
     //constructeurs
     Employe(){}
-    Employe(int id_e, QString nom_e, QString prenom_e, int tel_e, int salaire_e, QString role_e, QDate debut_conge, QDate fin_conge, QString email, QString mdp);
+    Employe(int id_e, QString nom_e, QString prenom_e, int tel_e, int salaire_e, QString role_e, QDate debut_conge, QDate fin_conge, QString email, QString mdp, QString idcard);
     //getters
     int getID(){ return id_e; }
     QString getNom(){ return nom_e; }
@@ -28,6 +28,8 @@ public:
     QDate getfin_conge(){ return fin_conge; }
     QString getEmail(){ return email; }
     QString getMdp(){ return mdp; }
+    QDate getheure_ent(){ return heure_ent; }
+    QString getidcard(){return idcard; }
 
     //setters
     void setID(int id){ this->id_e = id; }
@@ -40,6 +42,9 @@ public:
     void setfin_conge(QDate fc){ fin_conge = fc; }
     void setEmail(QString mail){ email=mail; }
     void setMdp(QString pass){ mdp=pass; }
+    void setheure_ent(QDate he){ heure_ent = he; }
+    void setidcard(QString card){ idcard=card; }
+
 
     //functions
     bool ajouter();

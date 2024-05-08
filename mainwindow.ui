@@ -7893,7 +7893,7 @@ background-color: #C29E7E;
        <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_12">
        <widget class="QLabel" name="label_23">
@@ -8559,7 +8559,7 @@ background-color: #C29E7E;
          </font>
         </property>
         <property name="text">
-         <string>mdp</string>
+         <string>password</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_41">
@@ -8718,6 +8718,36 @@ background-color: #C29E7E;
          <string>delete Employe</string>
         </property>
        </widget>
+       <widget class="QLabel" name="label_80">
+        <property name="geometry">
+         <rect>
+          <x>560</x>
+          <y>300</y>
+          <width>171</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>id card</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="idcard_update">
+        <property name="geometry">
+         <rect>
+          <x>690</x>
+          <y>290</y>
+          <width>321</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
        <zorder>label_44</zorder>
        <zorder>prenom_update</zorder>
        <zorder>label_34</zorder>
@@ -8743,6 +8773,8 @@ background-color: #C29E7E;
        <zorder>email_update</zorder>
        <zorder>pb_add_employe_2</zorder>
        <zorder>pb_delete_employe_2</zorder>
+       <zorder>label_80</zorder>
+       <zorder>idcard_update</zorder>
       </widget>
       <widget class="QWidget" name="page_14">
        <widget class="QLabel" name="label_24">
@@ -9383,6 +9415,36 @@ background-color: #C29E7E;
          <string>delete Employe</string>
         </property>
        </widget>
+       <widget class="QLabel" name="label_53">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>360</y>
+          <width>171</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>id card</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="idcard">
+        <property name="geometry">
+         <rect>
+          <x>670</x>
+          <y>360</y>
+          <width>321</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QPushButton" name="pushButton_31">
@@ -9594,12 +9656,34 @@ QLabel {
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:24pt; color:#a48569;&quot;&gt;Login&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
+     <widget class="QLabel" name="errorLogin">
+      <property name="geometry">
+       <rect>
+        <x>940</x>
+        <y>510</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: red;</string>
+      </property>
+      <property name="text">
+       <string>Failed to log in !</string>
+      </property>
+     </widget>
      <zorder>label_51</zorder>
      <zorder>label_50</zorder>
      <zorder>pushButton_27</zorder>
      <zorder>nomLogin</zorder>
      <zorder>label_103</zorder>
      <zorder>mdp_2</zorder>
+     <zorder>errorLogin</zorder>
     </widget>
    </widget>
   </widget>

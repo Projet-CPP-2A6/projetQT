@@ -46,3 +46,9 @@ void notification::notifentre(){
     notifyIcon->show();
     notifyIcon->showMessage("Gestion des employees","un employe est entré",QSystemTrayIcon::Information,15000);
 }
+void notification::notifmal(){
+    QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+    notifyIcon->setIcon(QIcon("C:/Users/amine/Downloads/image_2024-01-29_221240496-removebg-preview (1).png"));
+    notifyIcon->show();
+    notifyIcon->showMessage("Gestion des employees","une carte inconnu a été scanné",QSystemTrayIcon::Information,15000);
+}

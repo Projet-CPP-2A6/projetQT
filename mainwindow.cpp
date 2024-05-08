@@ -45,6 +45,8 @@ ArtNexus::ArtNexus(QWidget *parent)
 {
 
     ui->setupUi(this);
+    ui->errorLogin->setVisible(false);
+
 
 
     connect(ui->tri_r, &QPushButton::clicked, this, &ArtNexus::on_tri_r_clicked);
@@ -80,6 +82,8 @@ ui->lineEdit_price->setValidator(new QIntValidator(0,9999,this));//cs
 
 
 
+
+
 }
 
 ArtNexus::~ArtNexus()
@@ -107,6 +111,8 @@ if(ref1=="b"){
 }
 }
 
+
+
 void ArtNexus::checkRFIDCard()
 {
     static QString accumulatedData;
@@ -122,7 +128,6 @@ void ArtNexus::checkRFIDCard()
     if (accumulatedData.length() == 8) {
         QString IDCARD = accumulatedData.trimmed(); // Nettoyer l'IDCARD
         qDebug() << "IDCARD:" << IDCARD;
-
         // Obtenir l'heure actuelle dans le format voulu
         QString currentDateTimeStr = QDateTime::currentDateTime().toString("dd/MM/yy HH:mm:ss");
 
@@ -134,15 +139,19 @@ void ArtNexus::checkRFIDCard()
         query.bindValue(":currentDateTimeStr", currentDateTimeStr);
         query.bindValue(":IDCARD", IDCARD);
 
-        // Exécuter la requête et vérifier le succès
-        if (!query.exec()) {
-            qDebug() << "Échec de la mise à jour de HEURE_ENT pour IDCARD:" << IDCARD;
-            qDebug() << "Erreur:" << query.lastError().text();
+        if (query.exec()) {
+            int rowsAffected = query.numRowsAffected();
+            if (rowsAffected > 0) {
+                qDebug() << "Mise à jour de HEURE_ENT réussie pour IDCARD:" << IDCARD;
+               notif.notifentre();
+            } else {
+                qDebug() << "Aucun enregistrement mis à jour pour IDCARD:" << IDCARD;
+                notif.notifmal();
+            }
         } else {
-            qDebug() << "Mise à jour de HEURE_ENT réussie pour IDCARD:" << IDCARD;
+            qDebug() << "Échec de l'exécution de la requête pour IDCARD:" << IDCARD;
+             notif.notifmal();
         }
-
-        // Vider les données accumulées après le traitement
         accumulatedData.clear();
     }
 }
@@ -1797,6 +1806,10 @@ void ArtNexus::on_confirmer_clicked() {
     QDate fin_conge = ui->fin_conge->date();
     QString email = ui->email->text();
     QString mdp = ui->mdp->text();
+    QString idcard = ui->idcard->text();
+
+
+
 
     // Définition des expressions régulières pour la validation
     QRegExp telRegex("\\d{8}"); // Un numéro de téléphone français à 10 chiffres
@@ -1832,7 +1845,7 @@ void ArtNexus::on_confirmer_clicked() {
     }
 
     // Créer un nouvel employé et l'ajouter
-    Employe* e = new Employe(id_e, nom_e, prenom_e, tel_e_str.toInt(), salaire_e_str.toInt(), role_e, debut_conge, fin_conge, email, mdp);
+    Employe* e = new Employe(id_e, nom_e, prenom_e, tel_e_str.toInt(), salaire_e_str.toInt(), role_e, debut_conge, fin_conge, email, mdp, idcard);
     bool test = e->ajouter();
 
     if (test) {
@@ -1877,9 +1890,11 @@ void ArtNexus::on_confirmer_update_clicked() {
     QDate fin_conge = ui->fin_conge_update->date();
     QString email = ui->email_update->text();
     QString mdp = ui->mdp_update->text();
+    QString idcard = ui->idcard_update->text();
+
 
     // Créer un employé avec les nouvelles valeurs
-    Employe e(id_e, nom_e, prenom_e, tel_e_str.toInt(), salaire_e_str.toInt(), role_e, debut_conge, fin_conge, email, mdp);
+    Employe e(id_e, nom_e, prenom_e, tel_e_str.toInt(), salaire_e_str.toInt(), role_e, debut_conge, fin_conge, email, mdp, idcard);
     bool test = e.modifier(id_e);
 
     if (test) {
@@ -2181,11 +2196,46 @@ void ArtNexus::on_pbps_clicked()
     }
 }
 
-
+void ArtNexus::seConnecter()
+{
+    ui->errorLogin->setVisible(false);
+    QString email = ui->nomLogin->text();
+    QString password = ui->mdp_2->text();
+    empConnected.setEmail(email);
+    empConnected.setMdp(password);
+    if(empConnected.seConnecter()){
+        ui->errorLogin->setVisible(false);
+        ui->stackedWidget_ALL->setCurrentIndex(1);
+        empConnected.setEmail(email);
+    } else ui->errorLogin->setVisible(true);
+}
 
 
 void ArtNexus::on_pushButton_27_clicked()
 {
+    seConnecter();
+   /* QString email = ui->nomLogin->text();
+    QString password = ui->mdp_2->text();
+
+    if (email.isEmpty() || password.isEmpty()) {
+        QMessageBox::critical(this, "Error", "Email and password are required.");
+        return;
+    }
+
+    Association association;
+    int result = association.login(email, password);
+
+
+    if (result > 0) {
+        QMessageBox::information(this, "Success", "Login successful.");
+        ui->stackedWidget_ALL->setCurrentIndex(1); // Change index according to your application flow
+        displayReceivedMessages(email);
+    } else {
+
+        QMessageBox::critical(this, "Error", "Invalid email or password.");
+    }*/
+}
+/*{
     QString email = ui->nomLogin->text();
     QString password = ui->mdp_2->text();
 
@@ -2220,7 +2270,7 @@ void ArtNexus::on_pushButton_27_clicked()
 
         QMessageBox::critical(this, "Error", "Invalid email or password.");
     }
-}
+}*/
 
 
 void ArtNexus::on_ChatBoxButton_3_clicked()

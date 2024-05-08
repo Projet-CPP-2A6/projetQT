@@ -282,6 +282,8 @@ void on_pushButton_31_clicked();
 
 
 void on_pushButton_intev_clicked();
+void seConnecter();
+
 
 private:
     Ui::MainWindow *ui;
