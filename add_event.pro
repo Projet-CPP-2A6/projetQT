@@ -1,4 +1,9 @@
+<<<<<<< Updated upstream
 QT       += core gui sql
+=======
+QT       += core gui sql charts network location multimedia multimediawidgets widgets quickwidgets serialport
+QT += printsupport
+>>>>>>> Stashed changes
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,17 +21,50 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+<<<<<<< Updated upstream
+=======
+    arduino.cpp \
+    arduinotemp.cpp \
+    artiste.cpp \
+    association.cpp \
+    chatbox.cpp \
+>>>>>>> Stashed changes
     connection.cpp \
     event.cpp \
     main.cpp \
+<<<<<<< Updated upstream
     mainwindow.cpp
 
 HEADERS += \
+=======
+    mainwindow.cpp \
+    notification.cpp \
+    oeuvre.cpp \
+    qrcode.cpp \
+    smtp.cpp \
+    statsdialog.cpp
+INCLUDEPATH += "C:\Users\medal\Downloads\eigen-3.4.0"
+
+
+HEADERS += \
+    arduino.h \
+    arduinotemp.h \
+    artiste.h \
+    association.h \
+    chatbox.h \
+>>>>>>> Stashed changes
     connection.h \
     event.h \
     mainwindow.h
 
 FORMS += \
+<<<<<<< Updated upstream
+=======
+    arduinotemp.ui \
+    dialog.ui \
+    dialog1.ui \
+    dialogemp.ui \
+>>>>>>> Stashed changes
     mainwindow.ui
 
 # Default rules for deployment.
